@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="https://wallsbyme-frontend.vercel.app"><img src="https://img.shields.io/badge/LIVE_WEB_APP-wallsbyme--frontend.vercel.app-ff5722?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Deployment"></a>
+  <a href="https://void-walls.vercel.app"><img src="https://img.shields.io/badge/LIVE_WEB_APP-void--walls.vercel.app-ff5722?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Deployment"></a>
   <img src="https://img.shields.io/badge/CURATED_ASSETS-2%2C479%2B-00f0ff?style=for-the-badge&logo=github&logoColor=white" alt="Curated Assets">
   <img src="https://img.shields.io/badge/STYLE-PURE_DARK_BRUTALIST-06070a?style=for-the-badge&logoColor=white" alt="Pure Dark Brutalist">
   <img src="https://img.shields.io/badge/VIDEO_LOOPS-60FPS_MP4-ff5722?style=for-the-badge" alt="Video Loops">
@@ -27,7 +27,7 @@
 
 A non-AI-slop, hyper-optimized, raw cyber-brutalist wallpaper repository and interactive frontend. Built for power users, ricing enthusiasts, designers, and developers.
 
-> **🌐 Live Production Web App:** [https://wallsbyme-frontend.vercel.app](https://wallsbyme-frontend.vercel.app)
+> **🌐 Live Production Web App:** [https://void-walls.vercel.app](https://void-walls.vercel.app) (also [https://voidwalls.vercel.app](https://voidwalls.vercel.app))
 
 ---
 

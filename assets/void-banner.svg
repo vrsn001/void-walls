@@ -92,7 +92,7 @@
 
     <!-- Tag 5: Live CTA button -->
     <rect x="638" y="0" width="272" height="40" fill="#ff5722" stroke="#ff5722" stroke-width="2" />
-    <text x="774" y="25" fill="#000000" font-size="12" font-weight="900" text-anchor="middle" letter-spacing="1.5">ENTER LIVE WEB APP ↗</text>
+    <text x="774" y="25" fill="#000000" font-size="12" font-weight="900" text-anchor="middle" letter-spacing="1.5">VOID-WALLS.VERCEL.APP ↗</text>
   </g>
 
   <!-- Footer Ticker -->
