@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 360" width="100%" height="360" style="background:#06070a; font-family:'JetBrains Mono','Courier New',monospace,sans-serif;">
+  <defs>
+    <pattern id="cyber-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#101522" stroke-width="1"/>
+    </pattern>
+    <pattern id="hazard-stripe" width="20" height="20" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="20" stroke="#ff5722" stroke-width="6" />
+      <line x1="10" y1="0" x2="10" y2="20" stroke="#06070a" stroke-width="6" />
+    </pattern>
+  </defs>
+
+  <!-- Background Grid -->
+  <rect width="1000" height="360" fill="#06070a" />
+  <rect width="1000" height="360" fill="url(#cyber-grid)" opacity="0.9" />
+
+  <!-- Outer Heavy Brutalist Frame -->
+  <rect x="12" y="12" width="976" height="336" fill="none" stroke="#232c3f" stroke-width="3" />
+  <rect x="18" y="18" width="964" height="324" fill="none" stroke="#ff5722" stroke-width="1" stroke-opacity="0.3" />
+
+  <!-- Corner Brackets -->
+  <path d="M 12 40 L 12 12 L 40 12" fill="none" stroke="#ff5722" stroke-width="4" />
+  <path d="M 988 40 L 988 12 L 960 12" fill="none" stroke="#ff5722" stroke-width="4" />
+  <path d="M 12 320 L 12 348 L 40 348" fill="none" stroke="#ff5722" stroke-width="4" />
+  <path d="M 988 320 L 988 348 L 960 348" fill="none" stroke="#ff5722" stroke-width="4" />
+
+  <!-- Top Status Bar -->
+  <rect x="12" y="12" width="976" height="34" fill="#0e121d" stroke="#232c3f" stroke-width="1.5" />
+  
+  <!-- Hazard Block Top Right -->
+  <rect x="838" y="14" width="148" height="30" fill="url(#hazard-stripe)" />
+
+  <!-- Status indicators -->
+  <circle cx="32" cy="29" r="4" fill="#00f0ff" />
+  <text x="44" y="33" fill="#00f0ff" font-size="11" font-weight="bold" letter-spacing="1.5">SYSTEM: OPERATIONAL // REPO_SYNC: LOCKED</text>
+  <text x="540" y="33" fill="#8b9bb4" font-size="10" letter-spacing="1">LATENCY: 0.12ms · REPO: vrsn001/wallsbyme</text>
+
+  <!-- Left Brutalist Kanji Block -->
+  <g transform="translate(44, 76)">
+    <rect x="0" y="0" width="136" height="136" fill="#0a0d14" stroke="#ff5722" stroke-width="3" />
+    <rect x="6" y="6" width="124" height="124" fill="none" stroke="#232c3f" stroke-width="1" stroke-dasharray="4,3" />
+    <!-- Crosshairs inside block -->
+    <line x1="68" y1="10" x2="68" y2="126" stroke="#1a2233" stroke-width="1" />
+    <line x1="10" y1="68" x2="126" y2="68" stroke="#1a2233" stroke-width="1" />
+    
+    <!-- Central Kanji -->
+    <text x="68" y="94" fill="#ffffff" font-size="76" font-weight="900" text-anchor="middle" font-family="'Noto Sans JP', 'MS Gothic', 'Yu Gothic', sans-serif">虚</text>
+    <text x="68" y="124" fill="#ff5722" font-size="10" font-weight="bold" text-anchor="middle" letter-spacing="2">VOID_00</text>
+    <rect x="0" y="0" width="14" height="4" fill="#ff5722" />
+    <rect x="0" y="0" width="4" height="14" fill="#ff5722" />
+    <rect x="122" y="132" width="14" height="4" fill="#00f0ff" />
+    <rect x="132" y="122" width="4" height="14" fill="#00f0ff" />
+  </g>
+
+  <!-- Main Title Area -->
+  <g transform="translate(204, 78)">
+    <text x="0" y="46" fill="#ffffff" font-size="48" font-weight="900" letter-spacing="-1" font-family="'Impact', 'Arial Black', sans-serif">VOID//WALLS</text>
+    <text x="348" y="44" fill="#ff5722" font-size="24" font-weight="900">[ 虚無 ]</text>
+    
+    <!-- Subtitle -->
+    <text x="2" y="76" fill="#8b9bb4" font-size="13" font-weight="bold" letter-spacing="2.5">CURATED UNDERGROUND WALLPAPER ARCHIVE // 2,479+ ASSETS</text>
+    
+    <!-- Description terminal line -->
+    <rect x="0" y="92" width="750" height="28" fill="#0e121d" stroke="#1f2738" stroke-width="1" />
+    <text x="12" y="111" fill="#00f0ff" font-size="11" font-weight="bold">&gt; HIGH DENSITY · ZERO AI-SLOP · 4K UHD · 2K QHD · 60FPS LIVE LOOPS · 9:16 MOBILE AMOLED</text>
+  </g>
+
+  <!-- Bottom Metric & Quick-Link Tags -->
+  <g transform="translate(44, 240)">
+    <!-- Tag 1 -->
+    <rect x="0" y="0" width="140" height="40" fill="#0e121d" stroke="#232c3f" stroke-width="1.5" />
+    <rect x="0" y="0" width="4" height="40" fill="#ff5722" />
+    <text x="16" y="17" fill="#8b9bb4" font-size="9" font-weight="bold" letter-spacing="1">TOTAL ASSETS</text>
+    <text x="16" y="32" fill="#ffffff" font-size="13" font-weight="900">2,479+ VAULT</text>
+
+    <!-- Tag 2 -->
+    <rect x="152" y="0" width="160" height="40" fill="#0e121d" stroke="#232c3f" stroke-width="1.5" />
+    <rect x="152" y="0" width="4" height="40" fill="#00f0ff" />
+    <text x="168" y="17" fill="#8b9bb4" font-size="9" font-weight="bold" letter-spacing="1">LIVE FRONTEND</text>
+    <text x="168" y="32" fill="#00f0ff" font-size="12" font-weight="900">VERCEL DEPLOYED</text>
+
+    <!-- Tag 3 -->
+    <rect x="324" y="0" width="150" height="40" fill="#0e121d" stroke="#232c3f" stroke-width="1.5" />
+    <rect x="324" y="0" width="4" height="40" fill="#ff5722" />
+    <text x="340" y="17" fill="#8b9bb4" font-size="9" font-weight="bold" letter-spacing="1">LIVE LOOPS</text>
+    <text x="340" y="32" fill="#ffffff" font-size="13" font-weight="900">60FPS MP4 / WEBM</text>
+
+    <!-- Tag 4 -->
+    <rect x="486" y="0" width="140" height="40" fill="#0e121d" stroke="#232c3f" stroke-width="1.5" />
+    <rect x="486" y="0" width="4" height="40" fill="#00f0ff" />
+    <text x="502" y="17" fill="#8b9bb4" font-size="9" font-weight="bold" letter-spacing="1">MOBILE 9:16</text>
+    <text x="502" y="32" fill="#ffffff" font-size="13" font-weight="900">AMOLED VERTICAL</text>
+
+    <!-- Tag 5: Live CTA button -->
+    <rect x="638" y="0" width="272" height="40" fill="#ff5722" stroke="#ff5722" stroke-width="2" />
+    <text x="774" y="25" fill="#000000" font-size="12" font-weight="900" text-anchor="middle" letter-spacing="1.5">ENTER LIVE WEB APP ↗</text>
+  </g>
+
+  <!-- Footer Ticker -->
+  <rect x="12" y="304" width="976" height="34" fill="#0a0d14" stroke="#232c3f" stroke-width="1.5" />
+  <text x="28" y="325" fill="#8b9bb4" font-size="10" font-weight="bold" letter-spacing="1.2">CDN: JSDELIVR / GITHUB · RESOLUTIONS: 3840×2160 (4K), 2560×1440 (2K), 1920×1080 (FHD), 1080×1920 (PHONE)</text>
+  <text x="960" y="325" fill="#ff5722" font-size="10" font-weight="900" text-anchor="end">// BRUTALIST_EDITION</text>
+</svg>

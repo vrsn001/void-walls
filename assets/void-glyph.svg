@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <rect width="120" height="120" fill="#06070a" stroke="#ff5722" stroke-width="3" />
+  <rect x="6" y="6" width="108" height="108" fill="none" stroke="#232c3f" stroke-width="1.5" stroke-dasharray="3,3" />
+  <line x1="60" y1="8" x2="60" y2="112" stroke="#141a29" stroke-width="1" />
+  <line x1="8" y1="60" x2="112" y2="60" stroke="#141a29" stroke-width="1" />
+  <text x="60" y="82" fill="#ffffff" font-size="64" font-weight="900" text-anchor="middle" font-family="'Noto Sans JP', 'MS Gothic', sans-serif">虚</text>
+  <rect x="0" y="0" width="14" height="4" fill="#ff5722" />
+  <rect x="0" y="0" width="4" height="14" fill="#ff5722" />
+  <rect x="106" y="116" width="14" height="4" fill="#00f0ff" />
+  <rect x="116" y="106" width="4" height="14" fill="#00f0ff" />
+</svg>

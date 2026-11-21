@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#06070a"/>
+  <!-- Brutalist Outer Frame -->
+  <rect x="3" y="3" width="58" height="58" fill="#0f121a" stroke="#ff5722" stroke-width="3"/>
+  <!-- Corner geometric markers -->
+  <rect x="3" y="3" width="8" height="8" fill="#ff5722"/>
+  <rect x="53" y="3" width="8" height="8" fill="#ff5722"/>
+  <rect x="3" y="53" width="8" height="8" fill="#ff5722"/>
+  <rect x="53" y="53" width="8" height="8" fill="#ff5722"/>
+  <!-- Crosshairs -->
+  <line x1="32" y1="8" x2="32" y2="16" stroke="#ff5722" stroke-width="2"/>
+  <line x1="32" y1="48" x2="32" y2="56" stroke="#ff5722" stroke-width="2"/>
+  <line x1="8" y1="32" x2="16" y2="32" stroke="#ff5722" stroke-width="2"/>
+  <line x1="48" y1="32" x2="56" y2="32" stroke="#ff5722" stroke-width="2"/>
+  <!-- Center Kanji 虚 (Void) -->
+  <text x="32" y="42" font-family="'Segoe UI', -apple-system, monospace" font-weight="900" font-size="28" fill="#ffffff" text-anchor="middle">虚</text>
+</svg>
