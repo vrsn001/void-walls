@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { X, Download, Heart, ChevronLeft, ChevronRight, Film } from "lucide-react";
 import type { Wallpaper } from "@/lib/types";
-import { getThumbnailUrl } from "@/lib/cdn";
+import { getFullUrl } from "@/lib/cdn";
 
 interface LightboxProps {
   wallpaper: Wallpaper;
@@ -29,7 +29,7 @@ export function Lightbox({
   hasNext,
 }: LightboxProps) {
   const [loaded, setLoaded] = useState(false);
-  const previewUrl = getThumbnailUrl(wallpaper, 1400);
+  const previewUrl = getFullUrl(wallpaper);
 
   useEffect(() => {
     setLoaded(false);

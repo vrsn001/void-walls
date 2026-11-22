@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Download, Heart, Film, Smartphone, Maximize2 } from "lucide-react";
 import type { Wallpaper } from "@/lib/types";
-import { getThumbnailUrl, getBlurPlaceholderUrl } from "@/lib/cdn";
+import { getThumbnailUrl, getFullUrl } from "@/lib/cdn";
 
 interface WallpaperGridProps {
   wallpapers: Wallpaper[];
@@ -29,8 +29,19 @@ function WallpaperCard({
   onPreview: () => void;
 }) {
   const [loaded, setLoaded] = useState(false);
-  const thumbUrl = getThumbnailUrl(wallpaper, 480);
-  const blurUrl = getBlurPlaceholderUrl(wallpaper);
+  const [src, setSrc] = useState(() => getThumbnailUrl(wallpaper));
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // Cached images can finish loading before hydration attaches onLoad.
+  useEffect(() => {
+    if (imgRef.current?.complete && imgRef.current.naturalWidth > 0) setLoaded(true);
+  }, []);
+
+  const handleError = () => {
+    const full = getFullUrl(wallpaper);
+    if (src !== full) setSrc(full);
+    else setLoaded(true);
+  };
 
   const isVertical =
     wallpaper.category === "phone-vertical" ||
@@ -46,13 +57,10 @@ function WallpaperCard({
     >
       {/* Thumbnail */}
       <div className={`relative overflow-hidden bg-black ${isVertical ? "aspect-[9/16] max-h-[360px]" : "aspect-video"}`}>
-        {blurUrl && !loaded && (
-          <img
-            src={blurUrl}
-            alt=""
-            aria-hidden
-            className="absolute inset-0 h-full w-full object-cover blur-xl scale-110 opacity-40"
-          />
+        {!loaded && (
+          <span className="absolute inset-0 flex items-center justify-center text-[10px] text-muted/40 tracking-widest">
+            FETCHING...
+          </span>
         )}
         {wallpaper.isVideo ? (
           <video
@@ -66,13 +74,16 @@ function WallpaperCard({
           />
         ) : (
           <img
-            src={thumbUrl}
+            ref={imgRef}
+            src={src}
             alt={wallpaper.title}
             loading={index < 12 ? "eager" : "lazy"}
+            decoding="async"
             className={`h-full w-full object-cover transition-opacity duration-300 ${
               loaded ? "opacity-100" : "opacity-0"
             }`}
             onLoad={() => setLoaded(true)}
+            onError={handleError}
           />
         )}
 
