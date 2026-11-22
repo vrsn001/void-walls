@@ -3,6 +3,8 @@ import rawWallpapersData from './data/wallpapers.json';
 import type { Wallpaper, MediaFilterType, SortOption, LayoutMode, ToastMessage } from './types';
 import { Header } from './components/Header';
 import { HeroSpotlight } from './components/HeroSpotlight';
+import { CyberHudBanner } from './components/CyberHudBanner';
+import { RepoCreditsModal } from './components/RepoCreditsModal';
 import { FilterBar } from './components/FilterBar';
 import { WallpaperCard } from './components/WallpaperCard';
 import { LightboxModal } from './components/LightboxModal';
@@ -24,6 +26,7 @@ export function App() {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [lightboxWallpaper, setLightboxWallpaper] = useState<Wallpaper | null>(null);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [isCreditsOpen, setIsCreditsOpen] = useState(false);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   // LocalStorage favorites
@@ -141,10 +144,13 @@ export function App() {
     return result;
   }, [deferredSearch, activeType, selectedCategory, sortOption, favoriteIds]);
 
-  // Reset page count when filters change
-  useEffect(() => {
+  // Reset page count when filters change without cascading render effect
+  const filterKey = `${deferredSearch}-${activeType}-${selectedCategory}-${sortOption}`;
+  const [prevFilterKey, setPrevFilterKey] = useState(filterKey);
+  if (filterKey !== prevFilterKey) {
+    setPrevFilterKey(filterKey);
     setVisibleCount(PAGE_SIZE);
-  }, [deferredSearch, activeType, selectedCategory, sortOption]);
+  }
 
   // Random pick handler
   const handleRandomPick = useCallback(() => {
@@ -182,18 +188,26 @@ export function App() {
         onFilterChange={setActiveType}
         onRandomClick={handleRandomPick}
         onOpenGuide={() => setIsGuideOpen(true)}
+        onOpenCredits={() => setIsCreditsOpen(true)}
         totalCount={wallpapersData.length}
       />
 
       {/* Main Content Area */}
       <main className="flex-1 pb-20">
-        {/* Spotlight Hero */}
+        {/* Cyberpunk Matrix HUD Banner & Cinema Stage */}
         {!search && activeType !== 'favorites' && selectedCategory === 'all' && (
-          <HeroSpotlight
-            animatedWallpapers={animatedWallpapers}
-            onOpenLightbox={setLightboxWallpaper}
-            onDownload={handleDownload}
-          />
+          <>
+            <CyberHudBanner
+              totalCount={wallpapersData.length}
+              liveCount={animatedWallpapers.length}
+              onOpenCredits={() => setIsCreditsOpen(true)}
+            />
+            <HeroSpotlight
+              animatedWallpapers={animatedWallpapers}
+              onOpenLightbox={setLightboxWallpaper}
+              onDownload={handleDownload}
+            />
+          </>
         )}
 
         {/* Filter Bar */}
@@ -292,30 +306,53 @@ export function App() {
             </span>
           </div>
 
-          {/* Sources breakdown */}
-          <div className="flex flex-wrap items-center gap-3 text-[11px] text-neutral-500">
-            <span className="flex items-center gap-1.5">
-              <Database className="h-3 w-3 text-neutral-400" />
+          {/* Sources breakdown & Acknowledgements */}
+          <div className="flex flex-wrap items-center gap-3 text-[11px] text-neutral-500 font-mono">
+            <button
+              onClick={() => setIsCreditsOpen(true)}
+              className="flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer"
+            >
+              <Database className="h-3 w-3 text-cyan-400" />
               <span>vrsn001/wallsbyme (1,653)</span>
-            </span>
+            </button>
             <span>·</span>
-            <span>DenverCoder1 (336)</span>
+            <button
+              onClick={() => setIsCreditsOpen(true)}
+              className="hover:text-neutral-300 transition-colors cursor-pointer"
+            >
+              DenverCoder1 (336)
+            </button>
             <span>·</span>
-            <span>vyrx-dev (490)</span>
+            <button
+              onClick={() => setIsCreditsOpen(true)}
+              className="hover:text-neutral-300 transition-colors cursor-pointer"
+            >
+              vyrx-dev (490)
+            </button>
           </div>
 
-          <div className="flex items-center gap-4 text-xs">
-            <button onClick={() => setIsGuideOpen(true)} className="hover:text-white transition-colors">
+          <div className="flex items-center gap-4 text-xs font-mono">
+            <button
+              onClick={() => setIsCreditsOpen(true)}
+              className="text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer"
+            >
+              Repo Credits
+            </button>
+            <span>·</span>
+            <button onClick={() => setIsGuideOpen(true)} className="hover:text-white transition-colors cursor-pointer">
               Setup Guide
             </button>
             <span>·</span>
-            <button onClick={scrollToTop} className="flex items-center gap-1 hover:text-white transition-colors">
+            <button onClick={scrollToTop} className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer">
               <ArrowUp className="h-3.5 w-3.5" />
               <span>Top</span>
             </button>
           </div>
         </div>
       </footer>
+
+      {/* Upstream Repo Credits Modal */}
+      <RepoCreditsModal isOpen={isCreditsOpen} onClose={() => setIsCreditsOpen(false)} />
 
       {/* Lightbox Modal */}
       <LightboxModal

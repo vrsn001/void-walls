@@ -1,6 +1,7 @@
 import React from 'react';
-import { Search, Shuffle, Heart, X, Terminal, ExternalLink } from 'lucide-react';
+import { Search, Shuffle, Heart, X, Terminal, ExternalLink, GitBranch } from 'lucide-react';
 import type { MediaFilterType } from '../types';
+import { KanjiVoidBadge } from './KanjiVoidBadge';
 
 interface HeaderProps {
   search: string;
@@ -10,6 +11,7 @@ interface HeaderProps {
   onFilterChange: (filter: MediaFilterType) => void;
   onRandomClick: () => void;
   onOpenGuide: () => void;
+  onOpenCredits?: () => void;
   totalCount: number;
 }
 
@@ -21,6 +23,7 @@ export const Header: React.FC<HeaderProps> = ({
   onFilterChange,
   onRandomClick,
   onOpenGuide,
+  onOpenCredits,
   totalCount,
 }) => {
   return (
@@ -28,15 +31,13 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-3 sm:px-6">
         {/* Brand */}
         <a href="#" className="group flex items-center gap-3 focus:outline-none shrink-0">
-          <div className="relative flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] group-hover:border-white/25 group-hover:bg-white/[0.06] transition-all duration-300">
-            <span className="font-semibold text-sm text-neutral-200 group-hover:text-white transition-colors">虚</span>
-          </div>
+          <KanjiVoidBadge size="sm" className="rounded-lg" />
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-sm sm:text-base tracking-tight text-white group-hover:text-white/90 transition-colors">
-                VOID <span className="text-neutral-500 font-mono text-xs">//</span> WALLS
+              <span className="font-semibold text-sm sm:text-base tracking-tight text-white group-hover:text-cyan-300 transition-colors">
+                VOID <span className="text-cyan-400 font-mono text-xs">//</span> WALLS
               </span>
-              <span className="rounded-full border border-white/10 bg-white/[0.04] px-1.5 py-0.5 text-[9px] font-medium text-neutral-400 hidden md:inline tracking-wider">
+              <span className="rounded-full border border-cyan-500/30 bg-cyan-950/30 px-1.5 py-0.5 text-[9px] font-mono font-medium text-cyan-300 hidden md:inline tracking-wider">
                 VAULT
               </span>
             </div>
@@ -96,6 +97,18 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
             )}
           </button>
+
+          {/* Upstream Repos / Credits */}
+          {onOpenCredits && (
+            <button
+              onClick={onOpenCredits}
+              className="flex items-center gap-1.5 rounded-full border border-cyan-500/20 bg-cyan-950/20 px-3 py-1.5 text-xs font-mono font-medium text-cyan-300 hover:border-cyan-400/40 hover:bg-cyan-500/10 transition-all cursor-pointer"
+              title="Upstream Repository Acknowledgements"
+            >
+              <GitBranch className="h-3.5 w-3.5 text-cyan-400" />
+              <span className="hidden md:inline">Repos</span>
+            </button>
+          )}
 
           {/* Setup Guide */}
           <button

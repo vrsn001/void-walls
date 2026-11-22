@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import {
   Download,
   Heart,
@@ -38,6 +38,20 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
   const [copiedMd, setCopiedMd] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  const handlePrev = useCallback(() => {
+    if (!wallpaper || allWallpapers.length === 0) return;
+    const idx = allWallpapers.findIndex((w) => w.id === wallpaper.id);
+    if (idx > 0) onSelectWallpaper(allWallpapers[idx - 1]);
+    else onSelectWallpaper(allWallpapers[allWallpapers.length - 1]);
+  }, [wallpaper, allWallpapers, onSelectWallpaper]);
+
+  const handleNext = useCallback(() => {
+    if (!wallpaper || allWallpapers.length === 0) return;
+    const idx = allWallpapers.findIndex((w) => w.id === wallpaper.id);
+    if (idx < allWallpapers.length - 1) onSelectWallpaper(allWallpapers[idx + 1]);
+    else onSelectWallpaper(allWallpapers[0]);
+  }, [wallpaper, allWallpapers, onSelectWallpaper]);
+
   useEffect(() => {
     if (!wallpaper) return;
 
@@ -51,20 +65,9 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [wallpaper, allWallpapers]);
+  }, [wallpaper, handlePrev, handleNext, onClose, onDownload, onToggleFavorite]);
 
   if (!wallpaper) return null;
-
-  const currentIndex = allWallpapers.findIndex((w) => w.id === wallpaper.id);
-  const handlePrev = () => {
-    if (currentIndex > 0) onSelectWallpaper(allWallpapers[currentIndex - 1]);
-    else onSelectWallpaper(allWallpapers[allWallpapers.length - 1]);
-  };
-
-  const handleNext = () => {
-    if (currentIndex < allWallpapers.length - 1) onSelectWallpaper(allWallpapers[currentIndex + 1]);
-    else onSelectWallpaper(allWallpapers[0]);
-  };
 
   const handleCopyRaw = async () => {
     const success = await copyToClipboard(wallpaper.rawUrl);

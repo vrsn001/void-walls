@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, type CSSProperties } from 'react';
+import { useEffect, useRef, useMemo, type CSSProperties } from 'react';
 
 export type DitherColor = string | [number, number, number];
 export type DitherMode = 'bayer' | 'bayer4' | 'bayer2' | 'halftone' | 'lines' | 'crosshatch' | 'noise' | 'none';
@@ -375,7 +375,7 @@ const Dither = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wakeRef = useRef<(() => void) | null>(null);
-  const settings: Settings = {
+  const settings: Settings = useMemo(() => ({
     waveSpeed,
     waveFrequency,
     waveAmplitude,
@@ -397,9 +397,11 @@ const Dither = ({
     clickRipple,
     intro,
     dpr
-  };
+  }), [waveSpeed, waveFrequency, waveAmplitude, waveColor, backgroundColor, colorNum, pixelSize, disableAnimation, enableMouseInteraction, mouseRadius, ditherMode, palette, scale, contrast, brightness, mouseEffect, mouseStrength, trail, clickRipple, intro, dpr]);
   const settingsRef = useRef(settings);
-  settingsRef.current = settings;
+  useEffect(() => {
+    settingsRef.current = settings;
+  }, [settings]);
 
   useEffect(() => {
     const container = containerRef.current;
