@@ -15,8 +15,8 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VOID//WALLS (虚無) — Scorched Earth Vault",
-  description: "3,245+ curated wallpapers. Zero AI-slop. Pure AMOLED Void. Billy Butcher Approved.",
+  title: "VOID//WALLS — Command Terminal",
+  description: "3,245+ curated wallpapers. Zero bloat. Keyboard-driven terminal.",
   icons: {
     icon: [
       { url: "/icon.svg", type: "image/svg+xml" },
