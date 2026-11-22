@@ -4,3 +4,5 @@
 
 <a href="image-dimensions.mjs"><img alt="image-dimensions" src="image-dimensions.mjs"></a>
 
+<a href="generate-thumbnails.mjs"><img alt="generate-thumbnails" src="generate-thumbnails.mjs"></a>
+
