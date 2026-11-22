@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "sync-thumbs": "node -e \"require('fs').cpSync('../thumbnails','public/thumbnails',{recursive:true})\"",
+    "predev": "npm run sync-thumbs",
     "dev": "next dev",
+    "prebuild": "npm run sync-thumbs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

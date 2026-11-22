@@ -1,6 +1,8 @@
 import type { Wallpaper } from './types';
 
-const THUMB_BASE = 'https://cdn.jsdelivr.net/gh/vrsn001/void-walls@main/thumbnails/';
+// Copied from ../thumbnails at build time (see "sync-thumbs"); jsDelivr's @main
+// branch endpoint refuses this repo for exceeding its 50 MB package limit.
+const THUMB_BASE = '/thumbnails/';
 
 export function getThumbnailUrl(wallpaper: Wallpaper): string {
   if (wallpaper.isVideo) return wallpaper.rawUrl;
