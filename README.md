@@ -3,11 +3,11 @@
 </p>
 
 <p align="center">
-  <a href="https://void-walls.vercel.app"><img src="https://img.shields.io/badge/LIVE_VAULT-void--walls.vercel.app-00f0ff?style=for-the-badge&logo=vercel&logoColor=black" alt="Live Deployment"></a>
-  <img src="https://img.shields.io/badge/CURATED_ASSETS-2%2C479%2B-ff5722?style=for-the-badge&logo=github&logoColor=white" alt="Curated Assets">
-  <img src="https://img.shields.io/badge/STYLE-RAZOR_SHARP_BRUTALIST-000000?style=for-the-badge&logoColor=white" alt="Pure Dark Brutalist">
-  <img src="https://img.shields.io/badge/VIDEO_LOOPS-60FPS_MP4-00f0ff?style=for-the-badge" alt="Video Loops">
-  <img src="https://img.shields.io/badge/RESOLVER-MULTI_FORMAT_&_RES-ff5722?style=for-the-badge" alt="Multi Format & Res">
+  <a href="https://void-walls.vercel.app"><img src="https://img.shields.io/badge/LIVE_NODE-void--walls.vercel.app-00f0ff?style=for-the-badge&logo=vercel&logoColor=black" alt="Live Deployment"></a>
+  <img src="https://img.shields.io/badge/CURATED_ASSETS-3%2C245%2B-ff5722?style=for-the-badge&logo=github&logoColor=white" alt="Curated Assets">
+  <img src="https://img.shields.io/badge/VAULTS-67_COLLECTIONS-00f0ff?style=for-the-badge" alt="67 Collection Vaults">
+  <img src="https://img.shields.io/badge/STYLE-RAZOR_POINT_BRUTALIST-000000?style=for-the-badge&logoColor=white" alt="Point Brutalist">
+  <img src="https://img.shields.io/badge/VIDEO_LOOPS-60FPS_DIABOLICAL-ff5722?style=for-the-badge" alt="60FPS Video Loops">
 </p>
 
 ---
@@ -23,7 +23,9 @@
 
 # VOID//WALLS (虚無)
 
-> *"Oi, cunt. Tired of corporate wankers shoving bloated wallpaper apps full of ads, tracking cookies, and melted AI slop down your gullet? Yeah, so were we. So we scorched the fucking earth."* — **Billy Butcher**
+> *"Oi, cunt. Tired of corporate wankers shoving bloated wallpaper apps full of ads, tracking cookies, and melted AI slop down your gullet? Yeah, so were we. So we scorched the fucking earth."* — **Billy Butcher**  
+>  
+> *"I'm the Homelander. And I can do whatever the fuck I want. Which means 4K uncompressed perfection, zero compromises, and supreme dominance on every screen."* — **Homelander**
 
 **VOID//WALLS** is an underground, non-AI-slop, hyper-optimized, razor-sharp cyber-brutalist wallpaper vault and interactive frontend. Built for ricing enthusiasts, terminal dwellers, power users, and anyone who despises corporate bloat.
 
@@ -40,8 +42,8 @@ Most wallpaper sites on the internet are absolute bollocks:
 - Stolen AI "art" with six fingers and seven eyeballs.
 
 **VOID//WALLS fixes the lot:**
-1. **2,479+ Verified Assets**: Desktop 4K/2K/FHD, 60 FPS live video loops, and 9:16 AMOLED phone backdrops.
-2. **Pointy, Brutalist Geometry**: No soft rounded corners. Everything is sharp right angles, blueprint crosshairs, and pure `#000000` AMOLED void.
+1. **3,245+ Hand-Indexed Assets**: Desktop 4K UHD, 2K QHD, 1080p FHD, 60 FPS live video loops, and 9:16 AMOLED phone backdrops across **67 distinct collection vaults**.
+2. **Pointy, Brutalist Geometry**: No soft rounded corners. Everything is sharp 90° right angles, blueprint crosshairs, and pure `#000000` AMOLED void.
 3. **Dual Edge Engine (Option A + Option B)**:
    - **Option A (Edge Resizer)**: Cloudflare Edge proxy transforms 44 MB raw PNGs into ~10 KB WebP thumbnails on the fly. 36 cards consume **~400 KB total instead of 150 MB**.
    - **Option B (GitHub Actions CI)**: Automated `sharp` workflow pre-generates 600px WebP thumbnails directly on git push.
@@ -52,24 +54,26 @@ Most wallpaper sites on the internet are absolute bollocks:
 
 ## ⚡ THE WEAPONS LOCKER (SPECIFICATIONS)
 
-| Metric | Specification | Butcher's Take |
+| Metric | Specification | Butcher & Homelander Take |
 | :--- | :--- | :--- |
-| **Total Vault Assets** | **2,479+ Curated Files** | Every single file hand-picked and indexed. No bloody duplicates. |
-| **High-Res Static** | **2,463 Wallpapers** | 4K UHD, 2K QHD, 1080p FHD, and 9:16 vertical. Crisp as a butcher’s blade. |
+| **Total Vault Assets** | **3,245+ Curated Files** | Every single file hand-picked and indexed across 67 vaults. Zero junk, zero spam. |
+| **High-Res Static** | **3,217 Wallpapers** | 4K UHD, 2K QHD, 1080p FHD. Crisp as a butcher’s blade, supreme dominance. |
 | **Live Motion Loops** | **16 60FPS Video Loops** | High-bitrate MP4s that loop seamlessly without dropping a single frame. |
+| **Mobile AMOLED** | **28 9:16 Vertical Files** | Dedicated vertical aspect ratios engineered for AMOLED mobile screens. |
+| **Collection Vaults** | **67 Unique Categories** | Cars, Cyberpunk, Catppuccin, Japanese Ukiyo-e, Linux Workstations, Tokyo Night, Anime. |
 | **Export Resolver** | **PNG / JPG / WEBP** | Download in whatever resolution or format your rig needs. Sorted. |
-| **Edge Performance** | **<200ms Card Render** | 99.6% payload reduction via Cloudflare edge WebP transcoding. |
-| **Aesthetic System** | **Matrix Cyber Brutalist** | `#000000` void, `#00f0ff` electric cyan, `#f59e0b` hazard amber, point corners. |
+| **Edge Performance** | **<200ms Card Render** | 99.6% payload reduction via Cloudflare edge WebP transcoding. 77 kB main bundle. |
+| **Aesthetic System** | **Matrix Cyber Brutalist** | `#000000` void, `#00f0ff` electric cyan, `#f59e0b` hazard amber, 0px border radius. |
 
 ---
 
 ## 🎛️ EXPORT RESOLVER MATRIX
 
-Inside the **[INSPECT_NODE]** Lightbox, you're in the driver's seat. Select your target format and resolution preset:
+Inside the **[HOMELANDER_INSPECT // PERFECTION]** Lightbox, you're in the driver's seat. Select your target format and resolution preset:
 
 ```
 +-------------------------------------------------------------+
-|  EXPORT_RESOLVER                                            |
+|  BUTCHER_RESOLVER // EXPORT_PRESET                          |
 |                                                             |
 |  TARGET RESOLUTION:                                         |
 |  [ MASTER 4K ]  [ 3840x2160 ]  [ 2560x1440 ]  [ 1920x1080 ] |
@@ -77,13 +81,30 @@ Inside the **[INSPECT_NODE]** Lightbox, you're in the driver's seat. Select your
 |  TARGET FORMAT:                                             |
 |  [ ORIGINAL ]   [ PNG ]        [ JPG ]        [ WEBP ]      |
 |                                                             |
-|  [ DOWNLOAD [4K_UHD // WEBP] ]                              |
+|  [ DOWNLOAD [4K_UHD // WEBP] // SORTED ]                    |
 +-------------------------------------------------------------+
 ```
 
 Dual fallback pipeline:
 - **Primary**: Cloudflare Edge transformation worker streams pre-converted WebP/PNG/JPG directly.
 - **Client Fallback**: High-precision 2D Canvas engine redraws and converts the bitmap client-side if offline.
+
+---
+
+## 🛰️ UPSTREAM LEGENDS (PROPER RESPECT TO THE CREATORS)
+
+We don't steal work like corporate supes. VOID//WALLS unites the finest open-source wallpaper repositories on GitHub:
+
+| Repository | Creator / Source | Contribution to Vault |
+| :--- | :--- | :--- |
+| **[`vrsn001/wallsbyme`](https://github.com/vrsn001/wallsbyme)** | *forked from [`dharmx/walls`](https://github.com/dharmx/walls)* | Core archive engine, 60FPS live anime loops, automated manifest generator. |
+| **[`mylinuxforwork/wallpaper`](https://github.com/mylinuxforwork/wallpaper)** | *mylinuxforwork* | **220 Linux workstation backdrops**, 3D tech canvases, and dual-monitor art (`linux-desktop/`). |
+| **[`michaelScopic/Wallpapers`](https://github.com/michaelScopic/Wallpapers)** | *michaelScopic* | **500+ Aesthetic backdrops**: Hypercars (`cars/`), Cyberpunk (`cyberpunk/`), Catppuccin (`catppuccin/`), Japanese (`japanese/`), Tokyo Night (`tokyo-night/`). |
+| **[`vyrx-dev/Wallpapers`](https://github.com/vyrx-dev/Wallpapers)** | *vyrx-dev* | **AMOLED 9:16 Vertical phone backdrops** (`vertical/`), Nord dark palette, and pixel art. |
+| **[`AlexandrosLiaskos/Awesome_Wallpapers`](https://github.com/AlexandrosLiaskos/Awesome_Wallpapers)** | *Alexandros Liaskos* | **382 Curated web gallery wallpapers** with aspect-ratio profiling (`awesome/`). |
+| **[`DenverCoder1/minimalistic-wallpaper-collection`](https://github.com/DenverCoder1/minimalistic-wallpaper-collection)** | *Jonah Lawrence* | **336 Vector minimal landscapes** and clean desktop gradients (`minimalist/`). |
+
+All wallpaper assets remain the intellectual property of their respective creators.
 
 ---
 
@@ -98,27 +119,16 @@ Hardware-accelerated 60FPS video playback using `mpvpaper`:
 ```bash
 mpvpaper -o "no-audio --loop" '*' ~/Downloads/wallpaper.mp4
 ```
+
 For static wallpapers:
 ```bash
 swww img ~/Downloads/wallpaper.png
-# or feh for X11 wankers:
+# or feh for X11:
 feh --bg-fill ~/Downloads/wallpaper.png
 ```
 
 ### macOS
 Grab [Plash](https://github.com/sindresorhus/Plash) or Aerial Screensaver to render live video backdrops directly onto your macOS desktop.
-
----
-
-## 🛰️ UPSTREAM LEGENDS (CREDIT WHERE IT'S DUE)
-
-We don't steal work like corporate supes. VOID//WALLS unifies three legendary open-source vaults:
-
-1. **`vrsn001/wallsbyme` (dharmx/walls fork)**: 1,653 verified desktop wallpapers and 60fps live anime loops.
-2. **`DenverCoder1/minimalistic-wallpaper-collection`**: 336 clean, distraction-free minimalist vector illustrations and landscapes curated by Jonah Lawrence.
-3. **`vyrx-dev/Wallpapers`**: 490 high-density aesthetic themes: Nord dark, Catppuccin, and dedicated 9:16 vertical AMOLED backdrops.
-
-All wallpaper assets remain the property of their respective creators.
 
 ---
 
@@ -143,7 +153,7 @@ Run lint and production build:
 # Zero warnings, zero errors (oxlint)
 npx oxlint
 
-# Production build
+# Production build (<1s)
 npm run build
 ```
 
