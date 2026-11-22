@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Download, Maximize2, ChevronRight, Volume2, VolumeX, Eye, Flame } from 'lucide-react';
 import type { Wallpaper } from '../types';
+import LetterGlitch from './react-bits/LetterGlitch';
+import Dither from './react-bits/Dither';
 
 interface HeroSpotlightProps {
   animatedWallpapers: Wallpaper[];
@@ -17,6 +19,7 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [canvasMode, setCanvasMode] = useState<'glitch' | 'dither'>('glitch');
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const current = animatedWallpapers[selectedIndex] || animatedWallpapers[0];
@@ -95,31 +98,67 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
             </button>
           </div>
 
-          {/* Right Info & Actions Panel */}
-          <div className="flex flex-col justify-between lg:col-span-4 p-5 lg:p-6 bg-[#0c0f17]">
-            <div>
-              <div className="flex items-center justify-between">
-                <span className="font-[var(--font-mono)] text-[11px] font-bold uppercase tracking-widest text-[#ff5722] flex items-center gap-1.5">
-                  <Flame className="h-3.5 w-3.5 fill-[#ff5722]" />
-                  <span>SPOTLIGHT #{selectedIndex + 1}</span>
-                </span>
-                <button
-                  onClick={() => setIsCollapsed(true)}
-                  className="font-[var(--font-mono)] text-[10px] text-[#8391ac] hover:text-white uppercase"
-                >
-                  HIDE [X]
-                </button>
-              </div>
+          {/* Right Info & Actions Panel with React Bits Ambient FX */}
+          <div className="relative flex flex-col justify-between lg:col-span-4 p-5 lg:p-6 bg-[#0c0f17] overflow-hidden">
+            {/* React Bits Ambient Background Canvas */}
+            <div className="pointer-events-none absolute inset-0 z-0 opacity-20">
+              {canvasMode === 'glitch' ? (
+                <LetterGlitch
+                  glitchColors={['#ff5722', '#00f0ff', '#ffffff']}
+                  characters="VOIDWALLS0123456789虚無4KLIVE"
+                  speed={0.35}
+                  baseOpacity={0.15}
+                  glitchAmount={0.25}
+                  interactive={false}
+                />
+              ) : (
+                <Dither
+                  waveSpeed={0.03}
+                  waveFrequency={3}
+                  waveAmplitude={0.25}
+                  waveColor="#ff5722"
+                  backgroundColor="#0c0f17"
+                  ditherMode="bayer"
+                  pixelSize={3}
+                  enableMouseInteraction={false}
+                  className="h-full w-full"
+                />
+              )}
+            </div>
 
-              <h2 className="mt-3 font-[var(--font-display)] text-2xl font-black leading-tight tracking-tight text-white sm:text-3xl">
-                {current.title}
-              </h2>
+            <div className="relative z-10 flex flex-col justify-between h-full">
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="font-[var(--font-mono)] text-[11px] font-bold uppercase tracking-widest text-[#ff5722] flex items-center gap-1.5">
+                    <Flame className="h-3.5 w-3.5 fill-[#ff5722]" />
+                    <span>SPOTLIGHT #{selectedIndex + 1}</span>
+                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={() => setCanvasMode(canvasMode === 'glitch' ? 'dither' : 'glitch')}
+                      className="border border-[#232c3f] bg-[#121622] px-1.5 py-0.5 font-[var(--font-mono)] text-[9px] font-bold uppercase text-[#8391ac] hover:border-[#ff5722] hover:text-[#ff5722] transition-colors"
+                      title="Switch React Bits Effect"
+                    >
+                      FX: {canvasMode.toUpperCase()}
+                    </button>
+                    <button
+                      onClick={() => setIsCollapsed(true)}
+                      className="font-[var(--font-mono)] text-[10px] text-[#8391ac] hover:text-white uppercase"
+                    >
+                      [X]
+                    </button>
+                  </div>
+                </div>
 
-              <p className="mt-2 font-[var(--font-mono)] text-xs text-[#8391ac] leading-relaxed">
-                Collection: <span className="text-white font-bold">{current.categoryLabel}</span> · Loopable high-bitrate video wallpaper for desktop.
-              </p>
+                <h2 className="mt-3 font-[var(--font-display)] text-2xl font-black leading-tight tracking-tight text-white sm:text-3xl">
+                  {current.title}
+                </h2>
 
-              {/* Tags */}
+                <p className="mt-2 font-[var(--font-mono)] text-xs text-[#8391ac] leading-relaxed">
+                  Collection: <span className="text-white font-bold">{current.categoryLabel}</span> · Loopable high-bitrate video wallpaper for desktop.
+                </p>
+
+                {/* Tags */}
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {current.tags.map((t) => (
                   <span
@@ -177,6 +216,7 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
                   </button>
                 ))}
               </div>
+            </div>
             </div>
           </div>
         </div>

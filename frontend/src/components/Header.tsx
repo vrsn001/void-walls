@@ -1,6 +1,7 @@
 import React from 'react';
 import { Search, Shuffle, Heart, X, Terminal, ExternalLink } from 'lucide-react';
 import type { MediaFilterType } from '../types';
+import TrueFocus from './react-bits/TrueFocus';
 
 interface HeaderProps {
   search: string;
@@ -36,10 +37,21 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-[var(--font-display)] font-black text-lg tracking-tight text-white uppercase sm:text-xl">
-                VOID<span className="text-[#ff5722]">//</span>WALLS
-              </span>
-              <span className="border border-[#ff5722]/50 bg-[#ff5722]/10 px-1 py-0.2 font-[var(--font-mono)] text-[9px] font-bold text-[#ff5722] uppercase hidden md:inline">
+              <TrueFocus
+                sentence="VOID // WALLS"
+                focusStyle="brackets"
+                borderColor="#ff5722"
+                glowColor="rgba(255, 87, 34, 0.35)"
+                blurAmount={0}
+                unfocusedOpacity={0.85}
+                animationDuration={0.4}
+                pauseBetweenAnimations={2.5}
+                borderWidth={2}
+                cornerSize={7}
+                frameGap={4}
+                wordClassName="font-[var(--font-display)] font-black text-lg tracking-tight text-white uppercase sm:text-xl"
+              />
+              <span className="border border-[#ff5722]/50 bg-[#ff5722]/10 px-1 py-0.2 font-[var(--font-mono)] text-[9px] font-bold text-[#ff5722] uppercase hidden md:inline ml-1">
                 V2.5 ARCHIVE
               </span>
             </div>

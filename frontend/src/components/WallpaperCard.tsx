@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Download, Heart, Maximize2, Play, Film, Smartphone } from 'lucide-react';
 import type { Wallpaper } from '../types';
+import PixelCard from './react-bits/PixelCard';
 
 interface WallpaperCardProps {
   wallpaper: Wallpaper;
@@ -24,7 +25,16 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
   const isVertical = wallpaper.category === 'phone-vertical' || (wallpaper.width && wallpaper.height && wallpaper.height > wallpaper.width * 1.3);
 
   return (
-    <div
+    <PixelCard
+      shape="square"
+      colors={['#ff5722', '#ff8a50', '#00f0ff', '#1f2738']}
+      gap={8}
+      speed={22}
+      spotlight={0.5}
+      glow={0.25}
+      glowColor="#ff5722"
+      radius={0}
+      theme="dark"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className="group relative flex flex-col border-2 border-[#232c3f] bg-[#0c0f17] shadow-[3px_3px_0_#000] transition-all duration-100 hover:border-[#ff5722] hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[6px_6px_0_#ff5722]"
@@ -175,6 +185,6 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
           </span>
         </div>
       </div>
-    </div>
+    </PixelCard>
   );
 };
