@@ -30,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-black/90 backdrop-blur-2xl transition-colors font-mono">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-2.5 sm:px-6">
         {/* Brand */}
-        <a href="#" className="group flex items-center gap-2.5 focus:outline-none shrink-0">
+        <a href="#" className="group flex items-center gap-3 focus:outline-none shrink-0">
           <KanjiVoidBadge size="sm" className="rounded-none border border-white/20" />
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
@@ -49,50 +49,50 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Center Search Input */}
         <div className="relative flex-1 max-w-md mx-2">
-          <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500" />
+          <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-500" />
           <input
             type="text"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="SEARCH ARCHIVE // anime, amoled, cyberpunk, 4k..."
-            className="w-full rounded-none border border-white/15 bg-black/60 py-1.5 pl-8 pr-8 text-xs text-neutral-200 placeholder-neutral-500 transition-all font-mono hover:border-white/30 focus:border-sky-400 focus:bg-black focus:outline-none"
+            className="w-full rounded-none border border-white/15 bg-black/60 py-2 pl-9 pr-9 text-xs text-neutral-200 placeholder-neutral-500 transition-all font-mono hover:border-white/30 focus:border-sky-400 focus:bg-black focus:outline-none"
           />
           {search && (
             <button
               onClick={() => onSearchChange('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white transition-colors"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white transition-colors cursor-pointer"
               title="Clear search"
             >
-              <X className="h-3.5 w-3.5" />
+              <X className="h-4 w-4" />
             </button>
           )}
         </div>
 
         {/* Right Controls */}
-        <div className="flex items-center gap-1.5 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           {/* Random Shuffle */}
           <button
             onClick={onRandomClick}
-            className="flex items-center gap-1.5 rounded-none border border-white/20 bg-black px-2.5 py-1.5 text-xs font-bold uppercase tracking-wider text-neutral-300 hover:text-white hover:border-sky-400 hover:bg-sky-400/10 transition-all"
+            className="flex items-center gap-2 rounded-none border border-white/20 bg-black px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-bold uppercase tracking-wider text-neutral-300 hover:text-white hover:border-sky-400 hover:bg-sky-400/10 transition-all cursor-pointer"
             title="Random discovery"
           >
-            <Shuffle className="h-3 w-3 text-neutral-400" />
-            <span className="hidden sm:inline text-[11px]">RANDOM</span>
+            <Shuffle className="h-4 w-4 text-neutral-400" />
+            <span className="hidden sm:inline text-xs">RANDOM</span>
           </button>
 
           {/* Saved Collection */}
           <button
             onClick={() => onFilterChange(activeFilter === 'favorites' ? 'all' : 'favorites')}
-            className={`flex items-center gap-1.5 rounded-none border px-2.5 py-1.5 text-xs font-bold uppercase tracking-wider transition-all ${
+            className={`flex items-center gap-2 rounded-none border px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
               activeFilter === 'favorites'
                 ? 'border-rose-500 bg-rose-500/20 text-rose-300'
                 : 'border-white/20 bg-black text-neutral-300 hover:text-white hover:border-white/40'
             }`}
           >
-            <Heart className={`h-3 w-3 ${activeFilter === 'favorites' ? 'fill-current text-rose-400' : 'text-neutral-400'}`} />
-            <span className="hidden sm:inline text-[11px]">STASH</span>
+            <Heart className={`h-4 w-4 ${activeFilter === 'favorites' ? 'fill-current text-rose-400' : 'text-neutral-400'}`} />
+            <span className="hidden sm:inline text-xs">STASH</span>
             {favoritesCount > 0 && (
-              <span className={`text-[9px] px-1 py-0.2 font-mono ${activeFilter === 'favorites' ? 'bg-rose-500 text-black font-bold' : 'bg-white/10 text-white'}`}>
+              <span className={`text-[10px] px-1.5 py-0.2 font-mono font-bold ${activeFilter === 'favorites' ? 'bg-rose-500 text-black' : 'bg-white/10 text-white'}`}>
                 {favoritesCount}
               </span>
             )}
@@ -102,21 +102,21 @@ export const Header: React.FC<HeaderProps> = ({
           {onOpenCredits && (
             <button
               onClick={onOpenCredits}
-              className="flex items-center gap-1.5 rounded-none border border-sky-400/40 bg-sky-400/10 px-2.5 py-1.5 text-xs font-mono font-bold text-sky-300 hover:border-sky-300 hover:bg-sky-400/20 transition-all cursor-pointer uppercase"
+              className="flex items-center gap-2 rounded-none border border-sky-400/40 bg-sky-400/10 px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-mono font-bold text-sky-300 hover:border-sky-300 hover:bg-sky-400/20 transition-all cursor-pointer uppercase"
               title="Upstream Repository Acknowledgements"
             >
-              <GitBranch className="h-3 w-3 text-sky-400" />
-              <span className="hidden md:inline text-[11px]">CREDITS</span>
+              <GitBranch className="h-4 w-4 text-sky-400" />
+              <span className="hidden md:inline text-xs">CREDITS</span>
             </button>
           )}
 
           {/* Setup Guide */}
           <button
             onClick={onOpenGuide}
-            className="flex items-center justify-center h-7 w-7 rounded-none border border-white/20 bg-black text-neutral-400 hover:text-white hover:border-sky-400 hover:bg-white/10 transition-all"
+            className="flex items-center justify-center h-8 w-8 sm:h-9 sm:w-9 rounded-none border border-white/20 bg-black text-neutral-400 hover:text-white hover:border-sky-400 hover:bg-white/10 transition-all cursor-pointer"
             title="Desktop & Mobile Setup Guide"
           >
-            <Terminal className="h-3.5 w-3.5" />
+            <Terminal className="h-4 w-4" />
           </button>
 
           {/* GitHub Source Link */}
@@ -124,11 +124,11 @@ export const Header: React.FC<HeaderProps> = ({
             href="https://github.com/vrsn001/void-walls"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:flex items-center gap-1 rounded-none border border-white/20 bg-black px-2.5 py-1.5 text-xs font-bold text-neutral-300 hover:text-white hover:border-white/40 hover:bg-white/10 transition-all"
+            className="hidden sm:flex items-center gap-1.5 rounded-none border border-white/20 bg-black px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-bold text-neutral-300 hover:text-white hover:border-white/40 hover:bg-white/10 transition-all"
             title="Inspect source repository on GitHub"
           >
-            <ExternalLink className="h-3 w-3 text-neutral-400" />
-            <span className="hidden lg:inline text-[11px]">SRC</span>
+            <ExternalLink className="h-4 w-4 text-neutral-400" />
+            <span className="hidden lg:inline text-xs">SRC</span>
           </a>
         </div>
       </div>

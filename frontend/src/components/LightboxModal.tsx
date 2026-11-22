@@ -84,6 +84,8 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
 
   useEffect(() => {
     if (!wallpaper) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -94,7 +96,10 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
     };
 
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [wallpaper, handlePrev, handleNext, onClose, onToggleFavorite, handleCustomDownload]);
 
   if (!wallpaper) return null;

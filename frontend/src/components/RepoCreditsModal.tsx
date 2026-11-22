@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { X, ExternalLink, Heart, GitFork, ShieldCheck } from 'lucide-react';
 import { GithubIcon } from './GithubIcon';
 
@@ -8,6 +8,22 @@ interface RepoCreditsModalProps {
 }
 
 export const RepoCreditsModal: React.FC<RepoCreditsModalProps> = ({ isOpen, onClose }) => {
+  useEffect(() => {
+    if (!isOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const repositories = [
@@ -74,11 +90,16 @@ export const RepoCreditsModal: React.FC<RepoCreditsModalProps> = ({ isOpen, onCl
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-2xl font-mono">
-      <div className="relative w-full max-w-2xl overflow-hidden rounded-none border border-white/20 bg-[#050508] p-5 sm:p-6 shadow-2xl">
+    <div
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md font-mono"
+    >
+      <div className="relative w-full max-w-xl overflow-hidden rounded-none border border-white/20 bg-[#060609] p-5 sm:p-6 shadow-2xl">
         {/* Subtle Matrix Blueprint Grid Texture */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.05]"
+          className="pointer-events-none absolute inset-0 opacity-[0.04]"
           style={{
             backgroundImage:
               'linear-gradient(to right, rgba(0, 240, 255, 0.4) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 240, 255, 0.4) 1px, transparent 1px)',
@@ -90,38 +111,39 @@ export const RepoCreditsModal: React.FC<RepoCreditsModalProps> = ({ isOpen, onCl
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 flex h-7 w-7 items-center justify-center rounded-none border border-white/20 bg-black text-neutral-400 hover:border-white/40 hover:text-white transition-colors cursor-pointer z-10"
+          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-none border border-white/20 bg-black text-neutral-400 hover:border-white/40 hover:text-white transition-colors cursor-pointer z-10"
+          title="Close dialog"
         >
-          <X className="h-3.5 w-3.5" />
+          <X className="h-4 w-4" />
         </button>
 
         {/* Modal Header */}
-        <div className="relative z-10 mb-5 flex items-start gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-none border border-sky-400/40 bg-sky-950/30 text-sky-400">
-            <Heart className="h-4 w-4 fill-sky-400/20" />
+        <div className="relative z-10 mb-4 flex items-start gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-none border border-sky-400/40 bg-sky-950/30 text-sky-400">
+            <Heart className="h-5 w-5 fill-sky-400/20" />
           </div>
-          <div>
+          <div className="pr-8">
             <div className="flex items-center gap-2">
-              <h2 className="text-base font-bold font-mono tracking-tight text-white uppercase">
+              <h2 className="text-sm sm:text-base font-bold font-mono tracking-tight text-white uppercase">
                 OPEN-SOURCE ACKNOWLEDGEMENTS
               </h2>
             </div>
-            <p className="text-[11px] text-neutral-400 font-mono mt-0.5">
-              VOID//WALLS is built on the curated work of open-source creators and collectors across the GitHub community.
+            <p className="text-[11px] text-neutral-400 font-mono mt-0.5 leading-relaxed">
+              VOID//WALLS is built on the curated work of open-source creators and collectors across GitHub.
             </p>
           </div>
         </div>
 
         {/* Repositories List */}
-        <div className="relative z-10 space-y-2.5">
+        <div className="relative z-10 space-y-2 max-h-[52vh] overflow-y-auto pr-1">
           {repositories.map((repo) => (
             <div
               key={repo.name}
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-none border border-white/10 bg-black p-3.5 transition-all hover:border-sky-400/40"
+              className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 rounded-none border border-white/10 bg-black p-3 transition-all hover:border-sky-400/40"
             >
               <div className="flex-1 space-y-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-mono text-xs sm:text-sm font-bold text-white">{repo.name}</span>
+                  <span className="font-mono text-xs font-bold text-white">{repo.name}</span>
                   <span
                     className={`rounded-none border px-1.5 py-0.2 text-[9px] font-mono font-bold tracking-wider ${repo.color}`}
                   >
@@ -129,9 +151,9 @@ export const RepoCreditsModal: React.FC<RepoCreditsModalProps> = ({ isOpen, onCl
                   </span>
                 </div>
                 <p className="text-[11px] text-neutral-400">{repo.desc}</p>
-                <div className="text-[10px] font-mono text-neutral-500">
-                  <GitFork className="inline h-2.5 w-2.5 mr-1" />
-                  {repo.upstream}
+                <div className="text-[10px] font-mono text-neutral-500 flex items-center gap-1">
+                  <GitFork className="inline h-3 w-3 shrink-0" />
+                  <span>{repo.upstream}</span>
                 </div>
               </div>
 
@@ -140,11 +162,11 @@ export const RepoCreditsModal: React.FC<RepoCreditsModalProps> = ({ isOpen, onCl
                   href={repo.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 rounded-none border border-white/20 bg-black px-2.5 py-1 text-[11px] font-mono font-bold text-neutral-300 hover:border-sky-400 hover:bg-sky-400/10 hover:text-sky-300 transition-all uppercase"
+                  className="flex items-center gap-1.5 rounded-none border border-white/20 bg-black px-3 py-1.5 text-xs font-mono font-bold text-neutral-300 hover:border-sky-400 hover:bg-sky-400/10 hover:text-sky-300 transition-all uppercase"
                 >
-                  <GithubIcon className="h-3 w-3" />
-                  <span>VISIT_REPO</span>
-                  <ExternalLink className="h-2.5 w-2.5" />
+                  <GithubIcon className="h-4 w-4" />
+                  <span>VISIT</span>
+                  <ExternalLink className="h-3 w-3" />
                 </a>
               </div>
             </div>
@@ -152,15 +174,15 @@ export const RepoCreditsModal: React.FC<RepoCreditsModalProps> = ({ isOpen, onCl
         </div>
 
         {/* Modal Footer */}
-        <div className="relative z-10 mt-5 pt-3.5 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-neutral-500 uppercase">
+        <div className="relative z-10 mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-neutral-500 uppercase">
           <div className="flex items-center gap-1.5">
-            <ShieldCheck className="h-3 w-3 text-sky-400" />
-            <span>RAW_GITHUB_CDN · ZERO_TRACKING · ZERO_ADS</span>
+            <ShieldCheck className="h-4 w-4 text-sky-400" />
+            <span>RAW_GITHUB_CDN · ZERO_TRACKING</span>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-none border border-white/20 bg-black px-3 py-1 text-xs text-white hover:bg-white/10 transition-colors cursor-pointer font-bold"
+            className="rounded-none border border-white/20 bg-black px-3.5 py-1 text-xs text-white hover:bg-white/10 transition-colors cursor-pointer font-bold"
           >
             [CLOSE]
           </button>

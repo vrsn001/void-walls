@@ -121,39 +121,39 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
         <div className="pointer-events-none absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-black/80 to-transparent" />
 
         {/* Top Badges (Sharp Brutalist Point Geometry) */}
-        <div className="absolute top-2 left-2 flex items-center gap-1 z-10 pointer-events-none font-mono">
+        <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 z-10 pointer-events-none font-mono">
           {isAnimated && (
-            <span className="flex items-center gap-1 rounded-none border border-amber-400/50 bg-black/80 px-1.5 py-0.5 text-[9px] font-bold text-amber-300 uppercase">
-              <Film className="h-2.5 w-2.5 text-amber-400" />
+            <span className="flex items-center gap-1 rounded-none border border-amber-400/50 bg-black/85 px-2 py-0.5 text-[10px] font-bold text-amber-300 uppercase">
+              <Film className="h-3 w-3 text-amber-400" />
               60FPS
             </span>
           )}
           {isVertical && (
-            <span className="flex items-center gap-1 rounded-none border border-sky-400/50 bg-black/80 px-1.5 py-0.5 text-[9px] font-bold text-sky-300 uppercase">
-              <Smartphone className="h-2.5 w-2.5 text-sky-400" />
+            <span className="flex items-center gap-1 rounded-none border border-sky-400/50 bg-black/85 px-2 py-0.5 text-[10px] font-bold text-sky-300 uppercase">
+              <Smartphone className="h-3 w-3 text-sky-400" />
               9:16
             </span>
           )}
-          <span className="rounded-none border border-white/20 bg-black/80 px-1.5 py-0.5 text-[9px] font-bold text-neutral-300 uppercase">
+          <span className="rounded-none border border-white/20 bg-black/85 px-2 py-0.5 text-[10px] font-bold text-neutral-300 uppercase">
             {wallpaper.format}
           </span>
         </div>
 
         {/* Top Right Quick Action Buttons */}
-        <div className="absolute top-2 right-2 flex items-center gap-1 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+        <div className="absolute top-2.5 right-2.5 flex items-center gap-1.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
           <button
             onClick={(e) => {
               e.stopPropagation();
               onToggleFavorite(wallpaper);
             }}
-            className={`flex h-6 w-6 items-center justify-center rounded-none border transition-all ${
+            className={`flex h-8 w-8 items-center justify-center rounded-none border transition-all cursor-pointer ${
               isFavorite
                 ? 'border-rose-500 bg-rose-500 text-black'
-                : 'border-white/20 bg-black/80 text-white hover:bg-white hover:text-black hover:border-white'
+                : 'border-white/20 bg-black/85 text-white hover:bg-white hover:text-black hover:border-white'
             }`}
             title={isFavorite ? 'Remove from saved' : 'Save wallpaper'}
           >
-            <Heart className={`h-3 w-3 ${isFavorite ? 'fill-current' : ''}`} />
+            <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
           </button>
 
           <button
@@ -161,10 +161,10 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
               e.stopPropagation();
               onOpenLightbox(wallpaper);
             }}
-            className="flex h-6 w-6 items-center justify-center rounded-none border border-white/20 bg-black/80 text-white hover:bg-white hover:text-black hover:border-white transition-all"
+            className="flex h-8 w-8 items-center justify-center rounded-none border border-white/20 bg-black/85 text-white hover:bg-white hover:text-black hover:border-white transition-all cursor-pointer"
             title="Inspect"
           >
-            <Maximize2 className="h-3 w-3" />
+            <Maximize2 className="h-4 w-4" />
           </button>
         </div>
       </div>
@@ -192,10 +192,10 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
             e.stopPropagation();
             onDownload(wallpaper);
           }}
-          className="flex h-6 w-6 items-center justify-center rounded-none border border-white/20 bg-black text-neutral-400 hover:text-white hover:bg-sky-400 hover:text-black hover:border-sky-300 transition-all shrink-0"
+          className="flex h-8 w-8 items-center justify-center rounded-none border border-white/20 bg-black text-neutral-400 hover:text-white hover:bg-sky-400 hover:text-black hover:border-sky-300 transition-all shrink-0 cursor-pointer"
           title="Download full resolution"
         >
-          <Download className="h-3 w-3" />
+          <Download className="h-4 w-4" />
         </button>
       </div>
     </div>

@@ -109,8 +109,8 @@ export const CollectionsView: React.FC<CollectionsViewProps> = ({
                 </span>
               </div>
 
-              <div className="flex h-6 w-6 items-center justify-center rounded-none border border-white/20 bg-black text-neutral-400 group-hover:border-sky-400 group-hover:text-sky-300 group-hover:bg-sky-400/10 transition-all">
-                <ArrowRight className="h-3 w-3" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-none border border-white/20 bg-black text-neutral-400 group-hover:border-sky-400 group-hover:text-sky-300 group-hover:bg-sky-400/10 transition-all shrink-0">
+                <ArrowRight className="h-4 w-4" />
               </div>
             </div>
           </div>
