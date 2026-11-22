@@ -259,7 +259,7 @@ export function App() {
                     : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'
                 }
               >
-                {visibleWallpapers.map((wallpaper) => (
+                {visibleWallpapers.map((wallpaper, index) => (
                   <div key={wallpaper.id} className={layoutMode === 'masonry' ? 'break-inside-avoid mb-5' : ''}>
                     <WallpaperCard
                       wallpaper={wallpaper}
@@ -267,6 +267,7 @@ export function App() {
                       onToggleFavorite={handleToggleFavorite}
                       onOpenLightbox={setLightboxWallpaper}
                       onDownload={handleDownload}
+                      priority={index < 8}
                     />
                   </div>
                 ))}

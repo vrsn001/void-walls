@@ -8,6 +8,7 @@ interface WallpaperCardProps {
   onToggleFavorite: (wallpaper: Wallpaper) => void;
   onOpenLightbox: (wallpaper: Wallpaper) => void;
   onDownload: (wallpaper: Wallpaper) => void;
+  priority?: boolean;
 }
 
 export const WallpaperCard: React.FC<WallpaperCardProps> = ({
@@ -16,12 +17,26 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
   onToggleFavorite,
   onOpenLightbox,
   onDownload,
+  priority = false,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  // Prefer raw.githubusercontent.com (Fastly edge CDN) for instant speed & zero ORB errors
+  const [imgSrc, setImgSrc] = useState(wallpaper.rawUrl || wallpaper.cdnUrl);
+  const [hasError, setHasError] = useState(false);
 
   const isAnimated = wallpaper.type === 'animated';
   const isVertical = wallpaper.category === 'phone-vertical' || (wallpaper.width && wallpaper.height && wallpaper.height > wallpaper.width * 1.3);
+
+  const handleImageError = () => {
+    // If rawUrl failed, fallback to jsDelivr CDN
+    if (imgSrc === wallpaper.rawUrl && wallpaper.cdnUrl) {
+      setImgSrc(wallpaper.cdnUrl);
+    } else {
+      setHasError(true);
+      setIsLoaded(true);
+    }
+  };
 
   return (
     <div
@@ -72,15 +87,25 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
           </div>
         ) : (
           <img
-            src={wallpaper.cdnUrl}
+            src={imgSrc}
             alt={wallpaper.title}
-            loading="lazy"
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : 'auto'}
             decoding="async"
             onLoad={() => setIsLoaded(true)}
+            onError={handleImageError}
             className={`h-full w-full object-cover transition-all duration-500 ease-out group-hover:scale-[1.03] ${
-              isLoaded ? 'opacity-100' : 'opacity-0'
+              isLoaded && !hasError ? 'opacity-100' : 'opacity-0'
             }`}
           />
+        )}
+
+        {/* Error Fallback */}
+        {hasError && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-[#0a0a0f] text-neutral-500 font-mono text-[10px] text-center">
+            <span className="text-amber-500/80 mb-1">IMAGE OFFLINE</span>
+            <span className="text-neutral-600 truncate max-w-[150px]">{wallpaper.title}</span>
+          </div>
         )}
 
         {/* Ambient Top Shadow Overlay for badges */}
