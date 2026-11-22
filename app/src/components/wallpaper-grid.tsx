@@ -3,7 +3,7 @@
 import { memo, useEffect, useRef, useState } from "react";
 import { Download, Heart, Film, Smartphone, Maximize2 } from "lucide-react";
 import type { Wallpaper } from "@/lib/types";
-import { getThumbnailUrl, getFullUrl } from "@/lib/cdn";
+import { getThumbnailUrl, getFullUrl, getVideoPreviewUrl } from "@/lib/cdn";
 
 const BATCH = 48;
 
@@ -24,7 +24,7 @@ interface CardProps {
   onPreview: (w: Wallpaper) => void;
 }
 
-function InViewVideo({ src, onReady }: { src: string; onReady: () => void }) {
+function InViewVideo({ src, poster, onReady }: { src: string; poster: string; onReady: () => void }) {
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -42,10 +42,11 @@ function InViewVideo({ src, onReady }: { src: string; onReady: () => void }) {
     <video
       ref={ref}
       src={src}
+      poster={poster}
       loop
       muted
       playsInline
-      preload="metadata"
+      preload="auto"
       className="card-media h-full w-full object-cover"
       onLoadedData={onReady}
     />
@@ -102,7 +103,11 @@ const WallpaperCard = memo(function WallpaperCard({
         <div className={`card-skeleton absolute inset-0 ${loaded ? "is-done" : ""}`} />
 
         {wallpaper.isVideo ? (
-          <InViewVideo src={wallpaper.rawUrl} onReady={() => setLoaded(true)} />
+          <InViewVideo
+            src={getVideoPreviewUrl(wallpaper)}
+            poster={getThumbnailUrl(wallpaper)}
+            onReady={() => setLoaded(true)}
+          />
         ) : (
           <img
             ref={imgRef}

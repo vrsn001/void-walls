@@ -137,6 +137,7 @@ export function Lightbox({
           <video
             key={wallpaper.id}
             src={wallpaper.rawUrl}
+            poster={getThumbnailUrl(wallpaper)}
             autoPlay
             loop
             muted
