@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback, useDeferredValue, lazy, Suspense } from 'react';
+import { useState, useMemo, useEffect, useCallback, useDeferredValue, useRef, lazy, Suspense } from 'react';
 import type { Wallpaper, MediaFilterType, SortOption, LayoutMode, ToastMessage } from './types';
 import { Header } from './components/Header';
 import { CyberHudBanner } from './components/CyberHudBanner';
@@ -10,7 +10,7 @@ import { FilterBar } from './components/FilterBar';
 import { WallpaperCard } from './components/WallpaperCard';
 import { Toast } from './components/Toast';
 import { triggerDownload } from './utils/download';
-import { ArrowUp, RefreshCw, AlertCircle, Database } from 'lucide-react';
+import { ArrowUp, AlertCircle, Database } from 'lucide-react';
 
 // Code-split heavy modals with React.lazy
 const LightboxModal = lazy(() => import('./components/LightboxModal').then((m) => ({ default: m.LightboxModal })));
@@ -256,8 +256,66 @@ export function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Scroll progress bar
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
+      setShowScrollTop(scrollTop > 600);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Infinite scroll — auto-load when near bottom
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!hasMore) return;
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setVisibleCount((prev) => prev + PAGE_SIZE);
+        }
+      },
+      { rootMargin: '400px' }
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasMore, filterKey]);
+
+  // Scroll-reveal observer for gallery cards
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            const delay = parseInt(el.dataset.revealDelay || '0', 10);
+            setTimeout(() => el.classList.add('revealed'), delay);
+            observer.unobserve(el);
+          }
+        });
+      },
+      { rootMargin: '60px', threshold: 0.05 }
+    );
+    const items = grid.querySelectorAll('.scroll-reveal');
+    items.forEach((item) => observer.observe(item));
+    return () => observer.disconnect();
+  }, [visibleWallpapers, layoutMode]);
+
   return (
     <div className="min-h-screen bg-black text-white selection:bg-sky-400/30 selection:text-white font-mono">
+      {/* Scroll Progress Bar */}
+      <div className="scroll-progress-bar" style={{ width: `${scrollProgress}%` }} />
       {/* Top Navigation */}
       <Header
         search={search}
@@ -297,6 +355,7 @@ export function App() {
         />
 
         {/* LOADING DATA STATE */}
+        <div key={activeTab} className="tab-content-enter">
         {isLoadingData ? (
           <div className="flex flex-col items-center justify-center p-24 text-neutral-500 font-mono text-xs">
             <div className="h-6 w-6 border-2 border-sky-400 border-t-transparent animate-spin mb-3" />
@@ -376,6 +435,7 @@ export function App() {
                     <>
                       {/* Responsive Grid */}
                       <div
+                        ref={gridRef}
                         className={
                           layoutMode === 'masonry'
                             ? 'columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4'
@@ -387,7 +447,11 @@ export function App() {
                         }
                       >
                         {visibleWallpapers.map((wallpaper, index) => (
-                          <div key={wallpaper.id} className={layoutMode === 'masonry' ? 'break-inside-avoid mb-4' : ''}>
+                          <div
+                            key={wallpaper.id}
+                            className={`scroll-reveal ${index < 8 ? 'revealed' : ''} ${layoutMode === 'masonry' ? 'break-inside-avoid mb-4' : ''}`}
+                            data-reveal-delay={Math.min((index % 12) * 40, 400)}
+                          >
                             <WallpaperCard
                               wallpaper={wallpaper}
                               isFavorite={favoriteIds.includes(wallpaper.id)}
@@ -400,22 +464,16 @@ export function App() {
                         ))}
                       </div>
 
-                      {/* Load More Button */}
+                      {/* Infinite scroll sentinel + fallback manual button */}
                       {hasMore && (
-                        <div className="mt-12 flex flex-col items-center justify-center gap-2">
-                          <button
-                            onClick={() => setVisibleCount((prev) => prev + PAGE_SIZE)}
-                            className="flex items-center gap-2 rounded-none border border-sky-400/40 bg-black px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-sky-300 hover:bg-sky-400 hover:text-black hover:border-sky-300 transition-all shadow-xl"
-                          >
-                            <RefreshCw className="h-3.5 w-3.5" />
-                            <span>
-                              LOAD_MORE_ASSETS ({filteredWallpapers.length - visibleCount}_REMAINING)
+                        <>
+                          <div ref={sentinelRef} className="h-1" />
+                          <div className="mt-8 flex flex-col items-center justify-center gap-2">
+                            <span className="text-[10px] text-neutral-500 font-mono animate-pulse">
+                              LOADING_MORE // {visibleCount} / {filteredWallpapers.length}
                             </span>
-                          </button>
-                          <span className="text-[10px] text-neutral-500 font-mono">
-                            INDEX_WINDOW: {visibleCount} // {filteredWallpapers.length}
-                          </span>
-                        </div>
+                          </div>
+                        </>
                       )}
                     </>
                   )}
@@ -424,6 +482,7 @@ export function App() {
             )}
           </>
         )}
+        </div>
       </main>
 
       {/* AMOLED Minimalist Footer */}
@@ -515,6 +574,18 @@ export function App() {
 
       {/* Toast notifications */}
       <Toast toasts={toasts} />
+
+      {/* Floating back-to-top button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-6 right-6 z-50 flex h-10 w-10 items-center justify-center rounded-none border border-sky-400/50 bg-black/90 text-sky-400 shadow-lg shadow-sky-400/20 backdrop-blur-sm transition-all duration-300 cursor-pointer hover:bg-sky-400 hover:text-black hover:border-sky-300 hover:scale-110 ${
+          showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
+        title="Scroll to top"
+        aria-label="Scroll to top"
+      >
+        <ArrowUp className="h-4 w-4" />
+      </button>
     </div>
   );
 }

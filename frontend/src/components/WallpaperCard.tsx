@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Download, Heart, Maximize2, Play, Film, Smartphone } from 'lucide-react';
 import type { Wallpaper } from '../types';
-import { getThumbnailUrl } from '../utils/cdn';
+import { getThumbnailUrl, getBlurPlaceholderUrl } from '../utils/cdn';
 
 interface WallpaperCardProps {
   wallpaper: Wallpaper;
@@ -30,6 +30,7 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
   // 2. Fastly raw.githubusercontent.com fallback
   // 3. jsDelivr CDN fallback
   const initialThumb = getThumbnailUrl(wallpaper, isVertical ? 480 : 640);
+  const blurUrl = getBlurPlaceholderUrl(wallpaper);
   const [imgSrc, setImgSrc] = useState(initialThumb);
   const [retryStage, setRetryStage] = useState(0);
   const [hasError, setHasError] = useState(false);
@@ -51,7 +52,7 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative flex flex-col rounded-none overflow-hidden bg-[#050507] border border-white/10 hover:border-sky-400/60 transition-all duration-200 hover:shadow-2xl hover:shadow-black"
+      className="group card-hover-fx relative flex flex-col rounded-none bg-[#050507] border border-white/10 hover:border-sky-400/60 transition-all duration-300 hover:shadow-2xl hover:shadow-black hover:-translate-y-0.5"
     >
       {/* Media Canvas */}
       <div
@@ -60,10 +61,18 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
           isVertical ? 'aspect-[9/16]' : 'aspect-[16/10]'
         }`}
       >
-        {/* Placeholder skeleton */}
+        {/* Blur-up placeholder */}
         {!isLoaded && (
-          <div className="absolute inset-0 bg-white/[0.02] animate-pulse flex items-center justify-center text-[10px] text-neutral-600 font-mono">
-            FETCHING...
+          <div className="absolute inset-0 bg-white/[0.02] flex items-center justify-center">
+            {blurUrl ? (
+              <img
+                src={blurUrl}
+                alt=""
+                aria-hidden
+                className="absolute inset-0 h-full w-full object-cover blur-lg scale-110 opacity-60"
+              />
+            ) : null}
+            <span className="relative text-[10px] text-neutral-600 font-mono animate-pulse">FETCHING...</span>
           </div>
         )}
 
@@ -174,7 +183,7 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
         <div className="min-w-0 pr-2">
           <h3
             onClick={() => onOpenLightbox(wallpaper)}
-            className="truncate text-[11px] font-bold text-neutral-200 group-hover:text-sky-300 transition-colors cursor-pointer uppercase tracking-tight"
+            className="truncate text-[11px] font-bold text-neutral-200 group-hover:text-sky-300 transition-colors cursor-pointer uppercase tracking-tight font-sans"
             title={wallpaper.title}
           >
             {wallpaper.title}

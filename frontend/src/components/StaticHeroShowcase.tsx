@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo, useLayoutEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Download, Eye, Sparkles, ChevronRight, ChevronLeft, Layers, Play, Pause } from 'lucide-react';
 import type { Wallpaper } from '../types';
 import { getThumbnailUrl } from '../utils/cdn';
@@ -21,6 +23,35 @@ export const StaticHeroShowcase: React.FC<StaticHeroShowcaseProps> = ({
   const [progress, setProgress] = useState(0);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const progressIntervalRef = useRef<number | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // GSAP ScrollTrigger parallax on the hero image
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const section = sectionRef.current;
+    const img = imgRef.current;
+    if (!section || !img) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        img,
+        { yPercent: -8 },
+        {
+          yPercent: 8,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.6,
+          },
+        }
+      );
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
 
   // Pick top 10 high-res static wallpapers for the showcase loop
   const showcaseItems = useMemo(() => wallpapers.slice(0, 10), [wallpapers]);
@@ -91,7 +122,7 @@ export const StaticHeroShowcase: React.FC<StaticHeroShowcaseProps> = ({
   }
 
   return (
-    <section className="relative mx-auto max-w-[1440px] px-4 pt-3 pb-2 sm:px-6 font-mono">
+    <section ref={sectionRef} className="relative mx-auto max-w-[1440px] px-4 pt-3 pb-2 sm:px-6 font-mono">
       {/* Fixed-Height Container: Zero CLS (Shape NEVER changes regardless of wallpaper aspect ratio) */}
       <div className="relative overflow-hidden rounded-none border border-white/15 bg-[#030305] shadow-2xl h-[380px] sm:h-[420px] lg:h-[460px]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 h-full">
@@ -99,12 +130,12 @@ export const StaticHeroShowcase: React.FC<StaticHeroShowcaseProps> = ({
           <div className="relative lg:col-span-8 bg-black h-[220px] sm:h-[260px] lg:h-full flex items-center justify-center overflow-hidden group select-none">
             {/* The Wallpaper Image (strictly object-cover, never stretches parent) */}
             <img
+              ref={imgRef}
               key={current.id}
               src={getThumbnailUrl(current, 1440) || current.rawUrl || current.cdnUrl}
               alt={current.title}
               onClick={() => onOpenLightbox(current)}
-              className="h-full w-full object-cover transition-opacity duration-300 cursor-pointer"
-              style={{ transform: 'translateZ(0)' }}
+              className="hero-crossfade h-[120%] w-full object-cover cursor-pointer will-change-transform"
             />
 
             {/* Edge Vignette */}

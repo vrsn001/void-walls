@@ -81,7 +81,7 @@ export const CollectionsView: React.FC<CollectionsViewProps> = ({
           <div
             key={cat.id}
             onClick={() => onSelectCategory(cat.id)}
-            className="group relative flex flex-col justify-between overflow-hidden rounded-none border border-white/15 bg-[#050508] hover:border-sky-400 transition-all cursor-pointer hover:shadow-xl"
+            className="group card-hover-fx relative flex flex-col justify-between rounded-none border border-white/15 bg-[#050508] hover:border-sky-400 transition-all duration-300 cursor-pointer hover:shadow-xl hover:-translate-y-0.5"
           >
             {/* Cover Image */}
             <div className="relative aspect-video w-full overflow-hidden bg-black">
@@ -101,7 +101,7 @@ export const CollectionsView: React.FC<CollectionsViewProps> = ({
             {/* Content */}
             <div className="p-3 bg-black flex items-center justify-between border-t border-white/10">
               <div>
-                <h3 className="text-xs font-bold text-white uppercase group-hover:text-sky-300 transition-colors">
+                <h3 className="text-xs font-bold text-white uppercase group-hover:text-sky-300 transition-colors font-sans">
                   {cat.label}
                 </h3>
                 <span className="text-[10px] text-neutral-500 font-mono">

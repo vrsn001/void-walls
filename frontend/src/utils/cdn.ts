@@ -5,17 +5,20 @@ import type { Wallpaper } from '../types';
  * Delivers assets directly from jsDelivr Multi-CDN edge cache (Cloudflare + Fastly)
  * with sub-50ms latency worldwide.
  */
-export function getThumbnailUrl(wallpaper: Wallpaper, _width = 640): string {
+export function getThumbnailUrl(wallpaper: Wallpaper, width = 640): string {
   if (wallpaper.isVideo) {
     return wallpaper.rawUrl;
   }
-  if (wallpaper.cdnUrl) {
-    return wallpaper.cdnUrl;
-  }
-  if (wallpaper.rawUrl) {
-    return wallpaper.rawUrl;
-  }
-  return '';
+  const sourceUrl = wallpaper.cdnUrl || wallpaper.rawUrl;
+  if (!sourceUrl) return '';
+  return getTransformedUrl(sourceUrl, { width, format: 'webp', quality: 75, fit: 'cover' });
+}
+
+export function getBlurPlaceholderUrl(wallpaper: Wallpaper): string {
+  if (wallpaper.isVideo) return '';
+  const sourceUrl = wallpaper.cdnUrl || wallpaper.rawUrl;
+  if (!sourceUrl) return '';
+  return getTransformedUrl(sourceUrl, { width: 20, format: 'webp', quality: 20, fit: 'cover' });
 }
 
 /**
