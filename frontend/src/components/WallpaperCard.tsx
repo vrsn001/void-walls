@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Download, Heart, Maximize2, Play, Film, Smartphone } from 'lucide-react';
 import type { Wallpaper } from '../types';
+import { getThumbnailUrl } from '../utils/cdn';
 
 interface WallpaperCardProps {
   wallpaper: Wallpaper;
@@ -21,16 +22,24 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  // Prefer raw.githubusercontent.com (Fastly edge CDN) for instant speed & zero ORB errors
-  const [imgSrc, setImgSrc] = useState(wallpaper.rawUrl || wallpaper.cdnUrl);
-  const [hasError, setHasError] = useState(false);
-
   const isAnimated = wallpaper.type === 'animated';
   const isVertical = wallpaper.category === 'phone-vertical' || (wallpaper.width && wallpaper.height && wallpaper.height > wallpaper.width * 1.3);
 
+  // Triple-stage CDN pipeline:
+  // 1. Cloudflare WebP edge thumbnail (~10 KB) for instant 60FPS grid rendering
+  // 2. Fastly raw.githubusercontent.com fallback
+  // 3. jsDelivr CDN fallback
+  const initialThumb = getThumbnailUrl(wallpaper, isVertical ? 480 : 640);
+  const [imgSrc, setImgSrc] = useState(initialThumb);
+  const [retryStage, setRetryStage] = useState(0);
+  const [hasError, setHasError] = useState(false);
+
   const handleImageError = () => {
-    // If rawUrl failed, fallback to jsDelivr CDN
-    if (imgSrc === wallpaper.rawUrl && wallpaper.cdnUrl) {
+    if (retryStage === 0 && wallpaper.rawUrl) {
+      setRetryStage(1);
+      setImgSrc(wallpaper.rawUrl);
+    } else if (retryStage <= 1 && wallpaper.cdnUrl) {
+      setRetryStage(2);
       setImgSrc(wallpaper.cdnUrl);
     } else {
       setHasError(true);

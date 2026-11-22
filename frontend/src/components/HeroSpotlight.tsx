@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Download, Maximize2, ChevronRight, Volume2, VolumeX, Eye, Sparkles } from 'lucide-react';
 import type { Wallpaper } from '../types';
 import Dither from './react-bits/Dither';
+import { getThumbnailUrl } from '../utils/cdn';
 
 interface HeroSpotlightProps {
   animatedWallpapers: Wallpaper[];
@@ -80,7 +81,11 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
                 className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.01]"
               />
             ) : (
-              <img src={current.cdnUrl} alt={current.title} className="h-full w-full object-cover" />
+              <img
+                src={getThumbnailUrl(current, 1440) || current.rawUrl || current.cdnUrl}
+                alt={current.title}
+                className="h-full w-full object-cover"
+              />
             )}
 
             {/* Edge Vignette overlay */}
