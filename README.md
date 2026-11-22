@@ -23,13 +23,11 @@
 
 # VOID//WALLS (虚無)
 
-> *"Oi, cunt. Tired of corporate wankers shoving bloated wallpaper apps full of ads, tracking cookies, and melted AI slop down your gullet? Yeah, so were we. So we scorched the fucking earth."* — **Billy Butcher**  
->  
-> *"I'm the Homelander. And I can do whatever the fuck I want. Which means 4K uncompressed perfection, zero compromises, and supreme dominance on every screen."* — **Homelander**
+> *"Oi, cunt. Tired of corporate wankers shoving bloated wallpaper apps full of ads, tracking cookies, and melted AI slop down your gullet? Yeah, so were we. So we scorched the fucking earth. Pure uncompressed 4K, proper diabolical 60FPS loops, and zero compromises."* — **Billy Butcher**
 
 **VOID//WALLS** is an underground, non-AI-slop, hyper-optimized, razor-sharp cyber-brutalist wallpaper vault and interactive frontend. Built for ricing enthusiasts, terminal dwellers, power users, and anyone who despises corporate bloat.
 
-🌐 **Live Production Web App:** [https://voidwalls.vercel.app](https://voidwalls.vercel.app) (also mirrored at [https://void-walls.vercel.app](https://void-walls.vercel.app))
+🌐 **Live Production Web App:** [https://voidwalls.vercel.app](https://voidwalls.vercel.app) (mirrored at [https://void-walls.vercel.app](https://void-walls.vercel.app))
 
 ---
 
@@ -71,16 +69,16 @@ Most wallpaper sites on the internet are absolute bollocks:
 
 ## ⚡ THE WEAPONS LOCKER (SPECIFICATIONS)
 
-| Metric | Specification | Butcher & Homelander Take |
+| Metric | Specification | Billy Butcher's Verdict |
 | :--- | :--- | :--- |
-| **Total Vault Assets** | **3,245+ Curated Files** | Every single file hand-picked and indexed across 67 vaults. Zero junk, zero spam. |
-| **High-Res Static** | **3,219 Wallpapers** | 4K UHD, 2K QHD, 1080p FHD. Crisp as a butcher’s blade, supreme dominance. |
-| **Live Motion Loops** | **26 60FPS Video Loops** | High-bitrate MP4s that loop seamlessly without dropping a single frame. |
-| **Mobile AMOLED** | **35 9:16 Vertical Files** | Dedicated vertical aspect ratios engineered for AMOLED mobile screens. |
+| **Total Vault Assets** | **3,245+ Curated Files** | Every single file hand-picked and indexed across 67 vaults. Zero junk, zero spam. Proper kit. |
+| **High-Res Static** | **3,219 Wallpapers** | 4K UHD, 2K QHD, 1080p FHD. Crisp as a butcher’s blade. Uncompressed perfection. |
+| **Live Motion Loops** | **26 60FPS Video Loops** | High-bitrate MP4s that loop seamlessly without dropping a single frame. Proper diabolical. |
+| **Mobile AMOLED** | **35 9:16 Vertical Files** | Dedicated vertical aspect ratios engineered for AMOLED mobile screens. Pure void blacks. |
 | **Collection Vaults** | **67 Unique Categories** | Cars, Cyberpunk, Catppuccin, Japanese Ukiyo-e, Linux Workstations, Tokyo Night, Anime, Space, Nord. |
 | **Export Resolver** | **PNG / JPG / WEBP** | Download in whatever resolution or format your rig needs. Sorted. |
-| **Edge Performance** | **<100ms Card Render** | 99.6% payload reduction via Cloudflare edge WebP transcoding. 72 kB main bundle. |
-| **Aesthetic System** | **Matrix Cyber Brutalist** | `#000000` void, `#00f0ff` electric cyan, `#f59e0b` hazard amber, 0px border radius. |
+| **Edge Performance** | **<100ms Card Render** | 99.6% payload reduction via Cloudflare edge WebP transcoding. Sub-second initial paint. |
+| **Aesthetic System** | **Matrix Cyber Brutalist** | `#000000` void, `#00f0ff` electric cyan, `#ff5722` hazard orange, 0px border radius. |
 
 ---
 
@@ -110,7 +108,7 @@ Dual fallback pipeline:
 
 ## 🛰️ UPSTREAM LEGENDS (PROPER RESPECT TO THE CREATORS)
 
-We don't steal work like corporate supes. VOID//WALLS unites the finest open-source wallpaper repositories on GitHub:
+We don't steal work like corporate wankers. VOID//WALLS unites the finest open-source wallpaper repositories on GitHub:
 
 | Repository | Creator / Source | Contribution to Vault |
 | :--- | :--- | :--- |
@@ -151,27 +149,18 @@ Grab [Plash](https://github.com/sindresorhus/Plash) or Aerial Screensaver to ren
 
 ## 🛠️ LOCAL SETUP (RUN IT LOCALLY)
 
-Want to run the frontend locally? Dead simple:
+Want to run the app locally? Dead simple:
 
 ```bash
 # Clone the repository
 git clone https://github.com/vrsn001/void-walls.git
-cd void-walls/frontend
+cd void-walls/app
 
 # Install dependencies
 npm install
 
 # Start development server
 npm run dev
-```
-
-Run lint and production build:
-```bash
-# Zero warnings, zero errors (oxlint)
-npx oxlint
-
-# Production build (<1s)
-npm run build
 ```
 
 ---
@@ -182,4 +171,4 @@ npm run build
 - **Wallpaper Assets**: Retain their original licenses and attribution to their upstream authors.
 - **Telemetry**: Absolute zero. No analytics, no Google trackers, no fingerprinting.
 
-*Curated with supreme perfection by [VRSN001](https://github.com/vrsn001).*
+*Curated with ruthless precision by [VRSN001](https://github.com/vrsn001).*

@@ -146,13 +146,13 @@ export function Lightbox({
           />
         ) : (
           <div key={wallpaper.id} className="lightbox-image relative grid max-h-full max-w-full place-items-center">
-            {/* WebP thumbnail paints instantly; the full image fades in over it. */}
+            {/* WebP thumbnail paints instantly and crisply; the full master image fades in over it. */}
             {wallpaper.type !== "animated" && (
               <img
                 src={getThumbnailUrl(wallpaper)}
                 alt=""
                 aria-hidden
-                className="col-start-1 row-start-1 max-h-[calc(100vh-210px)] max-w-full object-contain blur-[2px]"
+                className="col-start-1 row-start-1 max-h-[calc(100vh-210px)] max-w-full object-contain"
                 style={{ width: wallpaper.width || undefined, aspectRatio: wallpaper.width && wallpaper.height ? `${wallpaper.width}/${wallpaper.height}` : undefined }}
               />
             )}
