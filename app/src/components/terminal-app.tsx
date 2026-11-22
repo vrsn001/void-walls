@@ -50,6 +50,7 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
   const [statusMsg, setStatusMsg] = useState("SYS.ONLINE // READY");
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false);
   const [creditsOpen, setCreditsOpen] = useState(false);
+  const [showBanner, setShowBanner] = useState(true);
 
   const mainFiltered = useMemo(() => {
     if (mainTab === "live") return wallpapers.filter((w) => w.type === "animated");
@@ -185,15 +186,25 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
         <div className="flex items-center justify-between px-5 py-3">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <Terminal className="h-5 w-5 text-cyan" />
+            <div className="relative flex h-8 w-8 shrink-0 items-center justify-center bg-black border border-cyan shadow-[0_0_10px_rgba(0,240,255,0.25)]">
+              <div className="absolute top-0 left-0 w-1.5 h-1.5 bg-hazard" />
+              <div className="absolute bottom-0 right-0 w-1.5 h-1.5 bg-cyan" />
+              <span className="text-base font-black text-white leading-none select-none font-serif">
+                虚
+              </span>
+              <span className="absolute -bottom-1 text-[6px] font-mono font-bold text-cyan bg-black px-0.5 border border-cyan/40 scale-75">
+                VOID
+              </span>
+            </div>
             <div>
-              <h1 className="text-base font-bold font-sans tracking-tight text-white">
+              <h1 className="text-base font-bold font-sans tracking-tight text-white flex items-center gap-1.5">
                 VOID<span className="text-cyan mx-0.5">{"//"}</span>WALLS
-                <span className="ml-2 text-[9px] font-mono bg-cyan/10 border border-cyan/30 text-cyan px-1.5 py-0.5 align-middle uppercase tracking-widest">
-                  VAULT
+                <span className="text-hazard font-mono font-bold text-xs">[ 虚無 ]</span>
+                <span className="ml-1 text-[9px] font-mono bg-cyan/10 border border-cyan/30 text-cyan px-1.5 py-0.5 align-middle uppercase tracking-widest hidden sm:inline-block">
+                  SCORCHED EARTH
                 </span>
               </h1>
-              <p className="text-[10px] text-muted mt-0.5">
+              <p className="text-[10px] text-muted mt-0.5 font-mono">
                 {wallpapers.length.toLocaleString()} CURATED ASSETS {"//"} FASTLY CDN
               </p>
             </div>
@@ -215,6 +226,17 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
 
           {/* Action buttons */}
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowBanner((v) => !v)}
+              className={`flex items-center gap-1.5 border px-2.5 py-1.5 text-[10px] font-bold font-mono transition-colors cursor-pointer ${
+                showBanner
+                  ? "border-cyan/40 bg-cyan/10 text-cyan"
+                  : "border-border text-muted hover:text-white hover:border-white/20"
+              }`}
+              title="Toggle Brutalist Hero HUD"
+            >
+              [ 虚 HUD ]
+            </button>
             <button
               onClick={handleRandom}
               className="flex items-center gap-1.5 border border-border px-3 py-1.5 text-[11px] font-bold text-white hover:border-cyan/40 hover:text-cyan transition-colors cursor-pointer"
@@ -310,6 +332,35 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
           })}
         </div>
       </header>
+
+      {/* ═══════ BRUTALIST HERO BANNER HUD ═══════ */}
+      {showBanner && (
+        <div className="shrink-0 border-b border-border bg-[#020204]">
+          <div className="mx-auto max-w-7xl px-4 py-2 sm:py-3">
+            <div className="relative border border-[#1a2333] bg-black overflow-hidden group">
+              {/* Corner hazard brackets */}
+              <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-hazard z-10 pointer-events-none" />
+              <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-cyan z-10 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-cyan z-10 pointer-events-none" />
+              <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-hazard z-10 pointer-events-none" />
+
+              <img
+                src="/void-banner.svg"
+                alt="VOID//WALLS (虚無) - Billy Butcher Scorched Earth Edition"
+                className="w-full h-auto max-h-[220px] sm:max-h-[280px] object-contain mx-auto block select-none"
+              />
+
+              <button
+                onClick={() => setShowBanner(false)}
+                title="Dismiss Banner HUD"
+                className="absolute top-2 right-2 z-20 bg-black/85 hover:bg-black border border-border hover:border-cyan/50 text-muted hover:text-white px-2 py-0.5 text-[9px] font-mono font-bold tracking-wider cursor-pointer transition-colors"
+              >
+                [ MINIMIZE HUD ✕ ]
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ═══════ COLLECTION SUB-TABS ═══════ */}
       {mainTab !== "saved" && (

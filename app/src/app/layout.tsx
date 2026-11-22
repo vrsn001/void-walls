@@ -15,13 +15,25 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VOID//WALLS — Command Terminal",
-  description: "3,245+ curated wallpapers. Zero bloat. Keyboard-driven.",
+  title: "VOID//WALLS (虚無) — Scorched Earth Vault",
+  description: "3,245+ curated wallpapers. Zero AI-slop. Pure AMOLED Void. Billy Butcher Approved.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${jakarta.variable} ${jetbrains.variable} h-full`}>
+      <head>
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="shortcut icon" href="/icon.svg" />
+        <link rel="apple-touch-icon" href="/icon.svg" />
+      </head>
       <body className="min-h-full font-mono">{children}</body>
     </html>
   );
