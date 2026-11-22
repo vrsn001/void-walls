@@ -223,8 +223,6 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                onFocus={() => setSearchFocused(true)}
-                onBlur={() => setTimeout(() => setSearchFocused(false), 150)}
                 placeholder="SEARCH ARCHIVE // anime, amoled, cyberpunk, 4k..."
                 className="w-full bg-black/50 border border-border py-2 pl-9 pr-4 text-xs text-white placeholder-muted/50 focus:outline-none focus:border-cyan/40 caret-cyan font-mono"
               />

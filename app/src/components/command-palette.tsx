@@ -55,7 +55,7 @@ export function CommandPalette({ wallpapers, collections, onClose, onNavigate }:
       return commands.filter((c) => c.label.toLowerCase().includes(cmdQ));
     }
 
-    const wallpaperMatches = wallpapers
+    const wallpaperMatches: CommandItem[] = wallpapers
       .filter(
         (w) =>
           w.title.toLowerCase().includes(q) ||
