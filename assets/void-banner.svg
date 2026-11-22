@@ -32,7 +32,7 @@
   <!-- Status indicators -->
   <circle cx="32" cy="29" r="4" fill="#00f0ff" />
   <text x="44" y="33" fill="#00f0ff" font-size="11" font-weight="bold" letter-spacing="1.5">SYSTEM: OPERATIONAL // REPO_SYNC: LOCKED</text>
-  <text x="540" y="33" fill="#8b9bb4" font-size="10" letter-spacing="1">LATENCY: 0.12ms · REPO: vrsn001/wallsbyme</text>
+  <text x="540" y="33" fill="#8b9bb4" font-size="10" letter-spacing="1">LATENCY: 0.12ms · REPO: vrsn001/void-walls</text>
 
   <!-- Left Brutalist Kanji Block -->
   <g transform="translate(44, 76)">
@@ -57,7 +57,7 @@
     <text x="348" y="44" fill="#ff5722" font-size="24" font-weight="900">[ 虚無 ]</text>
     
     <!-- Subtitle -->
-    <text x="2" y="76" fill="#8b9bb4" font-size="13" font-weight="bold" letter-spacing="2.5">CURATED UNDERGROUND WALLPAPER ARCHIVE // 2,479+ ASSETS</text>
+    <text x="2" y="76" fill="#8b9bb4" font-size="13" font-weight="bold" letter-spacing="2.5">CURATED UNDERGROUND WALLPAPER ARCHIVE // 3,245+ ASSETS</text>
     
     <!-- Description terminal line -->
     <rect x="0" y="92" width="750" height="28" fill="#0e121d" stroke="#1f2738" stroke-width="1" />
@@ -70,7 +70,7 @@
     <rect x="0" y="0" width="140" height="40" fill="#0e121d" stroke="#232c3f" stroke-width="1.5" />
     <rect x="0" y="0" width="4" height="40" fill="#ff5722" />
     <text x="16" y="17" fill="#8b9bb4" font-size="9" font-weight="bold" letter-spacing="1">TOTAL ASSETS</text>
-    <text x="16" y="32" fill="#ffffff" font-size="13" font-weight="900">2,479+ VAULT</text>
+    <text x="16" y="32" fill="#ffffff" font-size="13" font-weight="900">3,245+ ASSETS</text>
 
     <!-- Tag 2 -->
     <rect x="152" y="0" width="160" height="40" fill="#0e121d" stroke="#232c3f" stroke-width="1.5" />
@@ -92,7 +92,7 @@
 
     <!-- Tag 5: Live CTA button -->
     <rect x="638" y="0" width="272" height="40" fill="#ff5722" stroke="#ff5722" stroke-width="2" />
-    <text x="774" y="25" fill="#000000" font-size="12" font-weight="900" text-anchor="middle" letter-spacing="1.5">VOID-WALLS.VERCEL.APP ↗</text>
+    <text x="774" y="25" fill="#000000" font-size="12" font-weight="900" text-anchor="middle" letter-spacing="1.5">VOIDWALLS.VERCEL.APP ↗</text>
   </g>
 
   <!-- Footer Ticker -->
