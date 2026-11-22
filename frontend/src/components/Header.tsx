@@ -1,7 +1,6 @@
 import React from 'react';
 import { Search, Shuffle, Heart, X, Terminal, ExternalLink } from 'lucide-react';
 import type { MediaFilterType } from '../types';
-import TrueFocus from './react-bits/TrueFocus';
 
 interface HeaderProps {
   search: string;
@@ -34,20 +33,9 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <TrueFocus
-                sentence="VOID // WALLS"
-                focusStyle="brackets"
-                borderColor="rgba(255, 255, 255, 0.7)"
-                glowColor="rgba(255, 255, 255, 0.2)"
-                blurAmount={0}
-                unfocusedOpacity={0.9}
-                animationDuration={0.4}
-                pauseBetweenAnimations={3}
-                borderWidth={1.5}
-                cornerSize={5}
-                frameGap={3}
-                wordClassName="font-semibold text-sm sm:text-base tracking-tight text-white"
-              />
+              <span className="font-semibold text-sm sm:text-base tracking-tight text-white group-hover:text-white/90 transition-colors">
+                VOID <span className="text-neutral-500 font-mono text-xs">//</span> WALLS
+              </span>
               <span className="rounded-full border border-white/10 bg-white/[0.04] px-1.5 py-0.5 text-[9px] font-medium text-neutral-400 hidden md:inline tracking-wider">
                 VAULT
               </span>
