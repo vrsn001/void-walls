@@ -73,12 +73,11 @@ export const RepoCreditsModal: React.FC<RepoCreditsModalProps> = ({ isOpen, onCl
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-base font-bold font-mono tracking-tight text-white uppercase">
-                UPSTREAM ARCHIVE ACKNOWLEDGEMENTS
+                UPSTREAM LEGENDS // PROPER RESPECT
               </h2>
             </div>
             <p className="text-[11px] text-neutral-400 font-mono mt-0.5">
-              VOID//WALLS is powered by open source creators across GitHub. All wallpapers remain the
-              property of their respective creators.
+              We don't steal work like corporate supes. VOID//WALLS stands on the shoulders of open-source creators across GitHub.
             </p>
           </div>
         </div>

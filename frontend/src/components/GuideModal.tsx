@@ -22,15 +22,15 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
 
         {/* Title */}
         <div className="border-b border-white/10 pb-4">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-sky-400 uppercase tracking-wider">
-            <Sparkles className="h-3.5 w-3.5 text-sky-400" />
-            <span>SETUP_GUIDE // LIVE_WALLPAPERS</span>
+          <div className="flex items-center gap-1.5 text-xs font-bold text-rose-400 uppercase tracking-wider">
+            <Sparkles className="h-3.5 w-3.5 text-rose-400" />
+            <span>BUTCHER'S RIG SETUP // NO_WANKERS</span>
           </div>
           <h2 className="text-xl font-bold tracking-tight text-white mt-1 uppercase font-sans">
             DESKTOP & MOBILE INTEGRATION
           </h2>
           <p className="text-[11px] text-neutral-400 mt-0.5">
-            Hardware-accelerated 60FPS setup instructions for Windows, Linux, and macOS
+            Hardware-accelerated 60FPS setup instructions for Windows, Linux, and macOS. Sorted.
           </p>
         </div>
 

@@ -42,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
             </div>
             <p className="hidden text-[10px] text-neutral-500 sm:block leading-none tracking-tight mt-0.5 font-mono">
-              {totalCount.toLocaleString()}_ASSETS // ZERO_SLOP
+              {totalCount.toLocaleString()}_ASSETS // SCORCHED_EARTH
             </p>
           </div>
         </a>
@@ -54,7 +54,7 @@ export const Header: React.FC<HeaderProps> = ({
             type="text"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="SEARCH_INDEX // anime, amoled, nord, 4k..."
+            placeholder='SEARCH // "I can do whatever the fuck I want"...'
             className="w-full rounded-none border border-white/15 bg-black/60 py-1.5 pl-8 pr-8 text-xs text-neutral-200 placeholder-neutral-500 transition-all font-mono hover:border-white/30 focus:border-sky-400 focus:bg-black focus:outline-none"
           />
           {search && (
@@ -90,7 +90,7 @@ export const Header: React.FC<HeaderProps> = ({
             }`}
           >
             <Heart className={`h-3 w-3 ${activeFilter === 'favorites' ? 'fill-current text-rose-400' : 'text-neutral-400'}`} />
-            <span className="hidden sm:inline text-[11px]">SAVED</span>
+            <span className="hidden sm:inline text-[11px]">STASH</span>
             {favoritesCount > 0 && (
               <span className={`text-[9px] px-1 py-0.2 font-mono ${activeFilter === 'favorites' ? 'bg-rose-500 text-black font-bold' : 'bg-white/10 text-white'}`}>
                 {favoritesCount}
@@ -106,7 +106,7 @@ export const Header: React.FC<HeaderProps> = ({
               title="Upstream Repository Acknowledgements"
             >
               <GitBranch className="h-3 w-3 text-sky-400" />
-              <span className="hidden md:inline text-[11px]">REPOS</span>
+              <span className="hidden md:inline text-[11px]">LEGENDS</span>
             </button>
           )}
 

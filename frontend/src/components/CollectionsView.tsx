@@ -52,13 +52,13 @@ export const CollectionsView: React.FC<CollectionsViewProps> = ({
         <div>
           <div className="flex items-center gap-2 text-sky-400 text-xs font-bold uppercase">
             <FolderTree className="h-4 w-4" />
-            <span>COLLECTION_VAULTS // DIRECTORY</span>
+            <span>HOMELANDER'S DOMAIN // 54_ARCHIVES</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-bold text-white uppercase tracking-tight mt-1 font-sans">
-            54 INDIVIDUAL THEMATIC ARCHIVES
+            54 THEMATIC COLLECTION VAULTS
           </h2>
           <p className="text-xs text-neutral-400 mt-0.5">
-            Select any sub-page vault to browse dedicated category archives.
+            Zero corporate supe slop. Curated category vaults for screens that demand absolute dominance.
           </p>
         </div>
 
@@ -69,7 +69,7 @@ export const CollectionsView: React.FC<CollectionsViewProps> = ({
             type="text"
             value={catSearch}
             onChange={(e) => setCatSearch(e.target.value)}
-            placeholder="FILTER_VAULTS..."
+            placeholder="FILTER_VAULTS // anime, nord..."
             className="w-full rounded-none border border-white/15 bg-black py-1.5 pl-8 pr-3 text-xs text-neutral-200 placeholder-neutral-500 font-mono focus:border-sky-400 focus:outline-none"
           />
         </div>

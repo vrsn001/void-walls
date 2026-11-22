@@ -59,7 +59,7 @@ export const StaticHeroShowcase: React.FC<StaticHeroShowcaseProps> = ({
             {/* Top Badge */}
             <div className="absolute top-3 left-3 flex items-center gap-2">
               <span className="rounded-none border border-sky-400/50 bg-black/80 px-2 py-0.5 text-[10px] font-bold text-sky-300 uppercase">
-                CURATED_STATIC_VAULT
+                HOMELANDER_GRADE // 4K_UHD
               </span>
               <span className="rounded-none border border-white/20 bg-black/80 px-2 py-0.5 text-[10px] font-bold text-neutral-300 uppercase font-mono">
                 {current.resolutionBadge || '4K UHD'}
@@ -69,7 +69,7 @@ export const StaticHeroShowcase: React.FC<StaticHeroShowcaseProps> = ({
             {/* Bottom Inspect Pill */}
             <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-none border border-white/20 bg-black/80 px-3 py-1.5 text-[10px] font-bold text-neutral-200 group-hover:border-sky-400 group-hover:text-sky-300 transition-all">
               <Eye className="h-3 w-3" />
-              <span>CLICK_TO_INSPECT_4K</span>
+              <span>INSPECT_PERFECTION</span>
             </div>
           </div>
 
@@ -111,7 +111,7 @@ export const StaticHeroShowcase: React.FC<StaticHeroShowcaseProps> = ({
                   className="flex-1 flex items-center justify-center gap-2 rounded-none bg-sky-400 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black hover:bg-sky-300 transition-all border border-sky-300"
                 >
                   <Download className="h-3.5 w-3.5" />
-                  <span>DOWNLOAD</span>
+                  <span>CLAIM MASTER 4K</span>
                 </button>
 
                 <button

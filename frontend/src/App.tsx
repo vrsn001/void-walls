@@ -278,6 +278,7 @@ export function App() {
           totalCount={wallpapersData.length}
           liveCount={animatedWallpapers.length}
           onOpenCredits={() => setIsCreditsOpen(true)}
+          onNavigateTab={handleTabChange}
         />
 
         {/* Sub-Pages Navigation Tabs */}

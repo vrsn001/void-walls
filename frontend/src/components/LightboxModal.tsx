@@ -128,7 +128,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
         <div className="flex items-center justify-between border-b border-white/10 bg-black px-4 py-2.5 text-white">
           <div className="flex items-center gap-2 text-xs">
             <span className="bg-sky-500/20 text-sky-400 px-1.5 py-0.5 border border-sky-500/40 text-[10px] uppercase font-bold tracking-wider">
-              INSPECT_NODE
+              HOMELANDER_INSPECT // PERFECTION
             </span>
             <span className="text-neutral-400 font-mono text-[11px] truncate max-w-[200px] sm:max-w-md">
               {wallpaper.title}
@@ -241,9 +241,9 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
                   <div className="flex items-center justify-between text-[11px] font-bold text-neutral-300 uppercase tracking-wider border-b border-white/10 pb-2">
                     <span className="flex items-center gap-1.5 text-sky-400">
                       <Sliders className="h-3 w-3" />
-                      EXPORT_RESOLVER
+                      BUTCHER_RESOLVER // EXPORT_PRESET
                     </span>
-                    <span className="text-neutral-500 text-[10px]">SELECT_PRESET</span>
+                    <span className="text-neutral-500 text-[10px]">ANY_RESOLUTION</span>
                   </div>
 
                   {/* Resolution Selector */}
@@ -321,8 +321,8 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
                     {isDownloading
                       ? downloadProgress || 'PROCESSING...'
                       : wallpaper.isVideo
-                      ? `DOWNLOAD 60FPS LOOP (${wallpaper.sizeFormatted})`
-                      : `DOWNLOAD [${selectedResolution.toUpperCase()} // ${selectedFormat.toUpperCase()}]`}
+                      ? `DOWNLOAD 60FPS LOOP (${wallpaper.sizeFormatted}) // SORTED`
+                      : `DOWNLOAD [${selectedResolution.toUpperCase()} // ${selectedFormat.toUpperCase()}] // SORTED`}
                   </span>
                 </button>
 
