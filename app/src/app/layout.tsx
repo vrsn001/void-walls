@@ -15,7 +15,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VOID//WALLS — Command Terminal",
+  title: "VOID//WALLS (虚無) — Command Terminal",
   description: "3,245+ curated wallpapers. Zero bloat. Keyboard-driven terminal.",
   icons: {
     icon: [
