@@ -8,5 +8,7 @@
 
 <a href="sitemap.xml"><img alt="sitemap" src="sitemap.xml"></a>
 
+<a href="superpowers"><img alt="superpowers" src="superpowers"></a>
+
 <a href="manifest.json"><img alt="manifest" src="manifest.json"></a>
 
