@@ -12,10 +12,10 @@ export const RepoCreditsModal: React.FC<RepoCreditsModalProps> = ({ isOpen, onCl
 
   const repositories = [
     {
-      name: 'vrsn001/wallsbyme',
-      upstream: 'forked from dharmx/walls',
+      name: 'vrsn001/void-walls',
+      upstream: 'Built on dharmx/walls & community archives',
       desc: 'The core archive engine — 3,245+ curated wallpapers, 60fps live anime loops, and automated manifest generation.',
-      url: 'https://github.com/vrsn001/wallsbyme',
+      url: 'https://github.com/vrsn001/void-walls',
       upstreamUrl: 'https://github.com/dharmx/walls',
       badge: 'Primary Vault (3,245 Assets)',
       color: 'border-sky-400/40 text-sky-300 bg-sky-950/20',
@@ -103,11 +103,11 @@ export const RepoCreditsModal: React.FC<RepoCreditsModalProps> = ({ isOpen, onCl
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-base font-bold font-mono tracking-tight text-white uppercase">
-                UPSTREAM LEGENDS // PROPER RESPECT
+                OPEN-SOURCE ACKNOWLEDGEMENTS
               </h2>
             </div>
             <p className="text-[11px] text-neutral-400 font-mono mt-0.5">
-              We don't steal work like corporate supes. VOID//WALLS stands on the shoulders of open-source creators across GitHub.
+              VOID//WALLS is built on the curated work of open-source creators and collectors across the GitHub community.
             </p>
           </div>
         </div>

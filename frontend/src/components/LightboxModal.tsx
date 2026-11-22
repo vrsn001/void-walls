@@ -321,8 +321,8 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
                     {isDownloading
                       ? downloadProgress || 'PROCESSING...'
                       : wallpaper.isVideo
-                      ? `DOWNLOAD 60FPS LOOP (${wallpaper.sizeFormatted}) // SORTED`
-                      : `DOWNLOAD [${selectedResolution.toUpperCase()} // ${selectedFormat.toUpperCase()}] // SORTED`}
+                      ? `DOWNLOAD 60FPS LOOP (${wallpaper.sizeFormatted})`
+                      : `DOWNLOAD [${selectedResolution.toUpperCase()} · ${selectedFormat.toUpperCase()}]`}
                   </span>
                 </button>
 
@@ -353,7 +353,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
               <div className="mt-5 rounded-none border border-white/15 bg-black p-3.5 text-xs">
                 <div className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-2.5 flex items-center justify-between border-b border-white/10 pb-1.5">
                   <span className="text-neutral-300">SYSTEM_SPECS</span>
-                  <span className="text-neutral-500 font-mono text-[9px]">{wallpaper.sourceRepo || 'vrsn001/wallsbyme'}</span>
+                  <span className="text-neutral-500 font-mono text-[9px]">{wallpaper.sourceRepo || 'vrsn001/void-walls'}</span>
                 </div>
                 <div className="space-y-2 text-[11px]">
                   <div className="flex justify-between items-center text-neutral-400">

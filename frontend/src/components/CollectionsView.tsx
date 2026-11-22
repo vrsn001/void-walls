@@ -52,13 +52,13 @@ export const CollectionsView: React.FC<CollectionsViewProps> = ({
         <div>
           <div className="flex items-center gap-2 text-sky-400 text-xs font-bold uppercase">
             <FolderTree className="h-4 w-4" />
-            <span>HOMELANDER'S DOMAIN // 54_ARCHIVES</span>
+            <span>CURATED DIRECTORY // {categories.length}_ARCHIVES</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-bold text-white uppercase tracking-tight mt-1 font-sans">
-            54 THEMATIC COLLECTION VAULTS
+            {categories.length} THEMATIC COLLECTION VAULTS
           </h2>
           <p className="text-xs text-neutral-400 mt-0.5">
-            Zero corporate supe slop. Curated category vaults for screens that demand absolute dominance.
+            High-resolution curated archives organized by aesthetic, theme, and colorway.
           </p>
         </div>
 

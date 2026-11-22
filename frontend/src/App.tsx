@@ -300,7 +300,7 @@ export function App() {
         {isLoadingData ? (
           <div className="flex flex-col items-center justify-center p-24 text-neutral-500 font-mono text-xs">
             <div className="h-6 w-6 border-2 border-sky-400 border-t-transparent animate-spin mb-3" />
-            <span className="uppercase tracking-widest text-sky-400 font-bold">INITIALIZING_VAULT // 2,479_ASSETS...</span>
+            <span className="uppercase tracking-widest text-sky-400 font-bold">INITIALIZING VAULT ARCHIVE...</span>
           </div>
         ) : (
           <>
@@ -434,7 +434,7 @@ export function App() {
               VOID//WALLS
             </span>
             <span className="text-neutral-500 text-[10px]">
-              [ 2,479+_CURATED_VAULT ]
+              [ {wallpapersData.length > 0 ? `${wallpapersData.length.toLocaleString()}+_CURATED_VAULT` : '3,245+_CURATED_VAULT'} ]
             </span>
           </div>
 
@@ -445,7 +445,7 @@ export function App() {
               className="flex items-center gap-1 text-sky-400 hover:text-sky-300 transition-colors cursor-pointer uppercase"
             >
               <Database className="h-2.5 w-2.5" />
-              <span>vrsn001/wallsbyme (1,653)</span>
+              <span>vrsn001/void-walls (1,653)</span>
             </button>
             <span>·</span>
             <button

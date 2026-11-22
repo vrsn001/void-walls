@@ -42,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
             </div>
             <p className="hidden text-[10px] text-neutral-500 sm:block leading-none tracking-tight mt-0.5 font-mono">
-              {totalCount.toLocaleString()}_ASSETS // SCORCHED_EARTH
+              {totalCount.toLocaleString()} CURATED ASSETS // FASTLY CDN
             </p>
           </div>
         </a>
@@ -54,7 +54,7 @@ export const Header: React.FC<HeaderProps> = ({
             type="text"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder='SEARCH // "I can do whatever the fuck I want"...'
+            placeholder="SEARCH ARCHIVE // anime, amoled, cyberpunk, 4k..."
             className="w-full rounded-none border border-white/15 bg-black/60 py-1.5 pl-8 pr-8 text-xs text-neutral-200 placeholder-neutral-500 transition-all font-mono hover:border-white/30 focus:border-sky-400 focus:bg-black focus:outline-none"
           />
           {search && (
@@ -106,7 +106,7 @@ export const Header: React.FC<HeaderProps> = ({
               title="Upstream Repository Acknowledgements"
             >
               <GitBranch className="h-3 w-3 text-sky-400" />
-              <span className="hidden md:inline text-[11px]">LEGENDS</span>
+              <span className="hidden md:inline text-[11px]">CREDITS</span>
             </button>
           )}
 
@@ -121,7 +121,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* GitHub Source Link */}
           <a
-            href="https://github.com/vrsn001/wallsbyme"
+            href="https://github.com/vrsn001/void-walls"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:flex items-center gap-1 rounded-none border border-white/20 bg-black px-2.5 py-1.5 text-xs font-bold text-neutral-300 hover:text-white hover:border-white/40 hover:bg-white/10 transition-all"

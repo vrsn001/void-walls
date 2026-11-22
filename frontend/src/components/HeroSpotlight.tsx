@@ -131,9 +131,9 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
           <div className="flex flex-col justify-between lg:col-span-4 p-5 lg:p-6 bg-[#040406] border-t lg:border-t-0 lg:border-l border-white/10">
             <div>
               <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-                <span className="inline-flex items-center gap-1.5 rounded-none border border-rose-500/40 bg-rose-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-rose-300">
-                  <span className="h-1.5 w-1.5 rounded-none bg-rose-400 animate-pulse" />
-                  BUTCHER'S CINEMA // 60FPS_DIABOLICAL
+                <span className="inline-flex items-center gap-1.5 rounded-none border border-sky-500/40 bg-sky-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-sky-300">
+                  <span className="h-1.5 w-1.5 rounded-none bg-sky-400 animate-pulse" />
+                  CINEMA THEATER // 60FPS LOOPS
                 </span>
                 <button
                   onClick={() => setIsCollapsed(true)}
@@ -148,7 +148,7 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
               </h2>
 
               <p className="mt-1.5 text-[11px] text-neutral-400 leading-relaxed">
-                Featured in <span className="text-white font-bold">{current.categoryLabel}</span>. Pure 60FPS loopable video backdrop. Smooth as scorched earth.
+                Featured in <span className="text-white font-bold">{current.categoryLabel}</span>. Curated high frame-rate motion wallpaper.
               </p>
 
               {/* Tags */}
@@ -170,7 +170,7 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
                   className="flex-1 flex items-center justify-center gap-2 rounded-none bg-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-black hover:bg-neutral-200 transition-all border border-white"
                 >
                   <Download className="h-3.5 w-3.5" />
-                  <span>SNATCH VIDEO LOOP</span>
+                  <span>DOWNLOAD LOOP</span>
                 </button>
 
                 <button
