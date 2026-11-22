@@ -111,6 +111,10 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
     return result;
   }, [mainFiltered, collection, query]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [mainTab, collection]);
+
   const toggleFavorite = useCallback((w: Wallpaper) => {
     setFavorites((prev) => {
       const next = new Set(prev);
