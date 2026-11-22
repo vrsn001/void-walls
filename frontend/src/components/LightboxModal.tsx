@@ -5,7 +5,10 @@ import {
   ExternalLink,
   Copy,
   Share2,
-  Monitor
+  Monitor,
+  ChevronLeft,
+  ChevronRight,
+  X
 } from 'lucide-react';
 import type { Wallpaper } from '../types';
 import { copyToClipboard } from '../utils/download';
@@ -85,41 +88,43 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
     .slice(0, 8);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-2 sm:p-4">
-      {/* Dark Brutalist Window Frame */}
-      <div className="relative flex h-full max-h-[94vh] w-full max-w-7xl flex-col border-2 border-[#ff5722] bg-[#07090e] shadow-[8px_8px_0_#000] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-2xl p-2 sm:p-6 animate-fade-in">
+      {/* Pure AMOLED Void Modal Window */}
+      <div className="relative flex h-full max-h-[92vh] w-full max-w-7xl flex-col rounded-3xl border border-white/10 bg-[#050507] shadow-2xl overflow-hidden">
         {/* Top Window Bar */}
-        <div className="flex items-center justify-between border-b-2 border-[#232c3f] bg-[#0c0f17] px-3 py-2 text-white">
-          <div className="flex items-center gap-2">
-            <span className="font-[var(--font-mono)] text-xs font-black uppercase tracking-wider text-[#ff5722]">
-              ● ASSET_INSPECT:
+        <div className="flex items-center justify-between border-b border-white/[0.06] bg-black/60 px-5 py-3 text-white">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-medium text-neutral-400">
+              Viewing
             </span>
-            <span className="font-[var(--font-mono)] text-xs truncate max-w-[200px] sm:max-w-md text-[#cbd5e1]">
-              {wallpaper.filename}
+            <span className="text-xs font-semibold truncate max-w-[200px] sm:max-w-md text-white">
+              {wallpaper.title}
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 font-[var(--font-mono)] text-xs">
+          <div className="flex items-center gap-2">
             <button
               onClick={handlePrev}
-              className="border border-[#232c3f] bg-[#121622] px-2 py-0.5 hover:border-[#ff5722] hover:text-[#ff5722] transition-colors"
+              className="flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-neutral-300 hover:text-white hover:bg-white/10 transition-colors"
               title="Previous (Left Arrow)"
             >
-              ← PREV
+              <ChevronLeft className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Prev</span>
             </button>
             <button
               onClick={handleNext}
-              className="border border-[#232c3f] bg-[#121622] px-2 py-0.5 hover:border-[#ff5722] hover:text-[#ff5722] transition-colors"
+              className="flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-neutral-300 hover:text-white hover:bg-white/10 transition-colors"
               title="Next (Right Arrow)"
             >
-              NEXT →
+              <span className="hidden sm:inline">Next</span>
+              <ChevronRight className="h-3.5 w-3.5" />
             </button>
             <button
               onClick={onClose}
-              className="border border-[#ff5722] bg-[#ff5722] px-2.5 py-0.5 font-bold text-black hover:bg-white transition-colors"
+              className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/[0.05] text-neutral-300 hover:text-white hover:bg-white/15 transition-colors ml-1"
               title="Close (Esc)"
             >
-              ESC ✕
+              <X className="h-4 w-4" />
             </button>
           </div>
         </div>
@@ -127,7 +132,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
         {/* Modal Body */}
         <div className="flex flex-1 flex-col lg:flex-row overflow-hidden">
           {/* Main Stage Media Preview */}
-          <div className="relative flex-1 bg-black p-4 sm:p-6 flex items-center justify-center overflow-hidden border-b-2 lg:border-b-0 lg:border-r-2 border-[#232c3f]">
+          <div className="relative flex-1 bg-black p-4 sm:p-8 flex items-center justify-center overflow-hidden border-b lg:border-b-0 lg:border-r border-white/[0.06]">
             {wallpaper.isVideo ? (
               <video
                 ref={videoRef}
@@ -136,64 +141,61 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
                 autoPlay
                 loop
                 playsInline
-                className="max-h-[75vh] max-w-full object-contain border-2 border-[#232c3f] shadow-[4px_4px_0_#ff5722]"
+                className="max-h-[72vh] max-w-full rounded-2xl object-contain shadow-2xl"
               />
             ) : (
               <img
                 src={wallpaper.rawUrl}
                 alt={wallpaper.title}
-                className="max-h-[75vh] max-w-full object-contain border-2 border-[#232c3f] shadow-[4px_4px_0_#000]"
+                className="max-h-[72vh] max-w-full rounded-2xl object-contain shadow-2xl"
               />
             )}
 
-            {/* Keyboard hints */}
-            <div className="absolute bottom-2 left-3 hidden lg:flex items-center gap-2 font-[var(--font-mono)] text-[10px] text-[#586888] uppercase">
-              <span>[←/→] Navigate</span>
+            {/* Keyboard shortcuts pill */}
+            <div className="absolute bottom-3 left-4 hidden lg:flex items-center gap-2 text-[11px] text-neutral-500 rounded-full border border-white/[0.06] bg-black/60 px-3 py-1 backdrop-blur-md">
+              <span>←/→ Navigate</span>
               <span>·</span>
-              <span>[D] Download</span>
+              <span>D Download</span>
               <span>·</span>
-              <span>[F] Save</span>
+              <span>F Save</span>
               <span>·</span>
-              <span>[ESC] Close</span>
+              <span>ESC Close</span>
             </div>
           </div>
 
           {/* Right Inspector Drawer */}
-          <div className="w-full lg:w-[410px] flex-shrink-0 flex flex-col justify-between bg-[#0b0e15] p-5 overflow-y-auto">
+          <div className="w-full lg:w-[380px] flex-shrink-0 flex flex-col justify-between bg-gradient-to-b from-[#070709] to-[#040405] p-6 overflow-y-auto">
             <div>
               {/* Type and Format Tags */}
-              <div className="flex items-center justify-between gap-2 border-b-2 border-[#232c3f] pb-3">
-                <span className="border border-[#ff5722] bg-[#ff5722]/10 px-2 py-0.5 font-[var(--font-mono)] text-[11px] font-bold uppercase text-[#ff5722]">
+              <div className="flex items-center justify-between gap-2 pb-4 border-b border-white/[0.06]">
+                <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-medium text-neutral-300">
                   {wallpaper.categoryLabel}
                 </span>
-                <div className="flex items-center gap-1 font-[var(--font-mono)] text-xs font-bold">
+                <div className="flex items-center gap-1.5 text-xs font-medium">
                   {wallpaper.type === 'animated' && (
-                    <span className="border border-[#ff5722] bg-[#ff5722] px-1.5 py-0.5 text-black">
-                      LIVE
+                    <span className="rounded-full border border-amber-400/30 bg-amber-400/10 px-2.5 py-0.5 text-amber-300 text-[11px]">
+                      Live 60FPS
                     </span>
                   )}
                   {wallpaper.resolutionBadge && (
-                    <span className="border border-cyan-400 bg-cyan-400 px-1.5 py-0.5 text-black">
+                    <span className="rounded-full border border-white/10 bg-white/[0.03] px-2 py-0.5 text-neutral-300 font-mono text-[11px]">
                       {wallpaper.resolutionBadge}
                     </span>
                   )}
-                  <span className="border border-[#232c3f] bg-[#121622] px-2 py-0.5 text-white">
-                    {wallpaper.format}
-                  </span>
                 </div>
               </div>
 
               {/* Title */}
-              <h2 className="mt-3 font-[var(--font-display)] text-xl font-black leading-tight tracking-tight text-white uppercase">
+              <h2 className="mt-4 text-xl font-semibold leading-snug tracking-tight text-white">
                 {wallpaper.title}
               </h2>
 
               {/* Tags */}
-              <div className="mt-3 flex flex-wrap gap-1">
+              <div className="mt-3 flex flex-wrap gap-1.5">
                 {wallpaper.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="border border-[#232c3f] bg-[#10141f] px-1.5 py-0.5 font-[var(--font-mono)] text-[10px] uppercase text-[#cbd5e1]"
+                    className="rounded-md border border-white/[0.06] bg-white/[0.02] px-2 py-0.5 text-[10px] text-neutral-400"
                   >
                     #{tag}
                   </span>
@@ -201,128 +203,116 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
               </div>
 
               {/* Action Buttons */}
-              <div className="mt-5 flex flex-col gap-2">
+              <div className="mt-6 flex flex-col gap-2.5">
                 <button
                   onClick={() => onDownload(wallpaper)}
-                  className="flex items-center justify-center gap-2 border-2 border-[#ff5722] bg-[#ff5722] py-3 font-[var(--font-mono)] text-xs font-black uppercase tracking-wider text-black shadow-[4px_4px_0_#000] hover:bg-[#ff6e3d] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+                  className="flex items-center justify-center gap-2 rounded-full bg-white py-3 text-xs font-semibold text-black hover:bg-neutral-200 active:scale-[0.98] transition-all shadow-md shadow-white/5"
                 >
                   <Download className="h-4 w-4" />
-                  <span>DOWNLOAD ({wallpaper.sizeFormatted})</span>
+                  <span>Download Full Resolution ({wallpaper.sizeFormatted})</span>
                 </button>
 
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => onToggleFavorite(wallpaper)}
-                    className={`flex items-center justify-center gap-1.5 border-2 border-[#232c3f] py-2 font-[var(--font-mono)] text-xs font-bold uppercase tracking-wider transition-all shadow-[2px_2px_0_#000] hover:border-[#ff5722] ${
-                      isFavorite ? 'bg-[#ff5722] text-black border-[#ff5722]' : 'bg-[#10141f] text-white'
+                    className={`flex items-center justify-center gap-2 rounded-full border py-2.5 text-xs font-medium transition-all ${
+                      isFavorite
+                        ? 'border-white bg-white/15 text-white'
+                        : 'border-white/10 bg-white/[0.03] text-neutral-300 hover:text-white hover:bg-white/[0.08]'
                     }`}
                   >
-                    <Heart className={`h-3.5 w-3.5 ${isFavorite ? 'fill-black' : 'text-[#ff5722]'}`} />
-                    <span>{isFavorite ? 'SAVED' : 'SAVE'}</span>
+                    <Heart className={`h-3.5 w-3.5 ${isFavorite ? 'fill-current text-rose-400' : 'text-neutral-400'}`} />
+                    <span>{isFavorite ? 'Saved' : 'Save'}</span>
                   </button>
 
                   <button
                     onClick={onOpenGuide}
-                    className="flex items-center justify-center gap-1.5 border-2 border-[#232c3f] bg-[#10141f] py-2 font-[var(--font-mono)] text-xs font-bold uppercase tracking-wider text-cyan-400 hover:border-cyan-400 shadow-[2px_2px_0_#000] transition-colors"
+                    className="flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.03] py-2.5 text-xs font-medium text-neutral-300 hover:text-white hover:bg-white/[0.08] transition-colors"
                   >
-                    <Monitor className="h-3.5 w-3.5" />
-                    <span>SETUP</span>
+                    <Monitor className="h-3.5 w-3.5 text-neutral-400" />
+                    <span>Setup Guide</span>
                   </button>
                 </div>
               </div>
 
               {/* Technical Specifications Spec Sheet */}
-              <div className="mt-5 border-2 border-[#232c3f] bg-[#0c0f17] text-xs font-[var(--font-mono)]">
-                <div className="border-b-2 border-[#232c3f] bg-[#121622] px-3 py-1.5 font-bold text-[#ff5722] text-[10px] uppercase tracking-wider flex items-center justify-between">
-                  <span>// TECHNICAL SPECIFICATIONS</span>
-                  <span className="text-[#8391ac]">{wallpaper.sourceRepo || 'vrsn001/wallsbyme'}</span>
+              <div className="mt-6 rounded-2xl border border-white/[0.06] bg-black/40 p-4 text-xs">
+                <div className="text-[11px] font-medium uppercase tracking-wider text-neutral-400 mb-3 flex items-center justify-between">
+                  <span>Specifications</span>
+                  <span className="text-neutral-500 font-mono text-[10px]">{wallpaper.sourceRepo || 'vrsn001/wallsbyme'}</span>
                 </div>
-                <div className="flex justify-between border-b border-[#1b2234] px-3 py-1.5">
-                  <span className="text-[#8391ac]">FILENAME</span>
-                  <span className="font-bold text-white truncate max-w-[200px]" title={wallpaper.filename}>
-                    {wallpaper.filename}
-                  </span>
-                </div>
-                <div className="flex justify-between border-b border-[#1b2234] px-3 py-1.5">
-                  <span className="text-[#8391ac]">RESOLUTION</span>
-                  <span className="font-bold text-white">
-                    {wallpaper.resolution || (wallpaper.width && wallpaper.height ? `${wallpaper.width} × ${wallpaper.height}` : '1920 × 1080')}
-                  </span>
-                </div>
-                <div className="flex justify-between border-b border-[#1b2234] px-3 py-1.5">
-                  <span className="text-[#8391ac]">FILE SIZE</span>
-                  <span className="font-bold text-[#ff5722]">{wallpaper.sizeFormatted}</span>
-                </div>
-                <div className="flex justify-between border-b border-[#1b2234] px-3 py-1.5">
-                  <span className="text-[#8391ac]">FORMAT</span>
-                  <span className="font-bold text-white uppercase">{wallpaper.type} ({wallpaper.format})</span>
-                </div>
-                <div className="flex justify-between px-3 py-1.5">
-                  <span className="text-[#8391ac]">PATH</span>
-                  <span className="font-bold text-white truncate max-w-[200px]" title={wallpaper.path}>
-                    {wallpaper.path}
-                  </span>
+                <div className="space-y-2.5">
+                  <div className="flex justify-between items-center text-neutral-400">
+                    <span>Resolution</span>
+                    <span className="font-medium text-white font-mono">
+                      {wallpaper.resolution || (wallpaper.width && wallpaper.height ? `${wallpaper.width} × ${wallpaper.height}` : '1920 × 1080')}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center text-neutral-400">
+                    <span>File Size</span>
+                    <span className="font-medium text-white font-mono">{wallpaper.sizeFormatted}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-neutral-400">
+                    <span>Format</span>
+                    <span className="font-medium text-white uppercase font-mono">{wallpaper.format}</span>
+                  </div>
                 </div>
               </div>
 
               {/* Quick Links */}
-              <div className="mt-4 flex flex-col gap-1.5 font-[var(--font-mono)] text-xs">
+              <div className="mt-4 flex flex-col gap-2 text-xs">
                 <button
                   onClick={handleCopyRaw}
-                  className="flex items-center justify-between border-2 border-[#232c3f] bg-[#0c0f17] px-3 py-2 font-bold uppercase text-white hover:border-[#ff5722] transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-white/[0.02] px-3.5 py-2.5 text-neutral-300 hover:text-white hover:border-white/20 hover:bg-white/[0.05] transition-all"
                 >
-                  <span className="flex items-center gap-1.5">
-                    <Copy className="h-3.5 w-3.5 text-[#ff5722]" />
-                    <span>COPY RAW CDN LINK</span>
+                  <span className="flex items-center gap-2">
+                    <Copy className="h-3.5 w-3.5 text-neutral-400" />
+                    <span>Copy Raw CDN Link</span>
                   </span>
-                  {copiedRaw ? (
-                    <span className="text-[#00f0ff] font-bold text-[10px]">COPIED!</span>
-                  ) : (
-                    <span className="text-[#586888] text-[10px]">DIRECT</span>
-                  )}
+                  <span className="text-[10px] text-neutral-500 font-mono">
+                    {copiedRaw ? 'Copied!' : 'Direct'}
+                  </span>
                 </button>
 
                 <button
                   onClick={handleCopyMarkdown}
-                  className="flex items-center justify-between border-2 border-[#232c3f] bg-[#0c0f17] px-3 py-2 font-bold uppercase text-white hover:border-[#ff5722] transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-white/[0.02] px-3.5 py-2.5 text-neutral-300 hover:text-white hover:border-white/20 hover:bg-white/[0.05] transition-all"
                 >
-                  <span className="flex items-center gap-1.5">
-                    <Share2 className="h-3.5 w-3.5 text-cyan-400" />
-                    <span>COPY MARKDOWN EMBED</span>
+                  <span className="flex items-center gap-2">
+                    <Share2 className="h-3.5 w-3.5 text-neutral-400" />
+                    <span>Copy Markdown Embed</span>
                   </span>
-                  {copiedMd ? (
-                    <span className="text-[#00f0ff] font-bold text-[10px]">COPIED!</span>
-                  ) : (
-                    <span className="text-[#586888] text-[10px]">MD</span>
-                  )}
+                  <span className="text-[10px] text-neutral-500 font-mono">
+                    {copiedMd ? 'Copied!' : 'Markdown'}
+                  </span>
                 </button>
 
                 <a
                   href={wallpaper.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between border-2 border-[#232c3f] bg-[#0c0f17] px-3 py-2 font-bold uppercase text-white hover:border-white transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-white/[0.02] px-3.5 py-2.5 text-neutral-300 hover:text-white hover:border-white/20 hover:bg-white/[0.05] transition-all"
                 >
-                  <span className="flex items-center gap-1.5">
-                    <ExternalLink className="h-3.5 w-3.5 text-[#8391ac]" />
-                    <span>VIEW ON GITHUB</span>
+                  <span className="flex items-center gap-2">
+                    <ExternalLink className="h-3.5 w-3.5 text-neutral-400" />
+                    <span>View on GitHub</span>
                   </span>
-                  <span className="text-[#586888] text-[10px]">REPO</span>
+                  <span className="text-[10px] text-neutral-500 font-mono">Repo</span>
                 </a>
               </div>
 
               {/* Related Wallpapers */}
               {related.length > 0 && (
-                <div className="mt-5 border-t-2 border-[#232c3f] pt-3">
-                  <span className="block font-[var(--font-mono)] text-[10px] font-bold uppercase tracking-widest text-[#8391ac] mb-2">
-                    MORE IN {wallpaper.categoryLabel}
+                <div className="mt-6 pt-5 border-t border-white/[0.06]">
+                  <span className="block text-[11px] font-medium uppercase tracking-wider text-neutral-400 mb-3">
+                    More in {wallpaper.categoryLabel}
                   </span>
-                  <div className="grid grid-cols-4 gap-1">
+                  <div className="grid grid-cols-4 gap-2">
                     {related.map((rel) => (
                       <button
                         key={rel.id}
                         onClick={() => onSelectWallpaper(rel)}
-                        className="group relative aspect-video overflow-hidden border-2 border-[#232c3f] bg-black hover:border-[#ff5722] transition-colors"
+                        className="group relative aspect-video overflow-hidden rounded-lg border border-white/10 bg-black hover:border-white/30 transition-all hover:scale-105"
                         title={rel.title}
                       >
                         <img

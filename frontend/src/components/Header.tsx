@@ -25,56 +25,53 @@ export const Header: React.FC<HeaderProps> = ({
   totalCount,
 }) => {
   return (
-    <header className="sticky top-0 z-40 w-full border-b-2 border-[#232c3f] bg-[#06070a]/95 backdrop-blur-md">
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-2.5 sm:px-6">
-        {/* Brand / Dank Title */}
-        <a href="#" className="group flex items-center gap-2.5 focus:outline-none shrink-0">
-          <div className="relative flex h-10 w-10 items-center justify-center border-2 border-[#ff5722] bg-[#0c0f17] shadow-[2px_2px_0_#ff5722] group-hover:shadow-[4px_4px_0_#ff5722] transition-all">
-            <span className="font-[var(--font-display)] font-black text-xl text-[#ff5722]">虚</span>
-            {/* Tech corner markings */}
-            <span className="absolute -top-1 -left-1 h-1.5 w-1.5 bg-white" />
-            <span className="absolute -bottom-1 -right-1 h-1.5 w-1.5 bg-white" />
+    <header className="sticky top-0 z-40 w-full border-b border-white/[0.06] bg-black/80 backdrop-blur-2xl transition-colors">
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-3 sm:px-6">
+        {/* Brand */}
+        <a href="#" className="group flex items-center gap-3 focus:outline-none shrink-0">
+          <div className="relative flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] group-hover:border-white/25 group-hover:bg-white/[0.06] transition-all duration-300">
+            <span className="font-semibold text-sm text-neutral-200 group-hover:text-white transition-colors">虚</span>
           </div>
-          <div>
-            <div className="flex items-center gap-1.5">
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2">
               <TrueFocus
                 sentence="VOID // WALLS"
                 focusStyle="brackets"
-                borderColor="#ff5722"
-                glowColor="rgba(255, 87, 34, 0.35)"
+                borderColor="rgba(255, 255, 255, 0.7)"
+                glowColor="rgba(255, 255, 255, 0.2)"
                 blurAmount={0}
-                unfocusedOpacity={0.85}
+                unfocusedOpacity={0.9}
                 animationDuration={0.4}
-                pauseBetweenAnimations={2.5}
-                borderWidth={2}
-                cornerSize={7}
-                frameGap={4}
-                wordClassName="font-[var(--font-display)] font-black text-lg tracking-tight text-white uppercase sm:text-xl"
+                pauseBetweenAnimations={3}
+                borderWidth={1.5}
+                cornerSize={5}
+                frameGap={3}
+                wordClassName="font-semibold text-sm sm:text-base tracking-tight text-white"
               />
-              <span className="border border-[#ff5722]/50 bg-[#ff5722]/10 px-1 py-0.2 font-[var(--font-mono)] text-[9px] font-bold text-[#ff5722] uppercase hidden md:inline ml-1">
-                V2.5 ARCHIVE
+              <span className="rounded-full border border-white/10 bg-white/[0.04] px-1.5 py-0.5 text-[9px] font-medium text-neutral-400 hidden md:inline tracking-wider">
+                VAULT
               </span>
             </div>
-            <p className="hidden text-[10px] font-[var(--font-mono)] text-[#8391ac] sm:block leading-none uppercase tracking-wider">
-              {totalCount.toLocaleString()} RAW ASSETS · 4K / LIVE / MOBILE
+            <p className="hidden text-[11px] text-neutral-500 sm:block leading-none tracking-normal mt-0.5 font-normal">
+              {totalCount.toLocaleString()} curated wallpapers
             </p>
           </div>
         </a>
 
         {/* Center Search Input */}
-        <div className="relative flex-1 max-w-md">
-          <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[#8391ac]" />
+        <div className="relative flex-1 max-w-md mx-2">
+          <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-500" />
           <input
             type="text"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search anime, cyberpunk, 4k, amoled, lofi..."
-            className="w-full border-2 border-[#232c3f] bg-[#0e121a] py-2 pl-9 pr-8 text-xs font-[var(--font-mono)] text-white placeholder-[#505f7c] shadow-[2px_2px_0_#000] transition-colors focus:border-[#ff5722] focus:bg-[#121622] focus:outline-none"
+            placeholder="Search anime, dark, amoled, 4k, minimal..."
+            className="w-full rounded-full border border-white/[0.08] bg-white/[0.03] py-1.5 pl-9 pr-8 text-xs text-neutral-200 placeholder-neutral-500 transition-all duration-200 hover:border-white/20 focus:border-white/30 focus:bg-white/[0.06] focus:outline-none"
           />
           {search && (
             <button
               onClick={() => onSearchChange('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#8391ac] hover:text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white transition-colors"
               title="Clear search"
             >
               <X className="h-3.5 w-3.5" />
@@ -83,30 +80,30 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Right Controls */}
-        <div className="flex items-center gap-1.5 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           {/* Random Shuffle */}
           <button
             onClick={onRandomClick}
-            className="flex items-center gap-1.5 border-2 border-[#232c3f] bg-[#0e121a] px-3 py-2 text-xs font-[var(--font-mono)] font-bold uppercase tracking-wider text-white shadow-[2px_2px_0_#000] hover:border-[#ff5722] hover:bg-[#141a26] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+            className="flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-neutral-300 hover:text-white hover:bg-white/[0.08] hover:border-white/20 active:scale-[0.98] transition-all"
             title="Random discovery"
           >
-            <Shuffle className="h-3.5 w-3.5 text-[#ff5722]" />
-            <span className="hidden sm:inline">RANDOM</span>
+            <Shuffle className="h-3.5 w-3.5 text-neutral-400" />
+            <span className="hidden sm:inline">Random</span>
           </button>
 
           {/* Saved Collection */}
           <button
             onClick={() => onFilterChange(activeFilter === 'favorites' ? 'all' : 'favorites')}
-            className={`flex items-center gap-1.5 border-2 px-3 py-2 text-xs font-[var(--font-mono)] font-bold uppercase tracking-wider transition-all ${
+            className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
               activeFilter === 'favorites'
-                ? 'border-[#ff5722] bg-[#ff5722] text-black shadow-[2px_2px_0_#fff]'
-                : 'border-[#232c3f] bg-[#0e121a] text-white shadow-[2px_2px_0_#000] hover:border-[#ff5722] hover:bg-[#141a26]'
+                ? 'border-white bg-white text-black font-semibold shadow-sm'
+                : 'border-white/[0.08] bg-white/[0.03] text-neutral-300 hover:text-white hover:bg-white/[0.08] hover:border-white/20'
             }`}
           >
-            <Heart className={`h-3.5 w-3.5 ${activeFilter === 'favorites' ? 'fill-black' : 'text-[#ff5722]'}`} />
-            <span className="hidden sm:inline">SAVED</span>
+            <Heart className={`h-3.5 w-3.5 ${activeFilter === 'favorites' ? 'fill-black text-black' : 'text-neutral-400'}`} />
+            <span className="hidden sm:inline">Saved</span>
             {favoritesCount > 0 && (
-              <span className="font-[var(--font-mono)] text-[10px] bg-black/40 px-1 text-white">
+              <span className={`text-[10px] rounded-full px-1.5 py-0.2 ${activeFilter === 'favorites' ? 'bg-black/10 text-black font-bold' : 'bg-white/10 text-white'}`}>
                 {favoritesCount}
               </span>
             )}
@@ -115,10 +112,10 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Setup Guide */}
           <button
             onClick={onOpenGuide}
-            className="flex items-center gap-1 border-2 border-[#232c3f] bg-[#0e121a] p-2 text-[#8391ac] hover:border-cyan-400 hover:text-cyan-400 transition-colors shadow-[2px_2px_0_#000]"
-            title="Live Wallpaper Setup Guide"
+            className="flex items-center justify-center h-8 w-8 rounded-full border border-white/[0.08] bg-white/[0.03] text-neutral-400 hover:text-white hover:border-white/20 hover:bg-white/[0.08] transition-all"
+            title="Desktop & Mobile Setup Guide"
           >
-            <Terminal className="h-4 w-4" />
+            <Terminal className="h-3.5 w-3.5" />
           </button>
 
           {/* GitHub Source Link */}
@@ -126,11 +123,11 @@ export const Header: React.FC<HeaderProps> = ({
             href="https://github.com/vrsn001/wallsbyme"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 border-2 border-[#232c3f] bg-[#0e121a] px-3 py-2 text-xs font-[var(--font-mono)] font-bold text-white uppercase hover:border-white hover:bg-[#161c28] transition-colors shadow-[2px_2px_0_#000]"
+            className="hidden sm:flex items-center gap-1 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-neutral-300 hover:text-white hover:border-white/20 hover:bg-white/[0.08] transition-all"
             title="Inspect source repository on GitHub"
           >
-            <ExternalLink className="h-3.5 w-3.5 text-[#ff5722]" />
-            <span className="hidden lg:inline">SOURCES</span>
+            <ExternalLink className="h-3 w-3 text-neutral-400" />
+            <span className="hidden lg:inline">GitHub</span>
           </a>
         </div>
       </div>

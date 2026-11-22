@@ -2,21 +2,20 @@
 
 @layer base {
   :root {
-    --bg: #06070a;
-    --surface: #0e1118;
-    --surface-card: #131722;
-    --surface-hover: #181d2a;
-    --border: #232c3f;
-    --border-strong: #36435f;
-    --border-active: #ff5722;
-    --accent: #ff5722;
-    --accent-cyan: #00f0ff;
-    --accent-amber: #f59e0b;
+    --bg: #000000;
+    --surface: #070709;
+    --surface-card: #0b0c10;
+    --surface-hover: #121318;
+    --border: rgba(255, 255, 255, 0.07);
+    --border-hover: rgba(255, 255, 255, 0.18);
+    --accent: #fbbf24;
+    --accent-glow: rgba(251, 191, 36, 0.15);
+    --accent-cyan: #38bdf8;
     --text: #f8fafc;
-    --text-muted: #8391ac;
-    --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
-    --font-mono: 'DM Mono', ui-monospace, monospace;
-    --font-sans: system-ui, -apple-system, sans-serif;
+    --text-muted: #94a3b8;
+    --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   }
 
   body {
@@ -29,36 +28,35 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Pure dark brutalist scrollbar */
+  /* Sleek minimalist dark scrollbar */
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #06070a;
-    border-left: 2px solid var(--border);
+    background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #232c3f;
-    border: 1px solid #06070a;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--accent);
+    background: rgba(255, 255, 255, 0.28);
   }
 
-  /* Selection: Inverted Hazard */
+  /* Selection: Soft ambient tint */
   ::selection {
-    background: var(--accent);
-    color: #000000;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
   }
 
   /* Focus ring */
   *:focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 1.5px solid rgba(255, 255, 255, 0.35);
     outline-offset: 2px;
   }
 
   input, select {
-    caret-color: var(--accent);
+    caret-color: #ffffff;
   }
 }

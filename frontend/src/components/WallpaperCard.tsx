@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Download, Heart, Maximize2, Play, Film, Smartphone } from 'lucide-react';
 import type { Wallpaper } from '../types';
-import PixelCard from './react-bits/PixelCard';
 
 interface WallpaperCardProps {
   wallpaper: Wallpaper;
@@ -25,31 +24,22 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
   const isVertical = wallpaper.category === 'phone-vertical' || (wallpaper.width && wallpaper.height && wallpaper.height > wallpaper.width * 1.3);
 
   return (
-    <PixelCard
-      shape="square"
-      colors={['#ff5722', '#ff8a50', '#00f0ff', '#1f2738']}
-      gap={8}
-      speed={22}
-      spotlight={0.5}
-      glow={0.25}
-      glowColor="#ff5722"
-      radius={0}
-      theme="dark"
+    <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative flex flex-col border-2 border-[#232c3f] bg-[#0c0f17] shadow-[3px_3px_0_#000] transition-all duration-100 hover:border-[#ff5722] hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[6px_6px_0_#ff5722]"
+      className="group relative flex flex-col rounded-2xl overflow-hidden bg-[#060608] border border-white/[0.06] hover:border-white/25 transition-all duration-300 hover:shadow-2xl hover:shadow-black/80 hover:-translate-y-1"
     >
       {/* Media Canvas */}
       <div
         onClick={() => onOpenLightbox(wallpaper)}
-        className={`relative w-full cursor-pointer overflow-hidden bg-[#06080a] border-b-2 border-[#232c3f] ${
+        className={`relative w-full cursor-pointer overflow-hidden bg-[#030304] ${
           isVertical ? 'aspect-[9/16]' : 'aspect-[16/10]'
         }`}
       >
         {/* Placeholder skeleton */}
         {!isLoaded && (
-          <div className="absolute inset-0 bg-[#0e121a] flex items-center justify-center font-[var(--font-mono)] text-[10px] text-[#586888] font-bold uppercase tracking-wider">
-            LOADING ASSET...
+          <div className="absolute inset-0 bg-white/[0.02] animate-pulse flex items-center justify-center text-[10px] text-neutral-600 font-mono">
+            Loading...
           </div>
         )}
 
@@ -63,19 +53,19 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
                 loop
                 muted
                 playsInline
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
                 onLoadedData={() => setIsLoaded(true)}
               />
             ) : (
               <div
-                className="h-full w-full bg-[#101420] flex flex-col items-center justify-center p-4 text-center"
+                className="h-full w-full bg-[#08080c] flex flex-col items-center justify-center p-4 text-center transition-transform duration-500 ease-out group-hover:scale-[1.02]"
                 ref={() => { if (!isLoaded) setIsLoaded(true); }}
               >
-                <div className="flex h-12 w-12 items-center justify-center border-2 border-[#ff5722] bg-black shadow-[2px_2px_0_#ff5722]">
-                  <Play className="h-5 w-5 text-[#ff5722] fill-[#ff5722] ml-0.5" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-white shadow-lg transition-transform group-hover:scale-110">
+                  <Play className="h-4 w-4 fill-white ml-0.5" />
                 </div>
-                <span className="mt-2 font-[var(--font-mono)] text-[10px] font-bold uppercase tracking-wider text-[#cbd5e1]">
-                  HOVER TO STREAM 60FPS
+                <span className="mt-2.5 text-[10px] font-medium tracking-wider uppercase text-neutral-400">
+                  Hover to play 60FPS
                 </span>
               </div>
             )}
@@ -87,104 +77,93 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
             loading="lazy"
             decoding="async"
             onLoad={() => setIsLoaded(true)}
-            className={`h-full w-full object-cover transition-opacity duration-200 ${
+            className={`h-full w-full object-cover transition-all duration-500 ease-out group-hover:scale-[1.03] ${
               isLoaded ? 'opacity-100' : 'opacity-0'
             }`}
           />
         )}
 
+        {/* Ambient Top Shadow Overlay for badges */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/60 to-transparent" />
+
         {/* Top Badges */}
-        <div className="absolute top-2 left-2 flex items-center gap-1 z-10 pointer-events-none">
+        <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 z-10 pointer-events-none">
           {isAnimated && (
-            <span className="flex items-center gap-1 border border-[#ff5722] bg-[#ff5722] px-1.5 py-0.2 font-[var(--font-mono)] text-[9px] font-black text-black shadow-[1px_1px_0_#000]">
-              <Film className="h-2.5 w-2.5" />
-              LIVE
+            <span className="flex items-center gap-1 rounded-full border border-amber-400/30 bg-black/60 backdrop-blur-md px-2 py-0.5 text-[10px] font-medium text-amber-300">
+              <Film className="h-2.5 w-2.5 text-amber-400" />
+              Live
             </span>
           )}
           {isVertical && (
-            <span className="flex items-center gap-1 border border-cyan-400 bg-cyan-400 px-1.5 py-0.2 font-[var(--font-mono)] text-[9px] font-black text-black shadow-[1px_1px_0_#000]">
-              <Smartphone className="h-2.5 w-2.5" />
+            <span className="flex items-center gap-1 rounded-full border border-sky-400/30 bg-black/60 backdrop-blur-md px-2 py-0.5 text-[10px] font-medium text-sky-300">
+              <Smartphone className="h-2.5 w-2.5 text-sky-400" />
               9:16
             </span>
           )}
-          <span className="border border-[#232c3f] bg-black/90 px-1.5 py-0.2 font-[var(--font-mono)] text-[9px] font-bold text-white shadow-[1px_1px_0_#000]">
+          <span className="rounded-full border border-white/10 bg-black/60 backdrop-blur-md px-2 py-0.5 text-[10px] font-medium text-neutral-300 font-mono">
             {wallpaper.format}
           </span>
-          {wallpaper.resolutionBadge && (
-            <span className="border border-[#232c3f] bg-black/90 px-1.5 py-0.2 font-[var(--font-mono)] text-[9px] font-bold text-[#ff5722] shadow-[1px_1px_0_#000]">
-              {wallpaper.resolutionBadge}
-            </span>
-          )}
         </div>
 
-        {/* Top Right Favorite Button */}
-        <div className="absolute top-2 right-2 z-20">
+        {/* Top Right Quick Action Buttons */}
+        <div className="absolute top-2.5 right-2.5 flex items-center gap-1.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <button
             onClick={(e) => {
               e.stopPropagation();
               onToggleFavorite(wallpaper);
             }}
-            className={`flex h-7 w-7 items-center justify-center border transition-all ${
+            className={`flex h-7 w-7 items-center justify-center rounded-full border backdrop-blur-md transition-all ${
               isFavorite
-                ? 'border-[#ff5722] bg-[#ff5722] text-black shadow-[2px_2px_0_#fff]'
-                : 'border-[#232c3f] bg-black/80 text-white hover:border-[#ff5722] hover:text-[#ff5722]'
+                ? 'border-white bg-white text-black'
+                : 'border-white/15 bg-black/60 text-white hover:bg-white hover:text-black hover:border-white'
             }`}
             title={isFavorite ? 'Remove from saved' : 'Save wallpaper'}
           >
             <Heart className={`h-3.5 w-3.5 ${isFavorite ? 'fill-black' : ''}`} />
           </button>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpenLightbox(wallpaper);
+            }}
+            className="flex h-7 w-7 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white backdrop-blur-md hover:bg-white hover:text-black hover:border-white transition-all"
+            title="Inspect"
+          >
+            <Maximize2 className="h-3.5 w-3.5" />
+          </button>
         </div>
+      </div>
 
-        {/* Bottom Quick Action Bar on Hover */}
-        <div className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t-2 border-[#232c3f] bg-black/95 px-2.5 py-1.5 opacity-0 transition-opacity duration-150 group-hover:opacity-100 z-10">
-          <span className="font-[var(--font-mono)] text-[10px] font-bold text-[#cbd5e1]">
-            {wallpaper.sizeFormatted} {wallpaper.width && wallpaper.height ? `· ${wallpaper.width}×${wallpaper.height}` : ''}
-          </span>
-
-          <div className="flex items-center gap-1">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onDownload(wallpaper);
-              }}
-              className="flex h-6 w-6 items-center justify-center border border-[#ff5722] bg-[#ff5722] text-black hover:bg-white transition-colors"
-              title="Download file"
-            >
-              <Download className="h-3 w-3" />
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onOpenLightbox(wallpaper);
-              }}
-              className="flex h-6 w-6 items-center justify-center border border-[#232c3f] bg-[#121622] text-white hover:border-white transition-colors"
-              title="Inspect"
-            >
-              <Maximize2 className="h-3 w-3" />
-            </button>
+      {/* Card Footer Bar */}
+      <div className="flex items-center justify-between p-3.5 bg-gradient-to-b from-[#060608] to-[#040405] border-t border-white/[0.04]">
+        <div className="min-w-0 pr-2">
+          <h3
+            onClick={() => onOpenLightbox(wallpaper)}
+            className="truncate text-xs font-medium text-neutral-200 group-hover:text-white transition-colors cursor-pointer"
+            title={wallpaper.title}
+          >
+            {wallpaper.title}
+          </h3>
+          <div className="mt-1 flex items-center gap-2 text-[10px] text-neutral-500">
+            <span className="truncate">{wallpaper.categoryLabel}</span>
+            <span className="text-neutral-700">·</span>
+            <span className="font-mono text-neutral-400">{wallpaper.resolutionBadge || wallpaper.sizeFormatted}</span>
           </div>
         </div>
-      </div>
 
-      {/* Card Info Footer */}
-      <div className="flex flex-col p-3 bg-[#0c0f17]">
-        <h3
-          onClick={() => onOpenLightbox(wallpaper)}
-          className="cursor-pointer truncate font-[var(--font-display)] text-xs font-bold text-white hover:text-[#ff5722] transition-colors uppercase tracking-wide leading-tight"
-          title={wallpaper.title}
+        {/* Direct Download Icon */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onDownload(wallpaper);
+          }}
+          className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-neutral-400 hover:text-white hover:bg-white/15 hover:border-white/20 transition-all shrink-0"
+          title="Download full resolution"
         >
-          {wallpaper.title}
-        </h3>
-
-        <div className="mt-2 flex items-center justify-between gap-1 border-t border-[#1e2536] pt-2 font-[var(--font-mono)] text-[10px]">
-          <span className="truncate border border-[#232c3f] bg-[#121622] px-1.5 py-0.2 font-bold uppercase text-[#8391ac]">
-            {wallpaper.categoryLabel}
-          </span>
-          <span className="text-[#ff5722] font-bold shrink-0">
-            {wallpaper.resolutionBadge || wallpaper.sizeFormatted}
-          </span>
-        </div>
+          <Download className="h-3.5 w-3.5" />
+        </button>
       </div>
-    </PixelCard>
+    </div>
   );
 };

@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'frontend/**'
+      - 'docs/**'
+      - '.github/**'
+      - '*.md'
 
 jobs:
   build:

@@ -172,7 +172,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#06070a] text-[#f8fafc] flex flex-col font-sans selection:bg-[#ff5722] selection:text-black">
+    <div className="min-h-screen bg-[#000000] text-[#f8fafc] flex flex-col font-sans selection:bg-white/20 selection:text-white">
       {/* Header */}
       <Header
         search={search}
@@ -186,7 +186,7 @@ export function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 pb-16">
+      <main className="flex-1 pb-20">
         {/* Spotlight Hero */}
         {!search && activeType !== 'favorites' && selectedCategory === 'all' && (
           <HeroSpotlight
@@ -218,19 +218,19 @@ export function App() {
         {/* Gallery Grid */}
         <section className="mx-auto max-w-[1440px] px-4 pt-4 sm:px-6">
           {visibleWallpapers.length === 0 ? (
-            <div className="flex flex-col items-center justify-center border-2 border-[#232c3f] bg-[#0c0f17] p-12 text-center shadow-[6px_6px_0_#000]">
-              <AlertCircle className="h-10 w-10 text-[#ff5722] mb-3" />
-              <h3 className="font-[var(--font-display)] text-xl font-black uppercase text-white">
-                NO ASSETS FOUND
+            <div className="flex flex-col items-center justify-center rounded-3xl border border-white/[0.06] bg-white/[0.02] p-16 text-center">
+              <AlertCircle className="h-10 w-10 text-neutral-500 mb-3" />
+              <h3 className="text-xl font-semibold text-white">
+                No Wallpapers Found
               </h3>
-              <p className="mt-1 font-[var(--font-mono)] text-xs text-[#8391ac] max-w-sm">
+              <p className="mt-1 text-xs text-neutral-400 max-w-sm">
                 No items match your active search terms or collection filters.
               </p>
               <button
                 onClick={handleResetFilters}
-                className="mt-5 border-2 border-[#ff5722] bg-[#ff5722] px-6 py-2.5 font-[var(--font-mono)] text-xs font-black uppercase text-black shadow-[3px_3px_0_#000] hover:bg-white active:translate-x-[2px] active:translate-y-[2px] transition-all"
+                className="mt-6 rounded-full bg-white px-6 py-2.5 text-xs font-semibold text-black hover:bg-neutral-200 active:scale-[0.98] transition-all"
               >
-                RESET ALL FILTERS
+                Reset All Filters
               </button>
             </div>
           ) : (
@@ -239,14 +239,14 @@ export function App() {
               <div
                 className={
                   layoutMode === 'masonry'
-                    ? 'columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4'
+                    ? 'columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5'
                     : layoutMode === 'spacious'
                     ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
-                    : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'
+                    : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'
                 }
               >
                 {visibleWallpapers.map((wallpaper) => (
-                  <div key={wallpaper.id} className={layoutMode === 'masonry' ? 'break-inside-avoid mb-4' : ''}>
+                  <div key={wallpaper.id} className={layoutMode === 'masonry' ? 'break-inside-avoid mb-5' : ''}>
                     <WallpaperCard
                       wallpaper={wallpaper}
                       isFavorite={favoriteIds.includes(wallpaper.id)}
@@ -260,18 +260,18 @@ export function App() {
 
               {/* Load More Button */}
               {hasMore && (
-                <div className="mt-12 flex flex-col items-center justify-center gap-2">
+                <div className="mt-14 flex flex-col items-center justify-center gap-2.5">
                   <button
                     onClick={() => setVisibleCount((prev) => prev + PAGE_SIZE)}
-                    className="flex items-center gap-2 border-2 border-[#ff5722] bg-[#0c0f17] px-8 py-3.5 font-[var(--font-mono)] text-xs font-black uppercase tracking-wider text-white shadow-[4px_4px_0_#ff5722] hover:bg-[#ff5722] hover:text-black active:translate-x-[2px] active:translate-y-[2px] transition-all"
+                    className="flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-7 py-3 text-xs font-medium text-white hover:bg-white hover:text-black hover:border-white transition-all shadow-xl active:scale-[0.98]"
                   >
-                    <RefreshCw className="h-4 w-4 text-[#ff5722] group-hover:text-black" />
+                    <RefreshCw className="h-3.5 w-3.5" />
                     <span>
-                      LOAD MORE ASSETS ({filteredWallpapers.length - visibleCount} REMAINING)
+                      Load More Wallpapers ({filteredWallpapers.length - visibleCount} remaining)
                     </span>
                   </button>
-                  <span className="font-[var(--font-mono)] text-xs text-[#586888] uppercase">
-                    SHOWING {visibleCount} OF {filteredWallpapers.length}
+                  <span className="text-xs text-neutral-500">
+                    Showing {visibleCount} of {filteredWallpapers.length}
                   </span>
                 </div>
               )}
@@ -280,22 +280,22 @@ export function App() {
         </section>
       </main>
 
-      {/* Brutalist Underground Footer */}
-      <footer className="border-t-2 border-[#232c3f] bg-[#080a0f] py-8 text-white font-[var(--font-mono)] text-xs">
+      {/* AMOLED Minimalist Footer */}
+      <footer className="border-t border-white/[0.06] bg-black py-8 text-neutral-400 text-xs">
         <div className="mx-auto max-w-[1440px] px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
-            <span className="border-2 border-[#ff5722] bg-[#ff5722] px-2 py-0.5 font-black text-black uppercase">
-              VOID//WALLS (虚無)
+            <span className="font-semibold text-white">
+              VOID//WALLS
             </span>
-            <span className="text-[#8391ac] uppercase tracking-wider text-[11px]">
-              2,479+ CURATED REPOSITORY ASSETS
+            <span className="text-neutral-500 text-[11px]">
+              2,479+ Curated Assets
             </span>
           </div>
 
           {/* Sources breakdown */}
-          <div className="flex flex-wrap items-center gap-3 text-[10px] text-[#8391ac]">
-            <span className="flex items-center gap-1">
-              <Database className="h-3 w-3 text-[#ff5722]" />
+          <div className="flex flex-wrap items-center gap-3 text-[11px] text-neutral-500">
+            <span className="flex items-center gap-1.5">
+              <Database className="h-3 w-3 text-neutral-400" />
               <span>vrsn001/wallsbyme (1,653)</span>
             </span>
             <span>·</span>
@@ -304,14 +304,14 @@ export function App() {
             <span>vyrx-dev (490)</span>
           </div>
 
-          <div className="flex items-center gap-4 uppercase font-bold text-[11px]">
-            <button onClick={() => setIsGuideOpen(true)} className="hover:text-[#ff5722] transition-colors underline underline-offset-4">
-              SETUP GUIDE
+          <div className="flex items-center gap-4 text-xs">
+            <button onClick={() => setIsGuideOpen(true)} className="hover:text-white transition-colors">
+              Setup Guide
             </button>
             <span>·</span>
-            <button onClick={scrollToTop} className="flex items-center gap-1 hover:text-[#ff5722] transition-colors">
+            <button onClick={scrollToTop} className="flex items-center gap-1 hover:text-white transition-colors">
               <ArrowUp className="h-3.5 w-3.5" />
-              <span>TOP</span>
+              <span>Top</span>
             </button>
           </div>
         </div>
