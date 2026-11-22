@@ -230,21 +230,21 @@ export function App() {
         />
 
         {/* Gallery Grid */}
-        <section className="mx-auto max-w-[1440px] px-4 pt-4 sm:px-6">
+        <section className="mx-auto max-w-[1440px] px-4 pt-4 sm:px-6 font-mono">
           {visibleWallpapers.length === 0 ? (
-            <div className="flex flex-col items-center justify-center rounded-3xl border border-white/[0.06] bg-white/[0.02] p-16 text-center">
-              <AlertCircle className="h-10 w-10 text-neutral-500 mb-3" />
-              <h3 className="text-xl font-semibold text-white">
-                No Wallpapers Found
+            <div className="flex flex-col items-center justify-center rounded-none border border-white/10 bg-black p-12 text-center">
+              <AlertCircle className="h-8 w-8 text-neutral-500 mb-3" />
+              <h3 className="text-lg font-bold text-white uppercase tracking-tight">
+                NO_WALLPAPERS_FOUND
               </h3>
-              <p className="mt-1 text-xs text-neutral-400 max-w-sm">
+              <p className="mt-1 text-[11px] text-neutral-400 max-w-sm">
                 No items match your active search terms or collection filters.
               </p>
               <button
                 onClick={handleResetFilters}
-                className="mt-6 rounded-full bg-white px-6 py-2.5 text-xs font-semibold text-black hover:bg-neutral-200 active:scale-[0.98] transition-all"
+                className="mt-5 rounded-none bg-sky-400 px-5 py-2 text-xs font-bold uppercase tracking-wider text-black hover:bg-sky-300 transition-all border border-sky-300"
               >
-                Reset All Filters
+                RESET_ALL_FILTERS
               </button>
             </div>
           ) : (
@@ -253,14 +253,14 @@ export function App() {
               <div
                 className={
                   layoutMode === 'masonry'
-                    ? 'columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5'
+                    ? 'columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4'
                     : layoutMode === 'spacious'
-                    ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
-                    : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'
+                    ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'
+                    : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'
                 }
               >
                 {visibleWallpapers.map((wallpaper, index) => (
-                  <div key={wallpaper.id} className={layoutMode === 'masonry' ? 'break-inside-avoid mb-5' : ''}>
+                  <div key={wallpaper.id} className={layoutMode === 'masonry' ? 'break-inside-avoid mb-4' : ''}>
                     <WallpaperCard
                       wallpaper={wallpaper}
                       isFavorite={favoriteIds.includes(wallpaper.id)}
@@ -275,18 +275,18 @@ export function App() {
 
               {/* Load More Button */}
               {hasMore && (
-                <div className="mt-14 flex flex-col items-center justify-center gap-2.5">
+                <div className="mt-12 flex flex-col items-center justify-center gap-2">
                   <button
                     onClick={() => setVisibleCount((prev) => prev + PAGE_SIZE)}
-                    className="flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-7 py-3 text-xs font-medium text-white hover:bg-white hover:text-black hover:border-white transition-all shadow-xl active:scale-[0.98]"
+                    className="flex items-center gap-2 rounded-none border border-sky-400/40 bg-black px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-sky-300 hover:bg-sky-400 hover:text-black hover:border-sky-300 transition-all shadow-xl"
                   >
                     <RefreshCw className="h-3.5 w-3.5" />
                     <span>
-                      Load More Wallpapers ({filteredWallpapers.length - visibleCount} remaining)
+                      LOAD_MORE_ASSETS ({filteredWallpapers.length - visibleCount}_REMAINING)
                     </span>
                   </button>
-                  <span className="text-xs text-neutral-500">
-                    Showing {visibleCount} of {filteredWallpapers.length}
+                  <span className="text-[10px] text-neutral-500 font-mono">
+                    INDEX_WINDOW: {visibleCount} // {filteredWallpapers.length}
                   </span>
                 </div>
               )}

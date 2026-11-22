@@ -44,17 +44,17 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     return (
       <button
         onClick={() => onTypeChange(type)}
-        className={`flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs transition-all duration-200 ${
+        className={`flex items-center gap-1.5 rounded-none px-3 py-1.5 text-xs transition-all uppercase tracking-wider font-mono ${
           isActive
-            ? 'bg-white text-black font-semibold shadow-sm'
-            : 'border border-white/[0.07] bg-white/[0.02] text-neutral-400 hover:text-white hover:bg-white/[0.06] hover:border-white/15'
+            ? 'bg-sky-400 text-black font-bold border border-sky-300'
+            : 'border border-white/15 bg-black text-neutral-400 hover:text-white hover:border-white/30'
         }`}
       >
         {icon}
         <span>{label}</span>
         <span
-          className={`rounded-full px-1.5 py-0.2 text-[10px] ${
-            isActive ? 'bg-black/15 text-black font-bold' : 'bg-white/[0.08] text-neutral-400'
+          className={`px-1 py-0.2 text-[9px] font-mono font-bold ${
+            isActive ? 'bg-black text-sky-300' : 'bg-white/10 text-neutral-300'
           }`}
         >
           {count}
@@ -64,50 +64,50 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   };
 
   return (
-    <div className="mx-auto max-w-[1440px] px-4 pt-6 pb-2 sm:px-6">
+    <div className="mx-auto max-w-[1440px] px-4 pt-5 pb-2 sm:px-6 font-mono">
       {/* Top Type Filter Row */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-white/[0.06] pb-3.5">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-white/10 pb-3">
         {/* Type Selector Buttons */}
-        <div className="flex flex-wrap items-center gap-2">
-          {typeBtn('all', 'All Wallpapers', totalWallpapersCount)}
-          {typeBtn('animated', 'Live Loops', animatedCount, <Film className="h-3.5 w-3.5" />)}
-          {typeBtn('vertical', 'Mobile 9:16', verticalCount, <Smartphone className="h-3.5 w-3.5" />)}
-          {typeBtn('static', 'Static HQ', totalWallpapersCount - animatedCount, <ImageIcon className="h-3.5 w-3.5" />)}
-          {typeBtn('favorites', 'Saved', favoritesCount, <Heart className="h-3.5 w-3.5" />)}
+        <div className="flex flex-wrap items-center gap-1.5">
+          {typeBtn('all', 'ALL', totalWallpapersCount)}
+          {typeBtn('animated', '60FPS_LOOPS', animatedCount, <Film className="h-3 w-3" />)}
+          {typeBtn('vertical', '9:16_VERTICAL', verticalCount, <Smartphone className="h-3 w-3" />)}
+          {typeBtn('static', 'STATIC_HQ', totalWallpapersCount - animatedCount, <ImageIcon className="h-3 w-3" />)}
+          {typeBtn('favorites', 'SAVED', favoritesCount, <Heart className="h-3 w-3" />)}
         </div>
 
         {/* Right Sort & Layout Toggles */}
-        <div className="flex items-center gap-2.5 self-end sm:self-auto">
+        <div className="flex items-center gap-2 self-end sm:self-auto">
           {/* Sort Selector */}
-          <div className="flex items-center gap-1.5 rounded-full border border-white/[0.07] bg-white/[0.02] px-3 py-1 hover:border-white/20 transition-all">
-            <ArrowDownWideNarrow className="h-3.5 w-3.5 text-neutral-400 shrink-0" />
+          <div className="flex items-center gap-1.5 rounded-none border border-white/20 bg-black px-2.5 py-1 hover:border-sky-400 transition-all">
+            <ArrowDownWideNarrow className="h-3 w-3 text-neutral-400 shrink-0" />
             <select
               value={sortOption}
               onChange={(e) => onSortChange(e.target.value as SortOption)}
-              className="bg-transparent py-0.5 text-xs font-medium text-neutral-300 focus:outline-none cursor-pointer"
+              className="bg-transparent py-0.5 text-xs font-mono font-bold uppercase text-neutral-200 focus:outline-none cursor-pointer"
             >
-              <option value="featured" className="bg-[#0c0d12] text-white">Featured</option>
-              <option value="size-desc" className="bg-[#0c0d12] text-white">Largest File</option>
-              <option value="size-asc" className="bg-[#0c0d12] text-white">Lightweight</option>
-              <option value="title-asc" className="bg-[#0c0d12] text-white">Title A-Z</option>
-              <option value="newest" className="bg-[#0c0d12] text-white">Index Order</option>
+              <option value="featured" className="bg-black text-white">SORT: FEATURED</option>
+              <option value="size-desc" className="bg-black text-white">SORT: LARGEST_FILE</option>
+              <option value="size-asc" className="bg-black text-white">SORT: LIGHTWEIGHT</option>
+              <option value="title-asc" className="bg-black text-white">SORT: TITLE_A_Z</option>
+              <option value="newest" className="bg-black text-white">SORT: INDEX_ORDER</option>
             </select>
           </div>
 
           {/* Layout Mode */}
-          <div className="hidden sm:flex items-center rounded-full border border-white/[0.07] bg-white/[0.02] p-0.5">
+          <div className="hidden sm:flex items-center rounded-none border border-white/20 bg-black p-0.5">
             {([['masonry', Columns], ['grid', Grid3X3], ['spacious', LayoutGrid]] as const).map(([mode, Icon]) => (
               <button
                 key={mode}
                 onClick={() => onLayoutChange(mode)}
-                className={`rounded-full p-1.5 transition-colors ${
+                className={`rounded-none p-1.5 transition-colors ${
                   layoutMode === mode
-                    ? 'bg-white/15 text-white'
+                    ? 'bg-sky-400 text-black'
                     : 'text-neutral-500 hover:text-white'
                 }`}
                 title={`Layout: ${mode}`}
               >
-                <Icon className="h-3.5 w-3.5" />
+                <Icon className="h-3 w-3" />
               </button>
             ))}
           </div>
@@ -115,49 +115,49 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       </div>
 
       {/* Category Horizontal Scrolling Pills */}
-      <div className="relative mt-3">
-        <div className="flex items-center gap-1.5 overflow-x-auto py-1 scrollbar-none scroll-smooth">
+      <div className="relative mt-2.5">
+        <div className="flex items-center gap-1 overflow-x-auto py-1 scrollbar-none scroll-smooth">
           <button
             onClick={() => onCategoryChange('all')}
-            className={`whitespace-nowrap rounded-full px-3 py-1 text-xs transition-all ${
+            className={`whitespace-nowrap rounded-none px-2.5 py-1 text-[11px] font-mono transition-all uppercase tracking-wider ${
               selectedCategory === 'all'
-                ? 'bg-white/10 text-white border border-white/20 font-medium'
-                : 'text-neutral-400 hover:text-neutral-200 hover:bg-white/[0.04]'
+                ? 'bg-white/10 text-sky-300 border border-sky-400/60 font-bold'
+                : 'text-neutral-400 hover:text-neutral-200 hover:bg-white/[0.04] border border-transparent'
             }`}
           >
-            All Collections ({totalWallpapersCount})
+            ALL_COLLECTIONS ({totalWallpapersCount})
           </button>
 
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => onCategoryChange(cat.id)}
-              className={`flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1 text-xs transition-all ${
+              className={`flex items-center gap-1.5 whitespace-nowrap rounded-none px-2.5 py-1 text-[11px] font-mono transition-all uppercase tracking-wider ${
                 selectedCategory === cat.id
-                  ? 'bg-white/10 text-white border border-white/20 font-medium'
-                  : 'text-neutral-400 hover:text-neutral-200 hover:bg-white/[0.04]'
+                  ? 'bg-white/10 text-sky-300 border border-sky-400/60 font-bold'
+                  : 'text-neutral-400 hover:text-neutral-200 hover:bg-white/[0.04] border border-transparent'
               }`}
             >
               <span>{cat.label}</span>
-              <span className="text-[10px] text-neutral-500">{cat.count}</span>
+              <span className="text-[9px] text-neutral-500 font-mono">{cat.count}</span>
             </button>
           ))}
         </div>
       </div>
 
       {/* Filter Status Strip */}
-      <div className="mt-2.5 flex items-center justify-between text-xs text-neutral-500">
+      <div className="mt-2 flex items-center justify-between text-[11px] text-neutral-500 font-mono">
         <div className="flex items-center gap-2">
           <span>
-            Showing <strong className="text-white font-medium">{totalFilteredCount.toLocaleString()}</strong> of {totalWallpapersCount.toLocaleString()} wallpapers
+            QUERY_RESULTS: <strong className="text-white font-bold">{totalFilteredCount.toLocaleString()}</strong> // {totalWallpapersCount.toLocaleString()} ASSETS
           </span>
           {isFiltered && (
             <button
               onClick={onResetFilters}
-              className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[11px] text-neutral-300 hover:text-white hover:bg-white/10 transition-colors"
+              className="inline-flex items-center gap-1 rounded-none border border-rose-500/40 bg-rose-500/10 px-1.5 py-0.2 text-[10px] text-rose-300 hover:bg-rose-500/20 transition-colors uppercase font-bold"
             >
-              <X className="h-3 w-3" />
-              <span>Reset</span>
+              <X className="h-2.5 w-2.5" />
+              <span>RESET</span>
             </button>
           )}
         </div>

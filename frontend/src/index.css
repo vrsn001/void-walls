@@ -28,25 +28,25 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Sleek minimalist dark scrollbar */
+  /* Sleek minimalist brutalist scrollbar */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
   }
   ::-webkit-scrollbar-track {
-    background: transparent;
+    background: #000000;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 9999px;
+    background: rgba(56, 189, 248, 0.4);
+    border-radius: 0px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.28);
+    background: rgba(56, 189, 248, 0.8);
   }
 
-  /* Selection: Soft ambient tint */
+  /* Selection: Matrix Cyber Electric Cyan Tint */
   ::selection {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 240, 255, 0.35);
     color: #ffffff;
   }
 

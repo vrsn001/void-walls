@@ -13,7 +13,7 @@ const IMAGE_EXTENSIONS = new Set(['jpg', 'jpeg', 'png', 'webp', 'gif']);
 const VIDEO_EXTENSIONS = new Set(['mp4', 'webm']);
 
 // Directories or files to ignore
-const IGNORED_NAMES = new Set(['.git', '.github', 'docs', 'scripts', 'node_modules']);
+const IGNORED_NAMES = new Set(['.git', '.github', 'docs', 'scripts', 'node_modules', 'frontend', 'thumbnails', '.agents', 'assets']);
 
 // Manual label override map for special category slugs
 // TODO: adjust labels according to preference

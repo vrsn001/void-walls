@@ -1,4 +1,4 @@
-name: Update Wallpaper Manifest
+name: Update Manifest & Pre-Generate Thumbnails
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
       - 'docs/**'
       - '.github/**'
       - '*.md'
+      - 'frontend/**'
 
 permissions:
   contents: write
@@ -24,12 +25,17 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Generate Manifest
-        run: node scripts/generate-manifest.mjs
+      - name: Install Sharp Image Engine
+        run: npm install --no-save sharp
+
+      - name: Generate Manifest & WebP Thumbnails
+        run: |
+          node scripts/generate-manifest.mjs
+          node scripts/generate-thumbnails.mjs
 
       - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/manifest.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update wallpapers manifest.json" && git push)
+          git add docs/manifest.json thumbnails/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update wallpapers manifest.json and pre-generated thumbnails" && git push)
