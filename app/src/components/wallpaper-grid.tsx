@@ -62,15 +62,25 @@ const WallpaperCard = memo(function WallpaperCard({
 }: CardProps) {
   const isAnimated = wallpaper.type === "animated";
   const [loaded, setLoaded] = useState(false);
-  const [src, setSrc] = useState(() =>
-    isAnimated ? getFullUrl(wallpaper) : getThumbnailUrl(wallpaper)
-  );
+  const [src, setSrc] = useState(() => getThumbnailUrl(wallpaper));
   const imgRef = useRef<HTMLImageElement>(null);
 
   // Cached images can finish loading before hydration attaches onLoad.
   useEffect(() => {
     if (imgRef.current?.complete && imgRef.current.naturalWidth > 0) setLoaded(true);
   }, []);
+
+  // GIFs show their static WebP frame first, then swap in the animation once fetched.
+  useEffect(() => {
+    if (!isAnimated || wallpaper.isVideo || !loaded) return;
+    const full = getFullUrl(wallpaper);
+    const preload = new Image();
+    preload.onload = () => setSrc(full);
+    preload.src = full;
+    return () => {
+      preload.onload = null;
+    };
+  }, [isAnimated, loaded, wallpaper]);
 
   const handleError = () => {
     const full = getFullUrl(wallpaper);
@@ -80,7 +90,7 @@ const WallpaperCard = memo(function WallpaperCard({
 
   const isVertical =
     wallpaper.category === "phone-vertical" ||
-    (wallpaper.width && wallpaper.height && wallpaper.height > wallpaper.width * 1.3);
+    (!!wallpaper.width && !!wallpaper.height && wallpaper.height > wallpaper.width * 1.3);
 
   return (
     <div

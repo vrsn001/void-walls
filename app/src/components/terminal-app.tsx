@@ -2,9 +2,12 @@
 
 import { useState, useCallback, useMemo, useEffect } from "react";
 import type { Wallpaper } from "@/lib/types";
+import { downloadWallpaper, type OutputFormat, type SizeOption } from "@/lib/download";
 import { WallpaperGrid } from "./wallpaper-grid";
 import { Lightbox } from "./lightbox";
 import { CommandPalette } from "./command-palette";
+import { CreditsPanel } from "./credits-panel";
+import { useFavorites, toggleFavoriteId } from "@/lib/favorites";
 import {
   Search,
   Shuffle,
@@ -43,29 +46,10 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
   const [mainTab, setMainTab] = useState("all");
   const [collection, setCollection] = useState<string | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [favorites, setFavorites] = useState<Set<string>>(new Set());
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("voidwalls_favorites");
-      if (saved) setFavorites(new Set(JSON.parse(saved)));
-    } catch {}
-    setHydrated(true);
-  }, []);
+  const favorites = useFavorites();
   const [statusMsg, setStatusMsg] = useState("SYS.ONLINE // READY");
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false);
-
-  useEffect(() => {
-    if (window.location.hash === "#cmd") setCmdPaletteOpen(true);
-  }, []);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    try {
-      localStorage.setItem("voidwalls_favorites", JSON.stringify([...favorites]));
-    } catch {}
-  }, [favorites, hydrated]);
+  const [creditsOpen, setCreditsOpen] = useState(false);
 
   const mainFiltered = useMemo(() => {
     if (mainTab === "live") return wallpapers.filter((w) => w.type === "animated");
@@ -116,30 +100,26 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
   }, [mainTab, collection]);
 
   const toggleFavorite = useCallback((w: Wallpaper) => {
-    setFavorites((prev) => {
-      const next = new Set(prev);
-      if (next.has(w.id)) {
-        next.delete(w.id);
-        setStatusMsg(`REMOVED: "${w.title}"`);
-      } else {
-        next.add(w.id);
-        setStatusMsg(`SAVED: "${w.title}"`);
-      }
-      return next;
-    });
+    const saved = toggleFavoriteId(w.id);
+    setStatusMsg(`${saved ? "SAVED" : "REMOVED"}: "${w.title}"`);
   }, []);
 
-  const handleDownload = useCallback((w: Wallpaper) => {
-    setStatusMsg(`DOWNLOADING: "${w.title}" (${w.sizeFormatted})`);
-    const a = document.createElement("a");
-    a.href = w.rawUrl || w.cdnUrl;
-    a.download = w.filename;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }, []);
+  const handleDownload = useCallback(
+    async (w: Wallpaper, format: OutputFormat = "original", size: SizeOption | null = null) => {
+      const variant =
+        format === "original" && (!size || size.id === "original")
+          ? `ORIGINAL ${w.format} · ${w.sizeFormatted}`
+          : `${size && size.id !== "original" ? size.label : "FULL RES"} ${format === "original" ? w.format : format.toUpperCase()}`;
+      setStatusMsg(`FETCHING: "${w.title}" [${variant}]`);
+      try {
+        await downloadWallpaper(w, format, size);
+        setStatusMsg(`DOWNLOADED: "${w.title}" [${variant}]`);
+      } catch (err) {
+        setStatusMsg(`ERROR: "${w.title}" — ${err instanceof Error ? err.message : "download failed"}`);
+      }
+    },
+    []
+  );
 
   const handlePreview = useCallback(
     (w: Wallpaper) => {
@@ -208,13 +188,13 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
             <Terminal className="h-5 w-5 text-cyan" />
             <div>
               <h1 className="text-base font-bold font-sans tracking-tight text-white">
-                VOID<span className="text-cyan mx-0.5">//</span>WALLS
+                VOID<span className="text-cyan mx-0.5">{"//"}</span>WALLS
                 <span className="ml-2 text-[9px] font-mono bg-cyan/10 border border-cyan/30 text-cyan px-1.5 py-0.5 align-middle uppercase tracking-widest">
                   VAULT
                 </span>
               </h1>
               <p className="text-[10px] text-muted mt-0.5">
-                {wallpapers.length.toLocaleString()} CURATED ASSETS // FASTLY CDN
+                {wallpapers.length.toLocaleString()} CURATED ASSETS {"//"} FASTLY CDN
               </p>
             </div>
           </div>
@@ -247,15 +227,20 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
             >
               <Heart className="h-3.5 w-3.5" /> STASH
             </button>
-            <button className="flex items-center gap-1.5 border border-cyan/30 bg-cyan/10 px-3 py-1.5 text-[11px] font-bold text-cyan hover:bg-cyan/20 transition-colors cursor-pointer">
+            <button
+              onClick={() => setCreditsOpen(true)}
+              className="flex items-center gap-1.5 border border-cyan/30 bg-cyan/10 px-3 py-1.5 text-[11px] font-bold text-cyan hover:bg-cyan/20 transition-colors cursor-pointer"
+            >
               <Award className="h-3.5 w-3.5" /> CREDITS
             </button>
-            <button
-              onClick={() => setCmdPaletteOpen(true)}
+            <a
+              href="https://github.com/vrsn001/void-walls"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-1.5 border border-border px-3 py-1.5 text-[11px] font-bold text-muted hover:text-white hover:border-white/20 transition-colors cursor-pointer font-mono"
             >
               <Terminal className="h-3.5 w-3.5" /> SRC
-            </button>
+            </a>
             <button
               onClick={() => setCmdPaletteOpen(true)}
               className="flex items-center gap-1.5 border border-border px-2 py-1.5 text-[10px] text-muted hover:text-cyan hover:border-cyan/30 transition-colors cursor-pointer"
@@ -294,7 +279,7 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
                 }`}
               >
                 <span className="text-[10px] text-muted/50 tabular-nums mt-0.5">
-                  {String(i + 1).padStart(2, "0")} //
+                  {String(i + 1).padStart(2, "0")} {"//"}
                 </span>
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
@@ -364,7 +349,7 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
       {/* ═══════ RESULTS COUNT ═══════ */}
       <div className="shrink-0 px-5 py-2 text-[10px] text-muted/60 font-mono">
         QUERY_RESULTS:{" "}
-        <span className="text-white font-bold">{filtered.length.toLocaleString()}</span> //{" "}
+        <span className="text-white font-bold">{filtered.length.toLocaleString()}</span> {"//"}{" "}
         {wallpapers.length.toLocaleString()} ASSETS
       </div>
 
@@ -380,7 +365,7 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
       </main>
 
       {/* ═══════ FOOTER STATUS ═══════ */}
-      <footer className="shrink-0 flex items-center justify-between border-t border-border bg-[#060609] px-5 py-2">
+      <footer className="sticky bottom-0 z-40 shrink-0 flex items-center justify-between border-t border-border bg-[#060609]/95 px-5 py-2">
         <div className="flex items-center gap-2 text-[10px] text-muted">
           <span className="status-cursor h-3 w-[2px] bg-cyan shrink-0" />
           <span>{statusMsg}</span>
@@ -396,6 +381,8 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
           </span>
         </div>
       </footer>
+
+      {creditsOpen && <CreditsPanel wallpapers={wallpapers} onClose={() => setCreditsOpen(false)} />}
 
       {/* ═══════ COMMAND PALETTE ═══════ */}
       {cmdPaletteOpen && (

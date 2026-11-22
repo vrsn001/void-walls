@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useMemo } from "react";
-import { Search, Zap, Smartphone, Heart, Shuffle, LayoutGrid, Image, Archive, Terminal, ArrowRight } from "lucide-react";
+import { Search, Zap, Smartphone, Heart, Shuffle, LayoutGrid, Image, Archive, ArrowRight } from "lucide-react";
 import type { Wallpaper } from "@/lib/types";
 
 interface CommandPaletteProps {
@@ -79,10 +79,6 @@ export function CommandPalette({ wallpapers, collections, onClose, onNavigate }:
   }, [input, commands, wallpapers]);
 
   useEffect(() => {
-    setSelectedIdx(0);
-  }, [input]);
-
-  useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
@@ -116,7 +112,10 @@ export function CommandPalette({ wallpapers, collections, onClose, onNavigate }:
             ref={inputRef}
             type="text"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              setInput(e.target.value);
+              setSelectedIdx(0);
+            }}
             placeholder="Type a command or search wallpapers..."
             className="flex-1 bg-transparent text-sm text-white placeholder-muted/50 focus:outline-none caret-cyan font-mono"
           />
