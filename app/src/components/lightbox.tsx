@@ -82,8 +82,20 @@ export function Lightbox({
   });
 
   return (
-    <div className="lightbox-overlay fixed inset-0 z-50 bg-[#030306] flex flex-col" onClick={onClose}>
-      <div className="shrink-0 flex items-center justify-between gap-4 px-4 py-3" onClick={(e) => e.stopPropagation()}>
+    <div className="lightbox-overlay fixed inset-0 z-50 bg-[#030306] flex flex-col overflow-hidden" onClick={onClose}>
+      {/* Dynamic Ambient Background Glow */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden select-none" aria-hidden="true">
+        <img
+          src={getThumbnailUrl(wallpaper)}
+          alt=""
+          className="h-full w-full object-cover scale-150 blur-3xl opacity-30 filter transition-all duration-700"
+        />
+        {/* Dark vignette & frosted glass overlay for contrast and sleek cyber feel */}
+        <div className="absolute inset-0 bg-[#030306]/75 backdrop-blur-2xl" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-[#030306]/90" />
+      </div>
+
+      <div className="relative z-10 shrink-0 flex items-center justify-between gap-4 px-4 py-3" onClick={(e) => e.stopPropagation()}>
         <div className="min-w-0">
           <h2 className="text-sm font-semibold text-white font-sans truncate">{wallpaper.title}</h2>
           <div className="flex items-center gap-2 text-[10px] text-muted mt-0.5">
@@ -122,7 +134,7 @@ export function Lightbox({
         </div>
       </div>
 
-      <div className="flex-1 flex items-center justify-center min-h-0 px-16 py-2 relative" onClick={(e) => e.stopPropagation()}>
+      <div className="relative z-10 flex-1 flex items-center justify-center min-h-0 px-16 py-2" onClick={(e) => e.stopPropagation()}>
         {hasPrev && (
           <button
             onClick={onPrev}
@@ -186,7 +198,7 @@ export function Lightbox({
 
       {/* Download bar */}
       <div
-        className="shrink-0 border-t border-white/[0.06] bg-[#060609] px-4 py-3 flex flex-wrap items-center gap-x-6 gap-y-3"
+        className="relative z-10 shrink-0 border-t border-white/[0.06] bg-[#060609]/90 backdrop-blur-md px-4 py-3 flex flex-wrap items-center gap-x-6 gap-y-3"
         onClick={(e) => e.stopPropagation()}
       >
         {convertible ? (
@@ -228,7 +240,7 @@ export function Lightbox({
         </button>
       </div>
 
-      <div className="shrink-0 text-center py-2 text-[10px] text-muted/40 bg-[#060609]">
+      <div className="relative z-10 shrink-0 text-center py-2 text-[10px] text-muted/40 bg-[#060609]/90 backdrop-blur-md">
         <kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 text-[9px] mr-1">←</kbd>
         <kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 text-[9px] mr-2">→</kbd>navigate
         <kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 text-[9px] ml-3 mr-1">↵</kbd>download

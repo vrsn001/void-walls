@@ -133,7 +133,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
         <div className="flex items-center justify-between border-b border-white/10 bg-black px-4 py-2.5 text-white">
           <div className="flex items-center gap-2 text-xs">
             <span className="bg-sky-500/20 text-sky-400 px-1.5 py-0.5 border border-sky-500/40 text-[10px] uppercase font-bold tracking-wider">
-              HOMELANDER_INSPECT // PERFECTION
+              BUTCHER_INSPECT // SCORCHED_EARTH
             </span>
             <span className="text-neutral-400 font-mono text-[11px] truncate max-w-[200px] sm:max-w-md">
               {wallpaper.title}
