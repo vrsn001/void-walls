@@ -6,6 +6,8 @@
 
 <a href="vite.config.ts"><img alt="vite.config" src="vite.config.ts"></a>
 
+<a href=".npmrc"><img alt=".npmrc" src=".npmrc"></a>
+
 <a href=".oxlintrc.json"><img alt=".oxlintrc" src=".oxlintrc.json"></a>
 
 <a href="package.json"><img alt="package" src="package.json"></a>
