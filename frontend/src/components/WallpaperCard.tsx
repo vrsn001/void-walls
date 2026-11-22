@@ -140,20 +140,20 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
         </div>
 
         {/* Top Right Quick Action Buttons */}
-        <div className="absolute top-2.5 right-2.5 flex items-center gap-1.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+        <div className="absolute top-2 right-2 flex items-center gap-1.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
           <button
             onClick={(e) => {
               e.stopPropagation();
               onToggleFavorite(wallpaper);
             }}
-            className={`flex h-8 w-8 items-center justify-center rounded-none border transition-all cursor-pointer ${
+            className={`flex h-7 w-7 items-center justify-center rounded-none border transition-all cursor-pointer ${
               isFavorite
                 ? 'border-rose-500 bg-rose-500 text-black'
                 : 'border-white/20 bg-black/85 text-white hover:bg-white hover:text-black hover:border-white'
             }`}
             title={isFavorite ? 'Remove from saved' : 'Save wallpaper'}
           >
-            <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
+            <Heart className={`h-3.5 w-3.5 ${isFavorite ? 'fill-current' : ''}`} />
           </button>
 
           <button
@@ -161,16 +161,16 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
               e.stopPropagation();
               onOpenLightbox(wallpaper);
             }}
-            className="flex h-8 w-8 items-center justify-center rounded-none border border-white/20 bg-black/85 text-white hover:bg-white hover:text-black hover:border-white transition-all cursor-pointer"
+            className="flex h-7 w-7 items-center justify-center rounded-none border border-white/20 bg-black/85 text-white hover:bg-white hover:text-black hover:border-white transition-all cursor-pointer"
             title="Inspect"
           >
-            <Maximize2 className="h-4 w-4" />
+            <Maximize2 className="h-3.5 w-3.5" />
           </button>
         </div>
       </div>
 
       {/* Card Footer Bar */}
-      <div className="flex items-center justify-between p-3 bg-black border-t border-white/10 font-mono">
+      <div className="flex items-center justify-between p-2.5 sm:p-3 bg-black border-t border-white/10 font-mono">
         <div className="min-w-0 pr-2">
           <h3
             onClick={() => onOpenLightbox(wallpaper)}
@@ -192,10 +192,10 @@ export const WallpaperCard: React.FC<WallpaperCardProps> = ({
             e.stopPropagation();
             onDownload(wallpaper);
           }}
-          className="flex h-8 w-8 items-center justify-center rounded-none border border-white/20 bg-black text-neutral-400 hover:text-white hover:bg-sky-400 hover:text-black hover:border-sky-300 transition-all shrink-0 cursor-pointer"
+          className="flex h-7 w-7 items-center justify-center rounded-none border border-white/20 bg-black text-neutral-400 hover:text-white hover:bg-sky-400 hover:text-black hover:border-sky-300 transition-all shrink-0 cursor-pointer"
           title="Download full resolution"
         >
-          <Download className="h-4 w-4" />
+          <Download className="h-3.5 w-3.5" />
         </button>
       </div>
     </div>

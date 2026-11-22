@@ -41,17 +41,18 @@ export const CyberHudBanner: React.FC<CyberHudBannerProps> = ({
             <span className="text-neutral-500 tracking-wider uppercase">ZERO BLOAT · ZERO TRACKING</span>
           </div>
 
-          <div className="flex items-center gap-3 text-neutral-400 text-[10px]">
+          <div className="flex items-center gap-2.5">
             <a
               href="https://github.com/vrsn001/void-walls"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-neutral-400 hover:text-sky-300 transition-colors uppercase"
+              className="flex items-center gap-1.5 rounded-none border border-white/20 bg-black/80 px-2.5 py-1 text-[11px] font-mono text-neutral-300 hover:text-white hover:border-sky-400 hover:bg-sky-400/10 transition-all uppercase tracking-wider"
+              title="Inspect Source Repository on GitHub"
             >
-              <GithubIcon className="h-3 w-3" />
-              <span>VAULT: vrsn001/void-walls</span>
+              <GithubIcon className="h-3.5 w-3.5 text-white" />
+              <span className="font-bold">VAULT // VRSN001</span>
             </a>
-            <span className="text-neutral-600 select-none">// // // //</span>
+            <span className="text-neutral-700 select-none hidden sm:inline">// // // //</span>
           </div>
         </div>
 

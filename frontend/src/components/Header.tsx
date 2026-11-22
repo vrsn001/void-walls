@@ -73,23 +73,23 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Random Shuffle */}
           <button
             onClick={onRandomClick}
-            className="flex items-center gap-2 rounded-none border border-white/20 bg-black px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-bold uppercase tracking-wider text-neutral-300 hover:text-white hover:border-sky-400 hover:bg-sky-400/10 transition-all cursor-pointer"
+            className="flex items-center gap-1.5 rounded-none border border-white/20 bg-black px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs font-bold uppercase tracking-wider text-neutral-300 hover:text-white hover:border-sky-400 hover:bg-sky-400/10 transition-all cursor-pointer"
             title="Random discovery"
           >
-            <Shuffle className="h-4 w-4 text-neutral-400" />
+            <Shuffle className="h-3.5 w-3.5 text-neutral-400" />
             <span className="hidden sm:inline text-xs">RANDOM</span>
           </button>
 
           {/* Saved Collection */}
           <button
             onClick={() => onFilterChange(activeFilter === 'favorites' ? 'all' : 'favorites')}
-            className={`flex items-center gap-2 rounded-none border px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 rounded-none border px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
               activeFilter === 'favorites'
                 ? 'border-rose-500 bg-rose-500/20 text-rose-300'
                 : 'border-white/20 bg-black text-neutral-300 hover:text-white hover:border-white/40'
             }`}
           >
-            <Heart className={`h-4 w-4 ${activeFilter === 'favorites' ? 'fill-current text-rose-400' : 'text-neutral-400'}`} />
+            <Heart className={`h-3.5 w-3.5 ${activeFilter === 'favorites' ? 'fill-current text-rose-400' : 'text-neutral-400'}`} />
             <span className="hidden sm:inline text-xs">STASH</span>
             {favoritesCount > 0 && (
               <span className={`text-[10px] px-1.5 py-0.2 font-mono font-bold ${activeFilter === 'favorites' ? 'bg-rose-500 text-black' : 'bg-white/10 text-white'}`}>
@@ -102,10 +102,10 @@ export const Header: React.FC<HeaderProps> = ({
           {onOpenCredits && (
             <button
               onClick={onOpenCredits}
-              className="flex items-center gap-2 rounded-none border border-sky-400/40 bg-sky-400/10 px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-mono font-bold text-sky-300 hover:border-sky-300 hover:bg-sky-400/20 transition-all cursor-pointer uppercase"
+              className="flex items-center gap-1.5 rounded-none border border-sky-400/40 bg-sky-400/10 px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs font-mono font-bold text-sky-300 hover:border-sky-300 hover:bg-sky-400/20 transition-all cursor-pointer uppercase"
               title="Upstream Repository Acknowledgements"
             >
-              <GitBranch className="h-4 w-4 text-sky-400" />
+              <GitBranch className="h-3.5 w-3.5 text-sky-400" />
               <span className="hidden md:inline text-xs">CREDITS</span>
             </button>
           )}
@@ -113,10 +113,10 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Setup Guide */}
           <button
             onClick={onOpenGuide}
-            className="flex items-center justify-center h-8 w-8 sm:h-9 sm:w-9 rounded-none border border-white/20 bg-black text-neutral-400 hover:text-white hover:border-sky-400 hover:bg-white/10 transition-all cursor-pointer"
+            className="flex items-center justify-center h-7.5 w-7.5 sm:h-8 sm:w-8 rounded-none border border-white/20 bg-black text-neutral-400 hover:text-white hover:border-sky-400 hover:bg-white/10 transition-all cursor-pointer"
             title="Desktop & Mobile Setup Guide"
           >
-            <Terminal className="h-4 w-4" />
+            <Terminal className="h-3.5 w-3.5" />
           </button>
 
           {/* GitHub Source Link */}
@@ -124,10 +124,10 @@ export const Header: React.FC<HeaderProps> = ({
             href="https://github.com/vrsn001/void-walls"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:flex items-center gap-1.5 rounded-none border border-white/20 bg-black px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-bold text-neutral-300 hover:text-white hover:border-white/40 hover:bg-white/10 transition-all"
+            className="hidden sm:flex items-center gap-1.5 rounded-none border border-white/20 bg-black px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs font-bold text-neutral-300 hover:text-white hover:border-white/40 hover:bg-white/10 transition-all"
             title="Inspect source repository on GitHub"
           >
-            <ExternalLink className="h-4 w-4 text-neutral-400" />
+            <ExternalLink className="h-3.5 w-3.5 text-neutral-400" />
             <span className="hidden lg:inline text-xs">SRC</span>
           </a>
         </div>

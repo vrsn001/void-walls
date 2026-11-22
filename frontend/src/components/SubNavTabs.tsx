@@ -80,7 +80,7 @@ export const SubNavTabs: React.FC<SubNavTabsProps> = ({
             <button
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
-              className={`flex flex-col items-start p-3 sm:p-3.5 text-left transition-all border rounded-none relative cursor-pointer ${
+              className={`flex flex-col items-start p-2.5 sm:p-3 text-left transition-all border rounded-none relative cursor-pointer ${
                 isActive
                   ? 'border-sky-400 bg-sky-950/30 text-white shadow-[0_0_15px_rgba(56,189,248,0.15)]'
                   : 'border-white/10 bg-black/40 text-neutral-400 hover:text-white hover:border-white/30 hover:bg-white/[0.02]'
@@ -96,7 +96,7 @@ export const SubNavTabs: React.FC<SubNavTabsProps> = ({
                   {tab.num} //
                 </span>
                 <span
-                  className={`px-1.5 py-0.5 text-[10px] font-bold ${
+                  className={`px-1.5 py-0.2 text-[9px] font-bold ${
                     isActive ? 'bg-sky-400 text-black' : 'bg-white/10 text-neutral-300'
                   }`}
                 >
@@ -104,14 +104,14 @@ export const SubNavTabs: React.FC<SubNavTabsProps> = ({
                 </span>
               </div>
 
-              <div className="flex items-center gap-2 mt-2">
-                <Icon className={`h-4.5 w-4.5 shrink-0 ${isActive ? 'text-sky-300' : 'text-neutral-400'}`} />
-                <span className="text-xs sm:text-sm font-bold tracking-tight uppercase">
+              <div className="flex items-center gap-1.5 mt-1.5">
+                <Icon className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-sky-300' : 'text-neutral-400'}`} />
+                <span className="text-xs font-bold tracking-tight uppercase">
                   {tab.label}
                 </span>
               </div>
 
-              <span className="text-[10px] text-neutral-500 uppercase tracking-wider mt-1">
+              <span className="text-[9px] text-neutral-500 uppercase tracking-wider mt-0.5">
                 {tab.sublabel}
               </span>
             </button>

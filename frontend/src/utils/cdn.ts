@@ -1,19 +1,21 @@
 import type { Wallpaper } from '../types';
 
 /**
- * Global Edge Thumbnail Resizer
- * Converts 4K/8K uncompressed master assets (up to 48MB) into ~8-15 KB WebP thumbnails
- * cached globally at Cloudflare Edge.
+ * Global Edge CDN URL Resolver
+ * Delivers assets directly from jsDelivr Multi-CDN edge cache (Cloudflare + Fastly)
+ * with sub-50ms latency worldwide.
  */
-export function getThumbnailUrl(wallpaper: Wallpaper, width = 640): string {
+export function getThumbnailUrl(wallpaper: Wallpaper, _width = 640): string {
   if (wallpaper.isVideo) {
     return wallpaper.rawUrl;
   }
-  const source = wallpaper.rawUrl || wallpaper.cdnUrl;
-  if (!source) return '';
-  
-  // Cloudflare edge worker image proxy
-  return `https://wsrv.nl/?url=${encodeURIComponent(source)}&w=${width}&output=webp&q=80`;
+  if (wallpaper.cdnUrl) {
+    return wallpaper.cdnUrl;
+  }
+  if (wallpaper.rawUrl) {
+    return wallpaper.rawUrl;
+  }
+  return '';
 }
 
 /**
