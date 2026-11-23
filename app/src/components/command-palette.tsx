@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useMemo } from "react";
-import { Search, Zap, Smartphone, Heart, Shuffle, LayoutGrid, Image, Archive, ArrowRight } from "lucide-react";
+import { Search, Zap, Smartphone, Heart, Shuffle, LayoutGrid, Image, Archive, ArrowRight, Palette } from "lucide-react";
 import type { Wallpaper } from "@/lib/types";
 import { sound } from "@/lib/sound";
 import { triggerHaptic } from "@/lib/haptics";
@@ -39,6 +39,12 @@ export function CommandPalette({ wallpapers, collections, onClose, onNavigate }:
     { id: "vaults", label: "/vaults", sublabel: "Browse the archives", icon: Archive, action: { type: "tab", value: "vaults" } },
     { id: "random", label: "/random", sublabel: "Open a random wallpaper", icon: Shuffle, action: { type: "random" } },
     { id: "reset", label: "/reset", sublabel: "Clear filters and search", icon: LayoutGrid, action: { type: "reset" } },
+    { id: "themes", label: "/themes", sublabel: "Open Colorway Matrix (5 Theme Profiles)", icon: Palette, action: { type: "theme" }, color: "text-cyan" },
+    { id: "theme-cyan", label: "/cyan", sublabel: "Switch to CYAN_2077 Neon Theme", icon: Palette, action: { type: "theme", value: "cyan_2077" }, color: "text-cyan" },
+    { id: "theme-matrix", label: "/matrix", sublabel: "Switch to MATRIX_GREEN Operator Theme", icon: Palette, action: { type: "theme", value: "matrix_green" }, color: "text-emerald-400" },
+    { id: "theme-amber", label: "/amber", sublabel: "Switch to AMBER_1984 CRT Theme", icon: Palette, action: { type: "theme", value: "amber_84" }, color: "text-amber" },
+    { id: "theme-magenta", label: "/magenta", sublabel: "Switch to OUTRUN_PINK Synthwave Theme", icon: Palette, action: { type: "theme", value: "outrun_magenta" }, color: "text-pink-400" },
+    { id: "theme-red", label: "/red", sublabel: "Switch to BLOOD_REKT Combat Theme", icon: Palette, action: { type: "theme", value: "blood_rekt" }, color: "text-rose-500" },
     ...collections.map((c) => ({
       id: `col-${c.name}`,
       label: c.name,

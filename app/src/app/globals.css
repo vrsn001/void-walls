@@ -7,13 +7,19 @@
   --color-surface-hover: #111118;
   --color-border: rgba(255, 255, 255, 0.08);
   --color-border-hover: rgba(255, 255, 255, 0.2);
-  --color-cyan: #38bdf8;
-  --color-cyan-dim: rgba(56, 189, 248, 0.15);
+  --color-cyan: var(--accent, #00f0ff);
+  --color-cyan-dim: var(--accent-dim, rgba(0, 240, 255, 0.15));
   --color-amber: #fbbf24;
   --color-green: #4ade80;
   --color-muted: #64748b;
   --font-sans: var(--font-jakarta);
   --font-mono: var(--font-jetbrains);
+}
+
+:root {
+  --accent: #00f0ff;
+  --accent-dim: rgba(0, 240, 255, 0.15);
+  --accent-glow: rgba(0, 240, 255, 0.45);
 }
 
 html {
@@ -32,12 +38,12 @@ body {
 }
 
 ::selection {
-  background: rgba(56, 189, 248, 0.3);
+  background: var(--accent-dim, rgba(0, 240, 255, 0.3));
   color: #fff;
 }
 
 *:focus-visible {
-  outline: 1px solid rgba(56, 189, 248, 0.5);
+  outline: 1px solid var(--accent-glow, rgba(0, 240, 255, 0.5));
   outline-offset: 1px;
 }
 
@@ -49,10 +55,10 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(56, 189, 248, 0.25);
+  background: var(--accent-dim, rgba(0, 240, 255, 0.25));
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(56, 189, 248, 0.5);
+  background: var(--accent, rgba(0, 240, 255, 0.5));
 }
 
 /* Row selection animation */
@@ -60,8 +66,8 @@ body {
   transition: background 0.1s ease, border-color 0.1s ease;
 }
 .feed-row.selected {
-  background: rgba(56, 189, 248, 0.08);
-  border: 1px solid rgba(56, 189, 248, 0.4);
+  background: var(--accent-dim, rgba(0, 240, 255, 0.08));
+  border: 1px solid var(--accent, rgba(0, 240, 255, 0.4));
 }
 .feed-row:not(.selected) {
   border: 1px solid transparent;
@@ -107,7 +113,7 @@ body {
 .status-cursor::after {
   content: '█';
   animation: blink 1s step-end infinite;
-  color: #38bdf8;
+  color: var(--accent, #00f0ff);
   margin-left: 2px;
 }
 @keyframes blink {
@@ -126,7 +132,7 @@ body {
   position: absolute;
   inset: -1px;
   pointer-events: none;
-  box-shadow: 0 10px 40px rgba(56, 189, 248, 0.12), inset 0 0 0 1px rgba(56, 189, 248, 0.35);
+  box-shadow: 0 10px 40px var(--accent-dim, rgba(0, 240, 255, 0.12)), inset 0 0 0 1px var(--accent-glow, rgba(0, 240, 255, 0.35));
   opacity: 0;
   transition: opacity 0.25s ease;
 }
@@ -149,7 +155,7 @@ body {
 video.card-media { opacity: 1; transform: scale(1); }
 
 .card-skeleton {
-  background: linear-gradient(100deg, transparent 30%, rgba(56, 189, 248, 0.06) 50%, transparent 70%) #050508;
+  background: linear-gradient(100deg, transparent 30%, var(--accent-dim, rgba(0, 240, 255, 0.06)) 50%, transparent 70%) #050508;
   background-size: 200% 100%;
   animation: shimmer 1.4s linear infinite;
   transition: opacity 0.4s ease;

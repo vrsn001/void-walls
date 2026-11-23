@@ -7,8 +7,13 @@ import { WallpaperGrid } from "./wallpaper-grid";
 import { Lightbox } from "./lightbox";
 import { CommandPalette } from "./command-palette";
 import { CreditsPanel } from "./credits-panel";
+import { RadioPanel } from "./radio-panel";
+import { CrtOverlay } from "./crt-overlay";
+import { ColorwayModal } from "./colorway-modal";
 import { useFavorites, toggleFavoriteId } from "@/lib/favorites";
+import { applyTheme, type ThemeId } from "@/lib/theme";
 import { sound } from "@/lib/sound";
+import { radio } from "@/lib/radio";
 import { triggerHaptic } from "@/lib/haptics";
 import {
   Search,
@@ -24,6 +29,9 @@ import {
   Volume2,
   VolumeX,
   MoreHorizontal,
+  Radio,
+  Tv,
+  Palette,
 } from "lucide-react";
 
 const MAIN_TABS = [
@@ -57,10 +65,23 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [mobileCols, setMobileCols] = useState<1 | 2>(2);
   const [sfxEnabled, setSfxEnabled] = useState(true);
+  const [radioLive, setRadioLive] = useState(false);
+  const [radioPanelOpen, setRadioPanelOpen] = useState(false);
+  const [crtEnabled, setCrtEnabled] = useState(false);
+  const [colorwayOpen, setColorwayOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     setSfxEnabled(sound.isEnabled());
+    setRadioLive(radio.isActive());
+    const unsub = radio.subscribe(() => {
+      setRadioLive(radio.isActive());
+      const track = radio.getCurrentTrack();
+      if (radio.isActive() && track) {
+        setStatusMsg(`ON AIR: "${track}" [104.7 MHZ]`);
+      }
+    });
+    return () => unsub();
   }, []);
 
   const toggleSfx = useCallback(() => {
@@ -68,6 +89,16 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
     setSfxEnabled(next);
     triggerHaptic("medium");
     setStatusMsg(`SFX: ${next ? "ENABLED // TACTILE HARDWARE" : "MUTED // SILENT"}`);
+  }, []);
+
+  const toggleCrt = useCallback(() => {
+    sound.playSwitch();
+    triggerHaptic("medium");
+    setCrtEnabled((prev) => {
+      const next = !prev;
+      setStatusMsg(`CRT SCREEN: ${next ? "SCANLINES // PHOSPHOR FX ACTIVE" : "CLEAN DIGITAL"}`);
+      return next;
+    });
   }, []);
 
   const mainFiltered = useMemo(() => {
@@ -183,6 +214,13 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
         setCollection(null);
         setQuery("");
         setStatusMsg("FILTER: ALL ASSETS");
+      } else if (action.type === "theme") {
+        if (action.value) {
+          applyTheme(action.value as ThemeId);
+          setStatusMsg(`THEME: ${action.value.toUpperCase()} // COLORWAY ENGAGED`);
+        } else {
+          setColorwayOpen(true);
+        }
       } else if (action.type === "preview") {
         const idx = filtered.findIndex((w) => w.id === action.value);
         if (idx >= 0) setLightboxIndex(idx);
@@ -294,6 +332,52 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
             </button>
             <button
               onClick={() => {
+                sound.playCommand();
+                triggerHaptic("light");
+                setRadioPanelOpen(true);
+              }}
+              title="Cyberpunk Radio Station Tuner (Procedural Ambient Synth)"
+              className={`flex items-center gap-1.5 border px-2.5 sm:px-3 py-1.5 text-[11px] font-bold transition-colors cursor-pointer ${
+                radioLive
+                  ? "border-cyan/50 bg-cyan/[0.12] text-cyan hover:bg-cyan/20"
+                  : "border-border text-muted hover:text-white"
+              }`}
+            >
+              <Radio className={`h-3.5 w-3.5 ${radioLive ? "text-cyan animate-pulse" : "text-muted"}`} />
+              <span>RADIO</span>
+              <span className={`text-[9px] font-mono px-1 py-0.2 ${radioLive ? "bg-cyan text-black font-bold" : "text-zinc-500"}`}>
+                {radioLive ? "LIVE" : "TUNER"}
+              </span>
+            </button>
+            <button
+              onClick={toggleCrt}
+              title="Toggle Retro CRT Scanlines & Terminal Phosphor FX"
+              className={`flex items-center gap-1.5 border px-2.5 sm:px-3 py-1.5 text-[11px] font-bold transition-colors cursor-pointer ${
+                crtEnabled
+                  ? "border-cyan/50 bg-cyan/[0.12] text-cyan hover:bg-cyan/20"
+                  : "border-border text-muted hover:text-white"
+              }`}
+            >
+              <Tv className={`h-3.5 w-3.5 ${crtEnabled ? "text-cyan" : "text-muted"}`} />
+              <span>CRT</span>
+              <span className={`text-[9px] font-mono px-1 py-0.2 ${crtEnabled ? "bg-cyan text-black font-bold" : "text-zinc-500"}`}>
+                {crtEnabled ? "ON" : "OFF"}
+              </span>
+            </button>
+            <button
+              onClick={() => {
+                sound.playSwitch();
+                triggerHaptic("light");
+                setColorwayOpen(true);
+              }}
+              title="Terminal Colorway Matrix (5 Color Profiles)"
+              className="flex items-center gap-1.5 border border-border px-2.5 sm:px-3 py-1.5 text-[11px] font-bold text-white hover:border-cyan/40 hover:text-cyan transition-colors cursor-pointer"
+            >
+              <Palette className="h-3.5 w-3.5 text-cyan" />
+              <span>THEME</span>
+            </button>
+            <button
+              onClick={() => {
                 sound.playSwitch();
                 triggerHaptic("light");
                 setCreditsOpen(true);
@@ -389,6 +473,55 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
                     </span>
                     <span className={`text-[10px] font-bold px-1.5 py-0.5 border ${sfxEnabled ? "border-cyan/40 text-cyan bg-cyan/10" : "border-border text-muted"}`}>
                       {sfxEnabled ? "ON" : "MUTED"}
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      sound.playCommand();
+                      triggerHaptic("light");
+                      setRadioPanelOpen(true);
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full min-h-[44px] px-3.5 py-2.5 flex items-center justify-between text-left text-xs font-semibold text-white hover:bg-white/[0.04] border-b border-border cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Radio className={`h-4 w-4 ${radioLive ? "text-cyan animate-pulse" : "text-muted"}`} />
+                      <span>CYBER RADIO TUNER</span>
+                    </span>
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 border ${radioLive ? "border-cyan/50 text-cyan bg-cyan/15" : "border-border text-muted"}`}>
+                      {radioLive ? "LIVE" : "TUNER"}
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      toggleCrt();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full min-h-[44px] px-3.5 py-2.5 flex items-center justify-between text-left text-xs font-semibold text-white hover:bg-white/[0.04] border-b border-border cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Tv className={`h-4 w-4 ${crtEnabled ? "text-cyan" : "text-muted"}`} />
+                      <span>CRT SCANLINES FX</span>
+                    </span>
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 border ${crtEnabled ? "border-cyan/50 text-cyan bg-cyan/15" : "border-border text-muted"}`}>
+                      {crtEnabled ? "ON" : "OFF"}
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      sound.playSwitch();
+                      triggerHaptic("light");
+                      setColorwayOpen(true);
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full min-h-[44px] px-3.5 py-2.5 flex items-center justify-between text-left text-xs font-semibold text-white hover:bg-white/[0.04] border-b border-border cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Palette className="h-4 w-4 text-cyan" />
+                      <span>COLORWAY MATRIX</span>
+                    </span>
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 border border-cyan/40 text-cyan bg-cyan/10">
+                      THEMES
                     </span>
                   </button>
                   <button
@@ -599,7 +732,7 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
       </div>
 
       {/* ═══════ GRID ═══════ */}
-      <main className="flex-1 w-full max-w-full min-w-0">
+      <main className="flex-1 w-full max-w-full min-w-0 pb-14 sm:pb-12">
         <WallpaperGrid
           wallpapers={filtered}
           favorites={favorites}
@@ -611,12 +744,28 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
       </main>
 
       {/* ═══════ FOOTER STATUS ═══════ */}
-      <footer className="sticky bottom-0 z-40 shrink-0 flex items-center justify-between border-t border-border bg-[#060609]/95 px-3 sm:px-5 py-2 pb-[max(0.6rem,env(safe-area-inset-bottom))] w-full max-w-full">
-        <div className="flex items-center gap-2 text-xs text-zinc-300 truncate mr-2">
+      <footer className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between border-t border-border bg-[#060609]/95 backdrop-blur-md px-3 sm:px-5 py-2 pb-[max(0.6rem,env(safe-area-inset-bottom))] w-full">
+        <div className="flex items-center gap-2 text-xs text-zinc-300 truncate mr-2 min-w-0">
           <span className="status-cursor h-3 w-[2px] bg-cyan shrink-0" />
           <span className="truncate">{statusMsg}</span>
         </div>
-        <div className="flex items-center gap-3 sm:gap-4 text-xs text-zinc-400 tabular-nums shrink-0">
+        <div className="flex items-center gap-2.5 sm:gap-4 text-xs text-zinc-400 tabular-nums shrink-0">
+          <button
+            onClick={() => {
+              sound.playCommand();
+              triggerHaptic("light");
+              setRadioPanelOpen(true);
+            }}
+            title={radioLive ? "Cyber Radio On Air (Click for Tuner HUD)" : "Cyber Radio Off (Click to Tune In)"}
+            className={`flex items-center gap-1.5 px-2 py-0.5 border text-[10px] font-mono font-bold tracking-wider transition-colors cursor-pointer ${
+              radioLive
+                ? "border-cyan/50 bg-cyan/[0.12] text-cyan hover:bg-cyan/20"
+                : "border-border/70 bg-black/40 text-zinc-400 hover:text-zinc-200 hover:border-zinc-500"
+            }`}
+          >
+            <Radio className={`h-3 w-3 ${radioLive ? "animate-pulse text-cyan" : "text-zinc-500"}`} />
+            <span>{radioLive ? "RADIO: LIVE ∿" : "RADIO: OFF"}</span>
+          </button>
           <span className="hidden sm:inline">
             FILTER: <span className="text-cyan uppercase">{collection || mainTab}</span>
           </span>
@@ -628,7 +777,21 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
         </div>
       </footer>
 
+      <CrtOverlay enabled={crtEnabled} />
       {creditsOpen && <CreditsPanel wallpapers={wallpapers} onClose={() => setCreditsOpen(false)} />}
+      {radioPanelOpen && (
+        <RadioPanel
+          onClose={() => setRadioPanelOpen(false)}
+          onStatusChange={setStatusMsg}
+        />
+      )}
+      {colorwayOpen && (
+        <ColorwayModal
+          open={colorwayOpen}
+          onClose={() => setColorwayOpen(false)}
+          onThemeChanged={(name) => setStatusMsg(`THEME: ${name} // COLORWAY ENGAGED`)}
+        />
+      )}
 
       {/* ═══════ COMMAND PALETTE ═══════ */}
       {cmdPaletteOpen && (
