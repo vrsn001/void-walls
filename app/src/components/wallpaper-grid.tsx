@@ -155,7 +155,7 @@ const WallpaperCard = memo(function WallpaperCard({
         <button
           onClick={(e) => { e.stopPropagation(); onToggleFavorite(wallpaper); }}
           aria-label={isFavorite ? "Remove from stash" : "Save to stash"}
-          className={`fav-btn absolute top-2 right-2 flex h-8 w-8 items-center justify-center cursor-pointer ${
+          className={`fav-btn absolute top-1.5 right-1.5 sm:top-2 sm:right-2 flex h-11 w-11 sm:h-8 sm:w-8 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 items-center justify-center cursor-pointer ${
             isFavorite
               ? "is-fav bg-rose-500/20 border border-rose-500/50 text-rose-400"
               : "bg-black/60 border border-white/15 text-white/60"
@@ -166,16 +166,16 @@ const WallpaperCard = memo(function WallpaperCard({
       </div>
 
       <div className="px-2.5 sm:px-3 py-2 sm:py-2.5 border-t border-border">
-        <h3 className="text-[11px] sm:text-[12px] font-semibold text-white font-sans truncate leading-tight">
+        <h3 className="text-xs sm:text-[13px] font-semibold text-white font-sans truncate leading-tight">
           {wallpaper.title}
         </h3>
-        <div className="flex items-center justify-between mt-1 sm:mt-1.5 gap-1">
-          <span className="text-[9px] sm:text-[10px] text-muted truncate">{wallpaper.categoryLabel}</span>
-          <div className="flex items-center gap-1 sm:gap-2 text-[9px] sm:text-[10px] text-muted/60 tabular-nums shrink-0">
+        <div className="flex items-center justify-between mt-1 sm:mt-1.5 gap-1 font-mono">
+          <span className="text-[10px] sm:text-[11px] text-zinc-300 truncate font-sans font-medium">{wallpaper.categoryLabel}</span>
+          <div className="flex items-center gap-1 sm:gap-2 text-[10px] sm:text-[11px] text-zinc-400 tabular-nums shrink-0">
             <span>{wallpaper.resolution || wallpaper.resolutionBadge || "—"}</span>
-            <span className="text-white/10 hidden sm:inline">·</span>
+            <span className="text-white/20 hidden sm:inline">·</span>
             <span className="hidden sm:inline">{wallpaper.sizeFormatted}</span>
-            <span className="text-white/10">·</span>
+            <span className="text-white/20">·</span>
             <span className="uppercase">{wallpaper.format}</span>
           </div>
         </div>

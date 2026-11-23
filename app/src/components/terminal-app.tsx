@@ -23,6 +23,7 @@ import {
   Image,
   Volume2,
   VolumeX,
+  MoreHorizontal,
 } from "lucide-react";
 
 const MAIN_TABS = [
@@ -56,6 +57,7 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [mobileCols, setMobileCols] = useState<1 | 2>(2);
   const [sfxEnabled, setSfxEnabled] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     setSfxEnabled(sound.isEnabled());
@@ -197,30 +199,38 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
         return;
       }
       if (e.key === "Escape") {
-        if (cmdPaletteOpen) setCmdPaletteOpen(false);
+        if (mobileMenuOpen) setMobileMenuOpen(false);
+        else if (cmdPaletteOpen) setCmdPaletteOpen(false);
         else if (lightboxIndex !== null) setLightboxIndex(null);
       }
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [lightboxIndex, cmdPaletteOpen]);
+  }, [lightboxIndex, cmdPaletteOpen, mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handleOutsideClick = () => setMobileMenuOpen(false);
+    window.addEventListener("click", handleOutsideClick);
+    return () => window.removeEventListener("click", handleOutsideClick);
+  }, [mobileMenuOpen]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-black">
+    <div className="flex min-h-screen flex-col bg-black w-full max-w-full overflow-x-hidden">
       {/* ═══════ HEADER ═══════ */}
-      <header className="shrink-0 border-b border-border bg-[#060609]">
-        <div className="flex items-center justify-between px-3 sm:px-5 py-2.5 sm:py-3 gap-2">
+      <header className="shrink-0 border-b border-border bg-[#060609] w-full max-w-full">
+        <div className="flex items-center justify-between px-3 sm:px-5 py-2.5 sm:py-3 gap-2 w-full max-w-full">
           {/* Logo */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink">
             <Terminal className="h-5 w-5 text-cyan shrink-0" />
-            <div>
-              <h1 className="text-sm sm:text-base font-bold font-sans tracking-tight text-white leading-tight">
+            <div className="min-w-0">
+              <h1 className="text-sm sm:text-base font-bold font-sans tracking-tight text-white leading-tight truncate">
                 VOID<span className="text-cyan mx-0.5">{"//"}</span>WALLS
                 <span className="ml-1.5 sm:ml-2 text-[9px] font-mono bg-cyan/10 border border-cyan/30 text-cyan px-1.5 py-0.5 align-middle uppercase tracking-widest">
                   VAULT
                 </span>
               </h1>
-              <p className="text-[9px] sm:text-[10px] text-muted mt-0.5 font-mono">
+              <p className="text-[10px] sm:text-xs text-zinc-400 mt-0.5 font-mono truncate">
                 {wallpapers.length.toLocaleString()} CURATED ASSETS {"//"} FASTLY CDN
               </p>
             </div>
@@ -243,14 +253,14 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
             </div>
           </div>
 
-          {/* Action buttons */}
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* Desktop Action buttons (sm and up) */}
+          <div className="hidden sm:flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               onClick={handleRandom}
               title="Random Wallpaper"
               className="flex items-center gap-1.5 border border-border px-2.5 sm:px-3 py-1.5 text-[11px] font-bold text-white hover:border-cyan/40 hover:text-cyan transition-colors cursor-pointer"
             >
-              <Shuffle className="h-3.5 w-3.5" /> <span className="hidden sm:inline">RANDOM</span>
+              <Shuffle className="h-3.5 w-3.5" /> <span>RANDOM</span>
             </button>
             <button
               onClick={() => {
@@ -263,7 +273,7 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
               className="flex items-center gap-1.5 border border-border px-2.5 sm:px-3 py-1.5 text-[11px] font-bold text-white hover:border-cyan/40 hover:text-cyan transition-colors cursor-pointer"
             >
               <Heart className={`h-3.5 w-3.5 ${favorites.size > 0 ? "fill-rose-400 text-rose-400" : ""}`} />
-              <span className="hidden sm:inline">STASH</span>
+              <span>STASH</span>
               {favorites.size > 0 && (
                 <span className="text-[10px] font-mono bg-rose-500/20 text-rose-400 px-1 py-0.5 leading-none">
                   {favorites.size}
@@ -280,7 +290,7 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
               }`}
             >
               {sfxEnabled ? <Volume2 className="h-3.5 w-3.5 text-cyan" /> : <VolumeX className="h-3.5 w-3.5 text-muted" />}
-              <span className="hidden sm:inline">SFX</span>
+              <span>SFX</span>
             </button>
             <button
               onClick={() => {
@@ -291,7 +301,7 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
               title="Credits & Sources"
               className="flex items-center gap-1.5 border border-cyan/30 bg-cyan/10 px-2.5 sm:px-3 py-1.5 text-[11px] font-bold text-cyan hover:bg-cyan/20 transition-colors cursor-pointer"
             >
-              <Award className="h-3.5 w-3.5" /> <span className="hidden sm:inline">CREDITS</span>
+              <Award className="h-3.5 w-3.5" /> <span>CREDITS</span>
             </button>
             <a
               href="https://github.com/vrsn001/void-walls"
@@ -313,6 +323,99 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
             >
               <kbd className="border border-white/10 bg-white/[0.03] px-1.5 py-0.5 text-[9px]">⌘K</kbd>
             </button>
+          </div>
+
+          {/* Mobile Action buttons (< sm) — All touch targets >= 44px */}
+          <div className="flex sm:hidden items-center gap-1.5 shrink-0 relative" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={handleRandom}
+              title="Random Wallpaper"
+              aria-label="Random Wallpaper"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center border border-border text-white hover:border-cyan/40 hover:text-cyan transition-colors cursor-pointer"
+            >
+              <Shuffle className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => {
+                sound.playSwitch();
+                triggerHaptic("light");
+                setMainTab("saved");
+                setCollection(null);
+              }}
+              title="Saved Stash"
+              aria-label="Saved Stash"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center relative border border-border text-white hover:border-cyan/40 hover:text-cyan transition-colors cursor-pointer"
+            >
+              <Heart className={`h-4 w-4 ${favorites.size > 0 ? "fill-rose-400 text-rose-400" : ""}`} />
+              {favorites.size > 0 && (
+                <span className="absolute top-1 right-1 text-[9px] font-mono font-bold bg-rose-500 text-white px-1 py-0.2 leading-none">
+                  {favorites.size}
+                </span>
+              )}
+            </button>
+            <div className="relative">
+              <button
+                onClick={() => {
+                  sound.playSwitch();
+                  triggerHaptic("light");
+                  setMobileMenuOpen((v) => !v);
+                }}
+                title="More Options"
+                aria-label="More Options"
+                aria-expanded={mobileMenuOpen}
+                className={`min-w-[44px] min-h-[44px] flex items-center justify-center border transition-colors cursor-pointer ${
+                  mobileMenuOpen
+                    ? "border-cyan bg-cyan/15 text-cyan"
+                    : "border-border text-white hover:border-cyan/40 hover:text-cyan"
+                }`}
+              >
+                <MoreHorizontal className="h-4 w-4" />
+              </button>
+              {mobileMenuOpen && (
+                <div
+                  className="absolute right-0 top-full mt-1.5 z-50 w-52 bg-[#09090f] border border-border shadow-2xl shadow-black font-mono"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button
+                    onClick={() => {
+                      toggleSfx();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full min-h-[44px] px-3.5 py-2.5 flex items-center justify-between text-left text-xs font-semibold text-white hover:bg-white/[0.04] border-b border-border cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      {sfxEnabled ? <Volume2 className="h-4 w-4 text-cyan" /> : <VolumeX className="h-4 w-4 text-muted" />}
+                      <span>TACTILE SFX</span>
+                    </span>
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 border ${sfxEnabled ? "border-cyan/40 text-cyan bg-cyan/10" : "border-border text-muted"}`}>
+                      {sfxEnabled ? "ON" : "MUTED"}
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      sound.playSwitch();
+                      triggerHaptic("light");
+                      setCreditsOpen(true);
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full min-h-[44px] px-3.5 py-2.5 flex items-center gap-2 text-left text-xs font-semibold text-cyan hover:bg-cyan/[0.06] border-b border-border cursor-pointer"
+                  >
+                    <Award className="h-4 w-4 text-cyan shrink-0" />
+                    <span>CREDITS & SOURCES</span>
+                  </button>
+                  <a
+                    href="https://github.com/vrsn001/void-walls"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full min-h-[44px] px-3.5 py-2.5 flex items-center gap-2 text-left text-xs font-semibold text-zinc-300 hover:text-white hover:bg-white/[0.04] cursor-pointer"
+                  >
+                    <Terminal className="h-4 w-4 shrink-0" />
+                    <span>SOURCE REPO</span>
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -346,7 +449,7 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
         </div>
 
         {/* ═══════ MAIN TABS (Horizontally scrollable with smooth touch on mobile) ═══════ */}
-        <div className="flex items-stretch border-t border-border overflow-x-auto scrollbar-none scroll-smooth">
+        <div className="flex items-stretch border-t border-border overflow-x-auto scrollbar-none scroll-smooth w-full max-w-full">
           {MAIN_TABS.map((tab, i) => {
             const Icon = tab.icon;
             const isActive = mainTab === tab.id;
@@ -372,36 +475,36 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
                   setMainTab(tab.id);
                   setCollection(null);
                 }}
-                className={`shrink-0 md:flex-1 flex items-start gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-left transition-colors cursor-pointer border-r border-border last:border-r-0 min-w-[130px] sm:min-w-[150px] md:min-w-0 ${
+                className={`shrink-0 md:flex-1 flex items-start gap-2 px-3 sm:px-4 py-2.5 text-left transition-colors cursor-pointer border-r border-border last:border-r-0 min-w-[130px] sm:min-w-[150px] md:min-w-0 min-h-[44px] ${
                   isActive
-                    ? "bg-cyan/[0.06] border-t-2 border-t-cyan"
+                    ? "bg-cyan/[0.08] border-t-2 border-t-cyan"
                     : "hover:bg-white/[0.02] border-t-2 border-t-transparent"
                 }`}
               >
-                <span className="hidden sm:inline text-[10px] text-muted/50 tabular-nums mt-0.5">
+                <span className="hidden sm:inline text-[10px] text-zinc-500 tabular-nums mt-0.5">
                   {String(i + 1).padStart(2, "0")} {"//"}
                 </span>
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5 sm:gap-2">
-                    <Icon className={`h-3 w-3 shrink-0 ${isActive ? "text-cyan" : "text-muted"}`} />
+                    <Icon className={`h-3.5 w-3.5 shrink-0 ${isActive ? "text-cyan" : "text-zinc-400"}`} />
                     <span
-                      className={`text-[10px] sm:text-[11px] font-bold uppercase tracking-wider truncate ${
-                        isActive ? "text-white" : "text-muted"
+                      className={`text-[11px] sm:text-xs font-bold uppercase tracking-wider truncate ${
+                        isActive ? "text-white" : "text-zinc-300"
                       }`}
                     >
                       {tab.label}
                     </span>
                     <span
-                      className={`text-[9px] sm:text-[10px] tabular-nums px-1.5 py-0.5 ${
+                      className={`text-[10px] sm:text-[11px] tabular-nums px-1.5 py-0.5 ${
                         isActive
                           ? "bg-cyan text-black font-bold"
-                          : "text-muted/60"
+                          : "text-zinc-400 bg-white/[0.04]"
                       }`}
                     >
                       {count}
                     </span>
                   </div>
-                  <p className="text-[8px] sm:text-[9px] text-muted/40 uppercase tracking-wider mt-0.5 truncate">
+                  <p className="text-[9px] sm:text-[10px] text-zinc-400 uppercase tracking-wider mt-0.5 truncate">
                     {tab.sublabel}
                   </p>
                 </div>
@@ -413,21 +516,21 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
 
       {/* ═══════ COLLECTION SUB-TABS ═══════ */}
       {mainTab !== "saved" && (
-        <div className="shrink-0 border-b border-border bg-[#040407] overflow-x-auto scrollbar-none">
-          <div className="flex items-center gap-0.5 px-3 sm:px-4 py-2 min-w-max">
+        <div className="shrink-0 border-b border-border bg-[#040407] overflow-x-auto scrollbar-none w-full max-w-full">
+          <div className="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 min-w-max">
             <button
               onClick={() => {
                 sound.playSwitch();
                 triggerHaptic("light");
                 setCollection(null);
               }}
-              className={`flex items-center gap-1.5 px-3 py-1 text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
+              className={`flex items-center gap-1.5 px-3.5 py-2 min-h-[44px] text-[11px] sm:text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
                 !collection
-                  ? "text-cyan bg-cyan/[0.08] border border-cyan/30"
-                  : "text-muted hover:text-white border border-transparent"
+                  ? "text-cyan bg-cyan/[0.12] border border-cyan/40"
+                  : "text-zinc-300 hover:text-white border border-transparent"
               }`}
             >
-              <LayoutGrid className="h-2.5 w-2.5" />
+              <LayoutGrid className="h-3 w-3" />
               ALL_COLLECTIONS ({mainFiltered.length.toLocaleString()})
             </button>
             {collections.map((c) => (
@@ -438,14 +541,14 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
                   triggerHaptic("light");
                   setCollection(c.name);
                 }}
-                className={`flex items-center gap-1 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
+                className={`flex items-center gap-1.5 px-3 py-2 min-h-[44px] text-[11px] sm:text-xs font-medium uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
                   collection === c.name
-                    ? "text-cyan bg-cyan/[0.08] border border-cyan/30"
-                    : "text-muted/70 hover:text-white border border-transparent"
+                    ? "text-cyan bg-cyan/[0.12] border border-cyan/40"
+                    : "text-zinc-300 hover:text-white border border-transparent"
                 }`}
               >
                 {c.name.toUpperCase()}{" "}
-                <span className={collection === c.name ? "text-cyan" : "text-muted/40"}>
+                <span className={collection === c.name ? "text-cyan" : "text-zinc-400"}>
                   {c.count}
                 </span>
               </button>
@@ -455,7 +558,7 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
       )}
 
       {/* ═══════ RESULTS COUNT & MOBILE GRID TOGGLE ═══════ */}
-      <div className="shrink-0 px-3 sm:px-5 py-2 text-[10px] text-muted/60 font-mono flex items-center justify-between">
+      <div className="shrink-0 px-3 sm:px-5 py-2 text-xs text-zinc-400 font-mono flex items-center justify-between w-full max-w-full">
         <div>
           QUERY_RESULTS:{" "}
           <span className="text-white font-bold">{filtered.length.toLocaleString()}</span> {"//"}{" "}
@@ -469,10 +572,10 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
               setMobileCols(1);
             }}
             aria-label="1-Column layout"
-            className={`px-2 py-0.5 text-[9px] border transition-colors cursor-pointer ${
+            className={`min-h-[44px] min-w-[44px] px-2.5 py-1 text-[10px] font-bold border transition-colors cursor-pointer flex items-center justify-center ${
               mobileCols === 1
-                ? "border-cyan text-cyan bg-cyan/10"
-                : "border-border text-muted"
+                ? "border-cyan text-cyan bg-cyan/15"
+                : "border-border text-zinc-400"
             }`}
           >
             1-COL
@@ -484,10 +587,10 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
               setMobileCols(2);
             }}
             aria-label="2-Column layout"
-            className={`px-2 py-0.5 text-[9px] border transition-colors cursor-pointer ${
+            className={`min-h-[44px] min-w-[44px] px-2.5 py-1 text-[10px] font-bold border transition-colors cursor-pointer flex items-center justify-center ${
               mobileCols === 2
-                ? "border-cyan text-cyan bg-cyan/10"
-                : "border-border text-muted"
+                ? "border-cyan text-cyan bg-cyan/15"
+                : "border-border text-zinc-400"
             }`}
           >
             2-COL
@@ -496,7 +599,7 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
       </div>
 
       {/* ═══════ GRID ═══════ */}
-      <main className="flex-1">
+      <main className="flex-1 w-full max-w-full min-w-0">
         <WallpaperGrid
           wallpapers={filtered}
           favorites={favorites}
@@ -508,12 +611,12 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
       </main>
 
       {/* ═══════ FOOTER STATUS ═══════ */}
-      <footer className="sticky bottom-0 z-40 shrink-0 flex items-center justify-between border-t border-border bg-[#060609]/95 px-3 sm:px-5 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
-        <div className="flex items-center gap-2 text-[10px] text-muted truncate mr-2">
+      <footer className="sticky bottom-0 z-40 shrink-0 flex items-center justify-between border-t border-border bg-[#060609]/95 px-3 sm:px-5 py-2 pb-[max(0.6rem,env(safe-area-inset-bottom))] w-full max-w-full">
+        <div className="flex items-center gap-2 text-xs text-zinc-300 truncate mr-2">
           <span className="status-cursor h-3 w-[2px] bg-cyan shrink-0" />
           <span className="truncate">{statusMsg}</span>
         </div>
-        <div className="flex items-center gap-3 sm:gap-4 text-[10px] text-muted/50 tabular-nums shrink-0">
+        <div className="flex items-center gap-3 sm:gap-4 text-xs text-zinc-400 tabular-nums shrink-0">
           <span className="hidden sm:inline">
             FILTER: <span className="text-cyan uppercase">{collection || mainTab}</span>
           </span>
