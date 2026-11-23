@@ -90,10 +90,12 @@ export function CommandPalette({ wallpapers, collections, onClose, onNavigate }:
       } else if (e.key === "ArrowDown") {
         e.preventDefault();
         sound.playSwitch();
+        triggerHaptic("light");
         setSelectedIdx((i) => Math.min(i + 1, results.length - 1));
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
         sound.playSwitch();
+        triggerHaptic("light");
         setSelectedIdx((i) => Math.max(i - 1, 0));
       } else if (e.key === "Enter" && results[selectedIdx]) {
         e.preventDefault();
