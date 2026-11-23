@@ -427,15 +427,15 @@ export function Lightbox({
             <span className="hidden sm:inline">FOCUS</span>
           </button>
 
-          {/* Ricing Palette Exporter Trigger */}
+          {/* Unix Rice Forge & ASCII Matrix Trigger */}
           <button
             onClick={() => {
               sound.playSwitch();
               triggerHaptic("medium");
               setPaletteOpen(true);
             }}
-            title="Extract Ricing Palette Matrix [P]"
-            aria-label="Palette Matrix"
+            title="Unix Rice Forge & ANSI ASCII Terminal Converter [P]"
+            aria-label="Unix Rice Forge"
             className="flex min-w-[44px] sm:min-w-0 h-11 w-11 sm:h-9 sm:w-auto sm:px-2.5 items-center justify-center gap-1 border border-purple-500/40 bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 transition-colors cursor-pointer text-xs font-mono font-bold"
           >
             <Palette className="h-4 w-4 sm:h-3.5 sm:w-3.5" />

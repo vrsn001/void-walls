@@ -221,3 +221,169 @@ export function formatAsJson(colors: PaletteColor[]): string {
   });
   return JSON.stringify(obj, null, 2);
 }
+
+export function formatAsHyprland(colors: PaletteColor[]): string {
+  const c0 = colors[0]?.hex.replace("#", "") || "06060a";
+  const c1 = colors[1]?.hex.replace("#", "") || "121420";
+  const c2 = colors[2]?.hex.replace("#", "") || "00f0ff";
+  const c3 = colors[3]?.hex.replace("#", "") || "ff007f";
+  return `# Hyprland Window Config // Void Walls Unix Rice Forge
+general {
+    col.active_border = rgba(${c2}ee) rgba(${c3}ee) 45deg
+    col.inactive_border = rgba(${c1}aa)
+    gaps_in = 4
+    gaps_out = 8
+    border_size = 2
+}
+
+decoration {
+    rounding = 6
+    shadow:enabled = true
+    shadow:range = 14
+    shadow:render_power = 3
+    shadow:color = rgba(${c0}99)
+}`;
+}
+
+export function formatAsKitty(colors: PaletteColor[]): string {
+  const c0 = colors[0]?.hex || "#06060a";
+  const c1 = colors[1]?.hex || "#121420";
+  const c2 = colors[2]?.hex || "#00f0ff";
+  const c3 = colors[3]?.hex || "#ff007f";
+  const c4 = colors[4]?.hex || "#7000ff";
+  return `# Kitty Terminal Theme // Void Walls Unix Rice Forge
+background ${c0}
+foreground #e4e4e7
+selection_background ${c2}
+selection_foreground ${c0}
+cursor ${c2}
+cursor_text_color ${c0}
+url_color ${c2}
+
+# Normal Colors
+color0 ${c0}
+color1 #ff0055
+color2 ${c2}
+color3 #fcee0a
+color4 #0070f3
+color5 ${c4}
+color6 ${c2}
+color7 #d4d4d8
+
+# Bright Colors
+color8 ${c1}
+color9 #ff3377
+color10 ${c2}
+color11 #fdf24d
+color12 #3291ff
+color13 #c471ed
+color14 #5ce1e6
+color15 ${c3}`;
+}
+
+export function formatAsAlacritty(colors: PaletteColor[]): string {
+  const c0 = colors[0]?.hex || "#06060a";
+  const c1 = colors[1]?.hex || "#121420";
+  const c2 = colors[2]?.hex || "#00f0ff";
+  const c3 = colors[3]?.hex || "#ff007f";
+  const c4 = colors[4]?.hex || "#7000ff";
+  return `# Alacritty Terminal Theme (TOML) // Void Walls Unix Rice Forge
+[colors.primary]
+background = "${c0}"
+foreground = "#e4e4e7"
+
+[colors.cursor]
+text = "${c0}"
+cursor = "${c2}"
+
+[colors.normal]
+black = "${c0}"
+red = "#ff0055"
+green = "${c2}"
+yellow = "#fcee0a"
+blue = "#0070f3"
+magenta = "${c4}"
+cyan = "${c2}"
+white = "#d4d4d8"
+
+[colors.bright]
+black = "${c1}"
+red = "#ff3377"
+green = "${c2}"
+yellow = "#fdf24d"
+blue = "#3291ff"
+magenta = "#c471ed"
+cyan = "#5ce1e6"
+white = "${c3}"`;
+}
+
+export function formatAsPywal(colors: PaletteColor[]): string {
+  const c0 = colors[0]?.hex || "#06060a";
+  const c1 = colors[1]?.hex || "#121420";
+  const c2 = colors[2]?.hex || "#00f0ff";
+  const c3 = colors[3]?.hex || "#ff007f";
+  const c4 = colors[4]?.hex || "#7000ff";
+  return JSON.stringify(
+    {
+      wallpaper: "void-walls",
+      alpha: "100",
+      special: {
+        background: c0,
+        foreground: "#e4e4e7",
+        cursor: c2,
+      },
+      colors: {
+        color0: c0,
+        color1: "#ff0055",
+        color2: c2,
+        color3: "#fcee0a",
+        color4: "#0070f3",
+        color5: c4,
+        color6: c2,
+        color7: "#d4d4d8",
+        color8: c1,
+        color9: "#ff3377",
+        color10: c2,
+        color11: "#fdf24d",
+        color12: "#3291ff",
+        color13: "#c471ed",
+        color14: "#5ce1e6",
+        color15: c3,
+      },
+    },
+    null,
+    2
+  );
+}
+
+export function formatAsWaybar(colors: PaletteColor[]): string {
+  const c0 = colors[0]?.hex || "#06060a";
+  const c1 = colors[1]?.hex || "#121420";
+  const c2 = colors[2]?.hex || "#00f0ff";
+  const c3 = colors[3]?.hex || "#ff007f";
+  const c4 = colors[4]?.hex || "#7000ff";
+  return `/* Waybar CSS // Void Walls Unix Rice Forge */
+@define-color bg ${c0};
+@define-color surface ${c1};
+@define-color accent ${c2};
+@define-color neon ${c3};
+@define-color glow ${c4};
+
+window#waybar {
+    background: @bg;
+    color: #e4e4e7;
+    border-bottom: 2px solid @accent;
+}
+
+#workspaces button.active {
+    background: @accent;
+    color: @bg;
+}
+
+#clock, #battery, #cpu, #memory {
+    background: @surface;
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin: 2px 4px;
+}`;
+}
