@@ -8,6 +8,8 @@ import { Lightbox } from "./lightbox";
 import { CommandPalette } from "./command-palette";
 import { CreditsPanel } from "./credits-panel";
 import { useFavorites, toggleFavoriteId } from "@/lib/favorites";
+import { sound } from "@/lib/sound";
+import { triggerHaptic } from "@/lib/haptics";
 import {
   Search,
   Shuffle,
@@ -19,6 +21,8 @@ import {
   Archive,
   LayoutGrid,
   Image,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 
 const MAIN_TABS = [
@@ -51,6 +55,18 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false);
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [mobileCols, setMobileCols] = useState<1 | 2>(2);
+  const [sfxEnabled, setSfxEnabled] = useState(true);
+
+  useEffect(() => {
+    setSfxEnabled(sound.isEnabled());
+  }, []);
+
+  const toggleSfx = useCallback(() => {
+    const next = sound.toggle();
+    setSfxEnabled(next);
+    triggerHaptic("medium");
+    setStatusMsg(`SFX: ${next ? "ENABLED // TACTILE HARDWARE" : "MUTED // SILENT"}`);
+  }, []);
 
   const mainFiltered = useMemo(() => {
     if (mainTab === "live") return wallpapers.filter((w) => w.type === "animated");
@@ -102,11 +118,15 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
 
   const toggleFavorite = useCallback((w: Wallpaper) => {
     const saved = toggleFavoriteId(w.id);
+    sound.playStash(saved);
+    triggerHaptic("medium");
     setStatusMsg(`${saved ? "SAVED" : "REMOVED"}: "${w.title}"`);
   }, []);
 
   const handleDownload = useCallback(
     async (w: Wallpaper, format: OutputFormat = "original", size: SizeOption | null = null) => {
+      sound.playDownload();
+      triggerHaptic("success");
       const variant =
         format === "original" && (!size || size.id === "original")
           ? `ORIGINAL ${w.format} · ${w.sizeFormatted}`
@@ -114,6 +134,8 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
       setStatusMsg(`FETCHING: "${w.title}" [${variant}]`);
       try {
         await downloadWallpaper(w, format, size);
+        sound.playDownloadComplete();
+        triggerHaptic("success");
         setStatusMsg(`DOWNLOADED: "${w.title}" [${variant}]`);
       } catch (err) {
         setStatusMsg(`ERROR: "${w.title}" — ${err instanceof Error ? err.message : "download failed"}`);
@@ -124,6 +146,8 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
 
   const handlePreview = useCallback(
     (w: Wallpaper) => {
+      sound.playSlide();
+      triggerHaptic("light");
       const idx = filtered.indexOf(w);
       setLightboxIndex(idx >= 0 ? idx : 0);
     },
@@ -131,6 +155,8 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
   );
 
   const handleRandom = useCallback(() => {
+    sound.playShuffle();
+    triggerHaptic("medium");
     const idx = Math.floor(Math.random() * filtered.length);
     setLightboxIndex(idx);
     setStatusMsg(`SHUFFLE: "${filtered[idx]?.title || "???"}"`);
@@ -207,7 +233,10 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
               <input
                 type="text"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => {
+                  sound.playKeypress();
+                  setQuery(e.target.value);
+                }}
                 placeholder="SEARCH ARCHIVE // anime, amoled, cyberpunk, 4k..."
                 className="w-full bg-black/50 border border-border py-2 pl-9 pr-4 text-xs text-white placeholder-muted/50 focus:outline-none focus:border-cyan/40 caret-cyan font-mono"
               />
@@ -224,7 +253,12 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
               <Shuffle className="h-3.5 w-3.5" /> <span className="hidden sm:inline">RANDOM</span>
             </button>
             <button
-              onClick={() => { setMainTab("saved"); setCollection(null); }}
+              onClick={() => {
+                sound.playSwitch();
+                triggerHaptic("light");
+                setMainTab("saved");
+                setCollection(null);
+              }}
               title="Saved Stash"
               className="flex items-center gap-1.5 border border-border px-2.5 sm:px-3 py-1.5 text-[11px] font-bold text-white hover:border-cyan/40 hover:text-cyan transition-colors cursor-pointer"
             >
@@ -237,7 +271,23 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
               )}
             </button>
             <button
-              onClick={() => setCreditsOpen(true)}
+              onClick={toggleSfx}
+              title={sfxEnabled ? "Mute Tactile SFX" : "Enable Tactile SFX"}
+              className={`flex items-center gap-1.5 border px-2.5 sm:px-3 py-1.5 text-[11px] font-bold transition-colors cursor-pointer ${
+                sfxEnabled
+                  ? "border-cyan/40 bg-cyan/[0.08] text-cyan hover:bg-cyan/20"
+                  : "border-border text-muted hover:text-white"
+              }`}
+            >
+              {sfxEnabled ? <Volume2 className="h-3.5 w-3.5 text-cyan" /> : <VolumeX className="h-3.5 w-3.5 text-muted" />}
+              <span className="hidden sm:inline">SFX</span>
+            </button>
+            <button
+              onClick={() => {
+                sound.playSwitch();
+                triggerHaptic("light");
+                setCreditsOpen(true);
+              }}
               title="Credits & Sources"
               className="flex items-center gap-1.5 border border-cyan/30 bg-cyan/10 px-2.5 sm:px-3 py-1.5 text-[11px] font-bold text-cyan hover:bg-cyan/20 transition-colors cursor-pointer"
             >
@@ -253,7 +303,11 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
               <Terminal className="h-3.5 w-3.5" /> SRC
             </a>
             <button
-              onClick={() => setCmdPaletteOpen(true)}
+              onClick={() => {
+                sound.playCommand();
+                triggerHaptic("light");
+                setCmdPaletteOpen(true);
+              }}
               title="Command Palette"
               className="flex items-center gap-1.5 border border-border px-2 py-1.5 text-[10px] text-muted hover:text-cyan hover:border-cyan/30 transition-colors cursor-pointer"
             >
@@ -269,14 +323,21 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
             <input
               type="text"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => {
+                sound.playKeypress();
+                setQuery(e.target.value);
+              }}
               placeholder="SEARCH ARCHIVE // anime, amoled, 4k..."
               className="w-full bg-black/60 border border-border py-2 pl-9 pr-8 text-xs text-white placeholder-muted/50 focus:outline-none focus:border-cyan/40 caret-cyan font-mono"
             />
             {query && (
               <button
-                onClick={() => setQuery("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[9px] text-muted hover:text-white font-mono px-1 py-0.5"
+                onClick={() => {
+                  sound.playSwitch();
+                  triggerHaptic("light");
+                  setQuery("");
+                }}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[9px] text-muted hover:text-white font-mono px-1 py-0.5 cursor-pointer"
               >
                 ✕
               </button>
@@ -305,7 +366,12 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
             return (
               <button
                 key={tab.id}
-                onClick={() => { setMainTab(tab.id); setCollection(null); }}
+                onClick={() => {
+                  sound.playSwitch();
+                  triggerHaptic("light");
+                  setMainTab(tab.id);
+                  setCollection(null);
+                }}
                 className={`shrink-0 md:flex-1 flex items-start gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-left transition-colors cursor-pointer border-r border-border last:border-r-0 min-w-[130px] sm:min-w-[150px] md:min-w-0 ${
                   isActive
                     ? "bg-cyan/[0.06] border-t-2 border-t-cyan"
@@ -350,7 +416,11 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
         <div className="shrink-0 border-b border-border bg-[#040407] overflow-x-auto scrollbar-none">
           <div className="flex items-center gap-0.5 px-3 sm:px-4 py-2 min-w-max">
             <button
-              onClick={() => setCollection(null)}
+              onClick={() => {
+                sound.playSwitch();
+                triggerHaptic("light");
+                setCollection(null);
+              }}
               className={`flex items-center gap-1.5 px-3 py-1 text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
                 !collection
                   ? "text-cyan bg-cyan/[0.08] border border-cyan/30"
@@ -363,7 +433,11 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
             {collections.map((c) => (
               <button
                 key={c.name}
-                onClick={() => setCollection(c.name)}
+                onClick={() => {
+                  sound.playSwitch();
+                  triggerHaptic("light");
+                  setCollection(c.name);
+                }}
                 className={`flex items-center gap-1 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
                   collection === c.name
                     ? "text-cyan bg-cyan/[0.08] border border-cyan/30"
@@ -389,7 +463,11 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
         </div>
         <div className="flex items-center gap-1 sm:hidden">
           <button
-            onClick={() => setMobileCols(1)}
+            onClick={() => {
+              sound.playSwitch();
+              triggerHaptic("light");
+              setMobileCols(1);
+            }}
             aria-label="1-Column layout"
             className={`px-2 py-0.5 text-[9px] border transition-colors cursor-pointer ${
               mobileCols === 1
@@ -400,7 +478,11 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
             1-COL
           </button>
           <button
-            onClick={() => setMobileCols(2)}
+            onClick={() => {
+              sound.playSwitch();
+              triggerHaptic("light");
+              setMobileCols(2);
+            }}
             aria-label="2-Column layout"
             className={`px-2 py-0.5 text-[9px] border transition-colors cursor-pointer ${
               mobileCols === 2

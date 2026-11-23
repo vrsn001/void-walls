@@ -5,6 +5,8 @@ import { X, Download, Heart, ChevronLeft, ChevronRight, Film, Loader2 } from "lu
 import type { Wallpaper } from "@/lib/types";
 import { getFullUrl, getThumbnailUrl } from "@/lib/cdn";
 import { canConvert, sizeOptions, type OutputFormat, type SizeOption } from "@/lib/download";
+import { sound } from "@/lib/sound";
+import { triggerHaptic } from "@/lib/haptics";
 
 interface LightboxProps {
   wallpaper: Wallpaper;
@@ -28,7 +30,11 @@ const FORMATS: { id: OutputFormat; label: string }[] = [
 function Chip({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <button
-      onClick={onClick}
+      onClick={() => {
+        sound.playSwitch();
+        triggerHaptic("light");
+        onClick();
+      }}
       className={`px-2.5 sm:px-3 py-1.5 sm:py-1 text-[10px] font-bold uppercase tracking-wider border transition-colors cursor-pointer whitespace-nowrap min-h-[32px] sm:min-h-0 ${
         active ? "border-cyan/50 bg-cyan/15 text-cyan" : "border-white/10 text-muted hover:text-white hover:border-white/25"
       }`}
@@ -74,8 +80,12 @@ export function Lightbox({
 
     if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
       if (diffX > 0 && hasNext) {
+        sound.playSlide();
+        triggerHaptic("light");
         onNext();
       } else if (diffX < 0 && hasPrev) {
+        sound.playSlide();
+        triggerHaptic("light");
         onPrev();
       }
     }
@@ -95,10 +105,19 @@ export function Lightbox({
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft" && hasPrev) onPrev();
-      else if (e.key === "ArrowRight" && hasNext) onNext();
-      else if (e.key === "Enter") startDownload();
-      else if (e.key === "s") onToggleFavorite(wallpaper);
+      if (e.key === "ArrowLeft" && hasPrev) {
+        sound.playSlide();
+        triggerHaptic("light");
+        onPrev();
+      } else if (e.key === "ArrowRight" && hasNext) {
+        sound.playSlide();
+        triggerHaptic("light");
+        onNext();
+      } else if (e.key === "Enter") {
+        startDownload();
+      } else if (e.key === "s") {
+        onToggleFavorite(wallpaper);
+      }
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
@@ -148,7 +167,11 @@ export function Lightbox({
             <Heart className={`h-4 w-4 ${isFavorite ? "fill-current" : ""}`} />
           </button>
           <button
-            onClick={onClose}
+            onClick={() => {
+              sound.playSwitch();
+              triggerHaptic("light");
+              onClose();
+            }}
             aria-label="Close"
             className="flex h-8 w-8 items-center justify-center border border-white/20 text-white/60 hover:text-white transition-colors cursor-pointer"
           >
@@ -165,7 +188,11 @@ export function Lightbox({
       >
         {hasPrev && (
           <button
-            onClick={onPrev}
+            onClick={() => {
+              sound.playSlide();
+              triggerHaptic("light");
+              onPrev();
+            }}
             aria-label="Previous"
             className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center bg-black/70 border border-white/15 text-white/70 hover:text-white hover:border-cyan/40 transition-colors cursor-pointer"
           >
@@ -215,7 +242,11 @@ export function Lightbox({
 
         {hasNext && (
           <button
-            onClick={onNext}
+            onClick={() => {
+              sound.playSlide();
+              triggerHaptic("light");
+              onNext();
+            }}
             aria-label="Next"
             className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center bg-black/70 border border-white/15 text-white/70 hover:text-white hover:border-cyan/40 transition-colors cursor-pointer"
           >

@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { Search, Zap, Smartphone, Heart, Shuffle, LayoutGrid, Image, Archive, ArrowRight } from "lucide-react";
 import type { Wallpaper } from "@/lib/types";
+import { sound } from "@/lib/sound";
+import { triggerHaptic } from "@/lib/haptics";
 
 interface CommandPaletteProps {
   wallpapers: Wallpaper[];
@@ -82,15 +84,21 @@ export function CommandPalette({ wallpapers, collections, onClose, onNavigate }:
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
+        sound.playSwitch();
+        triggerHaptic("light");
         onClose();
       } else if (e.key === "ArrowDown") {
         e.preventDefault();
+        sound.playSwitch();
         setSelectedIdx((i) => Math.min(i + 1, results.length - 1));
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
+        sound.playSwitch();
         setSelectedIdx((i) => Math.max(i - 1, 0));
       } else if (e.key === "Enter" && results[selectedIdx]) {
         e.preventDefault();
+        sound.playCommand();
+        triggerHaptic("medium");
         onNavigate(results[selectedIdx].action);
         onClose();
       }
@@ -148,6 +156,8 @@ export function CommandPalette({ wallpapers, collections, onClose, onNavigate }:
               <button
                 key={item.id}
                 onClick={() => {
+                  sound.playCommand();
+                  triggerHaptic("medium");
                   onNavigate(item.action);
                   onClose();
                 }}
