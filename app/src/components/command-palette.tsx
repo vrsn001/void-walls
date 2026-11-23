@@ -100,7 +100,7 @@ export function CommandPalette({ wallpapers, collections, onClose, onNavigate }:
   }, [results, selectedIdx, onNavigate, onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] bg-black/80 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-6 sm:pt-[15vh] p-3 sm:p-0 bg-black/80 backdrop-blur-sm" onClick={onClose}>
       <div
         className="w-full max-w-xl bg-[#0a0a0f] border border-border shadow-2xl shadow-cyan/5 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
@@ -173,12 +173,12 @@ export function CommandPalette({ wallpapers, collections, onClose, onNavigate }:
 
         {/* Footer */}
         <div className="border-t border-border px-4 py-2 flex items-center justify-between text-[9px] text-muted/40">
-          <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-3">
             <span><kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 mr-0.5">↑↓</kbd> navigate</span>
             <span><kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 mr-0.5">↵</kbd> select</span>
             <span><kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 mr-0.5">esc</kbd> close</span>
           </div>
-          <span className="text-muted/30">VOID//WALLS TERMINAL v1.0</span>
+          <span className="text-muted/30 font-mono">VOID//WALLS TERMINAL v1.0</span>
         </div>
       </div>
     </div>

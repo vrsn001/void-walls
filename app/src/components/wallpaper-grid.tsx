@@ -10,6 +10,7 @@ const BATCH = 48;
 interface WallpaperGridProps {
   wallpapers: Wallpaper[];
   favorites: Set<string>;
+  mobileCols?: number;
   onToggleFavorite: (w: Wallpaper) => void;
   onDownload: (w: Wallpaper) => void;
   onPreview: (w: Wallpaper) => void;
@@ -154,26 +155,26 @@ const WallpaperCard = memo(function WallpaperCard({
         <button
           onClick={(e) => { e.stopPropagation(); onToggleFavorite(wallpaper); }}
           aria-label={isFavorite ? "Remove from stash" : "Save to stash"}
-          className={`fav-btn absolute top-2 right-2 flex h-7 w-7 items-center justify-center cursor-pointer ${
+          className={`fav-btn absolute top-2 right-2 flex h-8 w-8 items-center justify-center cursor-pointer ${
             isFavorite
               ? "is-fav bg-rose-500/20 border border-rose-500/50 text-rose-400"
-              : "bg-black/50 border border-white/10 text-white/40"
+              : "bg-black/60 border border-white/15 text-white/60"
           }`}
         >
-          <Heart className={`h-3.5 w-3.5 ${isFavorite ? "fill-current" : ""}`} />
+          <Heart className={`h-4 w-4 ${isFavorite ? "fill-current" : ""}`} />
         </button>
       </div>
 
-      <div className="px-3 py-2.5 border-t border-border">
-        <h3 className="text-[12px] font-semibold text-white font-sans truncate leading-tight">
+      <div className="px-2.5 sm:px-3 py-2 sm:py-2.5 border-t border-border">
+        <h3 className="text-[11px] sm:text-[12px] font-semibold text-white font-sans truncate leading-tight">
           {wallpaper.title}
         </h3>
-        <div className="flex items-center justify-between mt-1.5">
-          <span className="text-[10px] text-muted truncate mr-2">{wallpaper.categoryLabel}</span>
-          <div className="flex items-center gap-2 text-[10px] text-muted/60 tabular-nums shrink-0">
+        <div className="flex items-center justify-between mt-1 sm:mt-1.5 gap-1">
+          <span className="text-[9px] sm:text-[10px] text-muted truncate">{wallpaper.categoryLabel}</span>
+          <div className="flex items-center gap-1 sm:gap-2 text-[9px] sm:text-[10px] text-muted/60 tabular-nums shrink-0">
             <span>{wallpaper.resolution || wallpaper.resolutionBadge || "—"}</span>
-            <span className="text-white/10">·</span>
-            <span>{wallpaper.sizeFormatted}</span>
+            <span className="text-white/10 hidden sm:inline">·</span>
+            <span className="hidden sm:inline">{wallpaper.sizeFormatted}</span>
             <span className="text-white/10">·</span>
             <span className="uppercase">{wallpaper.format}</span>
           </div>
@@ -186,6 +187,7 @@ const WallpaperCard = memo(function WallpaperCard({
 export function WallpaperGrid({
   wallpapers,
   favorites,
+  mobileCols = 2,
   onToggleFavorite,
   onDownload,
   onPreview,
@@ -227,7 +229,13 @@ export function WallpaperGrid({
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-4">
+      <div
+        className={`grid ${
+          mobileCols === 1
+            ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-3 sm:p-4"
+            : "grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 p-2 sm:p-4"
+        }`}
+      >
         {wallpapers.slice(0, count).map((w, i) => (
           <WallpaperCard
             key={w.id}

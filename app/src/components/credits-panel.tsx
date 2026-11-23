@@ -21,23 +21,23 @@ export function CreditsPanel({ wallpapers, onClose }: { wallpapers: Wallpaper[];
   }, [onClose]);
 
   return (
-    <div className="lightbox-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4" onClick={onClose}>
+    <div className="lightbox-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-3 sm:p-4" onClick={onClose}>
       <div
-        className="lightbox-image w-full max-w-lg border border-border bg-[#0a0a0f]"
+        className="lightbox-image w-full max-w-lg border border-border bg-[#0a0a0f] max-h-[85vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-border px-4 py-3">
+        <div className="flex items-center justify-between border-b border-border px-4 py-3 shrink-0">
           <h2 className="text-xs font-bold tracking-widest text-white">
             CREDITS <span className="text-cyan">{"//"}</span> SOURCES
           </h2>
-          <button onClick={onClose} aria-label="Close" className="text-muted hover:text-white cursor-pointer">
+          <button onClick={onClose} aria-label="Close" className="text-muted hover:text-white cursor-pointer p-1">
             <X className="h-4 w-4" />
           </button>
         </div>
-        <p className="px-4 pt-3 text-[11px] leading-relaxed text-muted">
+        <p className="px-4 pt-3 text-[11px] leading-relaxed text-muted shrink-0">
           VOID//WALLS curates work from these open collections. All rights stay with the original artists and maintainers.
         </p>
-        <ul className="p-2">
+        <ul className="p-2 overflow-y-auto">
           {sources.map(([repo, count]) => (
             <li key={repo}>
               <a

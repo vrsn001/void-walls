@@ -29,8 +29,8 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
   return (
     <button
       onClick={onClick}
-      className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider border transition-colors cursor-pointer whitespace-nowrap ${
-        active ? "border-cyan/50 bg-cyan/10 text-cyan" : "border-white/10 text-muted hover:text-white hover:border-white/25"
+      className={`px-2.5 sm:px-3 py-1.5 sm:py-1 text-[10px] font-bold uppercase tracking-wider border transition-colors cursor-pointer whitespace-nowrap min-h-[32px] sm:min-h-0 ${
+        active ? "border-cyan/50 bg-cyan/15 text-cyan" : "border-white/10 text-muted hover:text-white hover:border-white/25"
       }`}
     >
       {children}
@@ -53,12 +53,35 @@ export function Lightbox({
   const [format, setFormat] = useState<OutputFormat>("original");
   const [sizeId, setSizeId] = useState("original");
   const [busy, setBusy] = useState(false);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchStartY, setTouchStartY] = useState<number | null>(null);
 
   const sizes = useMemo(() => sizeOptions(wallpaper), [wallpaper]);
   const size = sizes.find((s) => s.id === sizeId) ?? sizes[0];
   const convertible = canConvert(wallpaper);
   const loaded = loadedId === wallpaper.id;
   const sourceLabel = wallpaper.format === "JPG" ? "JPEG" : wallpaper.format;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+    setTouchStartY(e.touches[0].clientY);
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null || touchStartY === null) return;
+    const diffX = touchStartX - e.changedTouches[0].clientX;
+    const diffY = touchStartY - e.changedTouches[0].clientY;
+
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+      if (diffX > 0 && hasNext) {
+        onNext();
+      } else if (diffX < 0 && hasPrev) {
+        onPrev();
+      }
+    }
+    setTouchStartX(null);
+    setTouchStartY(null);
+  };
 
   const startDownload = async () => {
     if (busy) return;
@@ -95,10 +118,10 @@ export function Lightbox({
         <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-[#030306]/90" />
       </div>
 
-      <div className="relative z-10 shrink-0 flex items-center justify-between gap-4 px-4 py-3" onClick={(e) => e.stopPropagation()}>
+      <div className="relative z-10 shrink-0 flex items-center justify-between gap-2 sm:gap-4 px-3 sm:px-5 py-2.5 sm:py-3" onClick={(e) => e.stopPropagation()}>
         <div className="min-w-0">
-          <h2 className="text-sm font-semibold text-white font-sans truncate">{wallpaper.title}</h2>
-          <div className="flex items-center gap-2 text-[10px] text-muted mt-0.5">
+          <h2 className="text-xs sm:text-sm font-semibold text-white font-sans truncate">{wallpaper.title}</h2>
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[9px] sm:text-[10px] text-muted mt-0.5 truncate">
             <span>{wallpaper.categoryLabel}</span>
             <span className="text-white/10">·</span>
             <span>{wallpaper.resolution || "—"}</span>
@@ -114,7 +137,7 @@ export function Lightbox({
             )}
           </div>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <button
             onClick={() => onToggleFavorite(wallpaper)}
             aria-label={isFavorite ? "Remove from stash" : "Save to stash"}
@@ -134,14 +157,19 @@ export function Lightbox({
         </div>
       </div>
 
-      <div className="relative z-10 flex-1 flex items-center justify-center min-h-0 px-16 py-2" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="relative z-10 flex-1 flex items-center justify-center min-h-0 px-2 sm:px-8 md:px-16 py-2 touch-pan-y"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        onClick={(e) => e.stopPropagation()}
+      >
         {hasPrev && (
           <button
             onClick={onPrev}
             aria-label="Previous"
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center bg-black/60 border border-white/10 text-white/60 hover:text-white hover:border-white/30 transition-colors cursor-pointer"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center bg-black/70 border border-white/15 text-white/70 hover:text-white hover:border-cyan/40 transition-colors cursor-pointer"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
         )}
 
@@ -189,23 +217,23 @@ export function Lightbox({
           <button
             onClick={onNext}
             aria-label="Next"
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center bg-black/60 border border-white/10 text-white/60 hover:text-white hover:border-white/30 transition-colors cursor-pointer"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center bg-black/70 border border-white/15 text-white/70 hover:text-white hover:border-cyan/40 transition-colors cursor-pointer"
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
         )}
       </div>
 
       {/* Download bar */}
       <div
-        className="relative z-10 shrink-0 border-t border-white/[0.06] bg-[#060609]/90 backdrop-blur-md px-4 py-3 flex flex-wrap items-center gap-x-6 gap-y-3"
+        className="relative z-10 shrink-0 border-t border-white/[0.08] bg-[#060609]/95 backdrop-blur-md px-3 sm:px-5 py-2.5 sm:py-3 flex flex-col md:flex-row md:items-center justify-between gap-2.5 sm:gap-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]"
         onClick={(e) => e.stopPropagation()}
       >
         {convertible ? (
-          <>
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="text-[9px] text-muted/50 tracking-widest shrink-0">SIZE</span>
-              <div className="flex flex-wrap gap-1">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5 min-w-0">
+            <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-0.5">
+              <span className="text-[9px] text-muted/50 tracking-widest shrink-0 font-mono">SIZE</span>
+              <div className="flex items-center gap-1 shrink-0">
                 {sizes.map((s) => (
                   <Chip key={s.id} active={size.id === s.id} onClick={() => setSizeId(s.id)}>
                     {s.label}
@@ -213,9 +241,9 @@ export function Lightbox({
                 ))}
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-[9px] text-muted/50 tracking-widest shrink-0">FORMAT</span>
-              <div className="flex flex-wrap gap-1">
+            <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-0.5">
+              <span className="text-[9px] text-muted/50 tracking-widest shrink-0 font-mono">FORMAT</span>
+              <div className="flex items-center gap-1 shrink-0">
                 {FORMATS.filter((f) => f.id === "original" || f.label !== sourceLabel).map((f) => (
                   <Chip key={f.id} active={format === f.id} onClick={() => setFormat(f.id)}>
                     {f.id === "original" ? `ORIGINAL ${wallpaper.format}` : f.label}
@@ -223,24 +251,24 @@ export function Lightbox({
                 ))}
               </div>
             </div>
-          </>
+          </div>
         ) : (
-          <span className="text-[10px] text-muted/60">
-            {wallpaper.format} downloads as the original file only.
+          <span className="text-[10px] text-muted/60 font-mono">
+            {wallpaper.format} downloads as the original file.
           </span>
         )}
 
         <button
           onClick={startDownload}
           disabled={busy}
-          className="ml-auto flex items-center gap-1.5 bg-cyan px-4 py-2 text-[11px] font-bold text-black hover:bg-cyan/80 disabled:opacity-60 transition-colors cursor-pointer disabled:cursor-wait"
+          className="w-full md:w-auto shrink-0 flex items-center justify-center gap-2 bg-cyan px-5 py-2.5 sm:py-2 text-xs font-bold text-black hover:bg-cyan/80 disabled:opacity-60 transition-colors cursor-pointer disabled:cursor-wait font-mono"
         >
-          {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
-          {busy ? "PROCESSING..." : "DOWNLOAD"}
+          {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+          {busy ? "PROCESSING..." : "DOWNLOAD WALLPAPER"}
         </button>
       </div>
 
-      <div className="relative z-10 shrink-0 text-center py-2 text-[10px] text-muted/40 bg-[#060609]/90 backdrop-blur-md">
+      <div className="hidden md:block relative z-10 shrink-0 text-center py-2 text-[10px] text-muted/40 bg-[#060609]/90 backdrop-blur-md border-t border-white/[0.04]">
         <kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 text-[9px] mr-1">←</kbd>
         <kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 text-[9px] mr-2">→</kbd>navigate
         <kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 text-[9px] ml-3 mr-1">↵</kbd>download
