@@ -121,6 +121,7 @@ class HybridRadioEngine {
   private currentTrack: string | null = null;
   private listeners: Set<() => void> = new Set();
   private metaInterval: ReturnType<typeof setInterval> | null = null;
+  private watchdogTimer: ReturnType<typeof setTimeout> | null = null;
 
   // Active procedural nodes
   private oscillators: OscillatorNode[] = [];
@@ -660,6 +661,36 @@ class HybridRadioEngine {
     this.intervals.push(arpTimer);
   }
 
+  // ─── PROCEDURAL FAILOVER ENGINE (ZERO SILENCE GUARANTEE) ───
+
+  private activateProceduralFallback(stationId: string, ctx: AudioContext, output: AudioNode) {
+    this.clearProceduralNodes();
+    switch (stationId) {
+      case "darksynth":
+        this.buildDarkIndustrial(ctx, output);
+        this.currentTrack = "DARK INDUSTRIAL SYNTH [FAILOVER]";
+        break;
+      case "datawave":
+        this.buildCyberDrone(ctx, output);
+        this.currentTrack = "CYBER DRONE SYNTH [FAILOVER]";
+        break;
+      case "rekt_dnb":
+        this.buildSynthwaveOutrun(ctx, output);
+        this.currentTrack = "CYBER DNB SYNTH [FAILOVER]";
+        break;
+      case "nightride":
+        this.buildSynthwaveOutrun(ctx, output);
+        this.currentTrack = "RETROWAVE SYNTH [FAILOVER]";
+        break;
+      case "chillsynth":
+      default:
+        this.buildLofiTape(ctx, output);
+        this.currentTrack = "LOFI TAPE SYNTH [FAILOVER]";
+        break;
+    }
+    this.notify();
+  }
+
   // ─── AUDIO STATION LOADER ───
 
   private loadStation(station: StationInfo) {
@@ -669,32 +700,77 @@ class HybridRadioEngine {
 
     this.clearProceduralNodes();
 
-    if (station.type === "stream" && station.streamUrl) {
-      // Clean previous audio element safely
-      if (this.audioElement) {
+    if (this.watchdogTimer) {
+      clearTimeout(this.watchdogTimer);
+      this.watchdogTimer = null;
+    }
+
+    // Cleanly tear down any previous audio element to avoid aborted socket collisions
+    if (this.audioElement) {
+      try {
         this.audioElement.pause();
+        this.audioElement.oncanplay = null;
+        this.audioElement.onerror = null;
+        this.audioElement.onwaiting = null;
+        this.audioElement.onplaying = null;
         this.audioElement.removeAttribute("src");
         this.audioElement.load();
-      } else if (typeof window !== "undefined") {
-        this.audioElement = new Audio();
-      }
+      } catch {}
+      this.audioElement = null;
+    }
 
-      if (this.audioElement) {
-        this.audioElement.volume = this.volume;
-        this.audioElement.src = station.streamUrl;
-        this.audioElement.play().catch((err) => {
-          console.warn("Direct stream playback notice:", err);
+    if (station.type === "stream" && station.streamUrl) {
+      if (typeof window !== "undefined") {
+        const audio = new Audio();
+        audio.preload = "auto";
+        audio.volume = this.volume;
+        // Append cache-busting timestamp to open a fresh TCP socket and avoid ERR_ABORTED socket lock
+        const streamUrl = `${station.streamUrl}?t=${Date.now()}`;
+        audio.src = streamUrl;
+
+        let hasStartedPlaying = false;
+        let failoverTriggered = false;
+
+        const triggerFallback = (reason: string) => {
+          if (failoverTriggered || !this.isLive || this.currentStationId !== station.id) return;
+          failoverTriggered = true;
+          console.warn(`[VOID RADIO] Stream ${station.id} (${reason}) — engaging procedural failover`);
+          try {
+            audio.pause();
+            audio.removeAttribute("src");
+            audio.load();
+          } catch {}
+          this.activateProceduralFallback(station.id, ctx, this.masterGain!);
+        };
+
+        audio.onplaying = () => {
+          hasStartedPlaying = true;
+          if (this.watchdogTimer) {
+            clearTimeout(this.watchdogTimer);
+            this.watchdogTimer = null;
+          }
+        };
+
+        audio.onerror = () => {
+          triggerFallback("network/stream error");
+        };
+
+        // 3.5s buffer watchdog: if stream doesn't produce sound, fallback seamlessly
+        this.watchdogTimer = setTimeout(() => {
+          if (!hasStartedPlaying) {
+            triggerFallback("stream buffer timeout");
+          }
+        }, 3500);
+
+        audio.play().catch((err) => {
+          console.warn("Direct stream play notice:", err);
+          triggerFallback("autoplay rejection");
         });
+
+        this.audioElement = audio;
       }
       this.startMetadataPolling(station.mount);
     } else {
-      // Stop live stream if switching to procedural
-      if (this.audioElement) {
-        this.audioElement.pause();
-        this.audioElement.removeAttribute("src");
-        this.audioElement.load();
-      }
-
       switch (station.id) {
         case "cyber_drone":
           this.buildCyberDrone(ctx, this.masterGain);
@@ -751,15 +827,27 @@ class HybridRadioEngine {
     this.isLive = false;
     this.notify();
 
+    if (this.watchdogTimer) {
+      clearTimeout(this.watchdogTimer);
+      this.watchdogTimer = null;
+    }
+
     if (this.metaInterval) {
       clearInterval(this.metaInterval);
       this.metaInterval = null;
     }
 
     if (this.audioElement) {
-      this.audioElement.pause();
-      this.audioElement.removeAttribute("src");
-      this.audioElement.load();
+      try {
+        this.audioElement.pause();
+        this.audioElement.oncanplay = null;
+        this.audioElement.onerror = null;
+        this.audioElement.onwaiting = null;
+        this.audioElement.onplaying = null;
+        this.audioElement.removeAttribute("src");
+        this.audioElement.load();
+      } catch {}
+      this.audioElement = null;
     }
     this.clearProceduralNodes();
   }
