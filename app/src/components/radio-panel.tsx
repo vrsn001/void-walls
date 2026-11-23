@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { X, Radio, Volume2, VolumeX, Power, Sparkles, Disc, Waves, Activity, Zap, Music2, CloudRain } from "lucide-react";
+import { X, Radio, Volume2, VolumeX, Power, Sparkles, Disc, Waves, Activity, Zap, Music2, CloudRain, Timer } from "lucide-react";
 import { radio, STATIONS, StationInfo } from "@/lib/radio";
 import { sound } from "@/lib/sound";
 import { triggerHaptic } from "@/lib/haptics";
 import { AudioVisualizer } from "./audio-visualizer";
+import { PomodoroHud } from "./pomodoro-hud";
 
 interface RadioPanelProps {
   onClose: () => void;
@@ -33,6 +34,7 @@ export function RadioPanel({ onClose, onStatusChange }: RadioPanelProps) {
   const [vinylVol, setVinylVol] = useState(Math.round(radio.getVinylVolume() * 100));
   const [currentTrack, setCurrentTrack] = useState<string | null>(radio.getCurrentTrack());
   const [filterTab, setFilterTab] = useState<"all" | "stream" | "procedural">("all");
+  const [panelTab, setPanelTab] = useState<"radio" | "pomodoro">("radio");
 
   useEffect(() => {
     const unsubscribe = radio.subscribe(() => {
@@ -111,8 +113,8 @@ export function RadioPanel({ onClose, onStatusChange }: RadioPanelProps) {
         <div className="flex items-center justify-between border-b border-border px-3.5 sm:px-4 py-2.5 shrink-0 bg-black/40">
           <div className="flex items-center gap-2">
             <Radio className={`h-4 w-4 ${isLive ? "text-cyan animate-pulse" : "text-zinc-500"}`} />
-            <h2 className="text-xs font-bold tracking-widest text-white uppercase">
-              CYBER_RADIO <span className="text-cyan">{"//"}</span> 10-STATION HUD
+            <h2 className="text-xs font-bold tracking-widest text-white uppercase font-mono">
+              CYBER_AUDIO <span className="text-cyan">{"//"}</span> {panelTab === "radio" ? "10-STATION HUD" : "POMODORO FOCUS"}
             </h2>
           </div>
           <button
@@ -127,8 +129,48 @@ export function RadioPanel({ onClose, onStatusChange }: RadioPanelProps) {
           </button>
         </div>
 
-        {/* Pinned Top Card: Status + Visualizer + Master Power */}
-        <div className="border-b border-border bg-black/60 p-3 sm:p-3.5 space-y-2.5 shrink-0">
+        {/* Panel Mode Switcher: 10-Station Radio vs Pomodoro HUD */}
+        <div className="grid grid-cols-2 border-b border-border bg-black/70 shrink-0 font-mono">
+          <button
+            onClick={() => {
+              sound.playSwitch();
+              triggerHaptic("light");
+              setPanelTab("radio");
+            }}
+            className={`min-h-[44px] py-2 px-3 text-xs font-bold flex items-center justify-center gap-2 border-r border-border transition-colors cursor-pointer ${
+              panelTab === "radio"
+                ? "bg-cyan/15 text-cyan border-b-2 border-b-cyan"
+                : "text-zinc-400 hover:text-white"
+            }`}
+          >
+            <Radio className="h-3.5 w-3.5" />
+            <span>10-STATION TUNER</span>
+          </button>
+          <button
+            onClick={() => {
+              sound.playSwitch();
+              triggerHaptic("light");
+              setPanelTab("pomodoro");
+            }}
+            className={`min-h-[44px] py-2 px-3 text-xs font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer ${
+              panelTab === "pomodoro"
+                ? "bg-cyan/15 text-cyan border-b-2 border-b-cyan"
+                : "text-zinc-400 hover:text-white"
+            }`}
+          >
+            <Timer className="h-3.5 w-3.5" />
+            <span>POMODORO_HUD</span>
+          </button>
+        </div>
+
+        {panelTab === "pomodoro" ? (
+          <div className="flex-1 overflow-y-auto">
+            <PomodoroHud />
+          </div>
+        ) : (
+          <>
+            {/* Pinned Top Card: Status + Visualizer + Master Power */}
+            <div className="border-b border-border bg-black/60 p-3 sm:p-3.5 space-y-2.5 shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="relative flex h-2.5 w-2.5">
@@ -374,6 +416,8 @@ export function RadioPanel({ onClose, onStatusChange }: RadioPanelProps) {
             </div>
           </div>
         </div>
+        </>
+        )}
 
         {/* Volume Footer */}
         <div className="border-t border-border bg-black/60 p-3 sm:px-4 py-2.5 shrink-0 flex items-center justify-between gap-3">

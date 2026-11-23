@@ -15,6 +15,8 @@ import {
   Maximize2,
   Sparkles,
   Radio,
+  Palette,
+  Sliders,
 } from "lucide-react";
 import type { Wallpaper } from "@/lib/types";
 import { getFullUrl, getThumbnailUrl } from "@/lib/cdn";
@@ -22,6 +24,8 @@ import { canConvert, sizeOptions, type OutputFormat, type SizeOption } from "@/l
 import { sound } from "@/lib/sound";
 import { radio } from "@/lib/radio";
 import { triggerHaptic } from "@/lib/haptics";
+import { PaletteModal } from "./palette-modal";
+import { StudioModal } from "./studio-modal";
 
 interface LightboxProps {
   wallpaper: Wallpaper;
@@ -138,6 +142,8 @@ export function Lightbox({
   // New features: Device Mockup Frame & Focus HUD Mode
   const [deviceFrame, setDeviceFrame] = useState<"none" | "phone" | "laptop">("none");
   const [focusMode, setFocusMode] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [studioOpen, setStudioOpen] = useState(false);
   const [clockTime, setClockTime] = useState("");
   const [clockDate, setClockDate] = useState("");
 
@@ -215,6 +221,14 @@ export function Lightbox({
         sound.playSwitch();
         triggerHaptic("medium");
         setFocusMode((v) => !v);
+      } else if (e.key === "p" || e.key === "P") {
+        sound.playSwitch();
+        triggerHaptic("light");
+        setPaletteOpen((v) => !v);
+      } else if (e.key === "c" || e.key === "C") {
+        sound.playSwitch();
+        triggerHaptic("light");
+        setStudioOpen((v) => !v);
       } else if (e.key === "m" || e.key === "M") {
         sound.playSwitch();
         triggerHaptic("light");
@@ -411,6 +425,36 @@ export function Lightbox({
           >
             <Maximize2 className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
             <span className="hidden sm:inline">FOCUS</span>
+          </button>
+
+          {/* Ricing Palette Exporter Trigger */}
+          <button
+            onClick={() => {
+              sound.playSwitch();
+              triggerHaptic("medium");
+              setPaletteOpen(true);
+            }}
+            title="Extract Ricing Palette Matrix [P]"
+            aria-label="Palette Matrix"
+            className="flex min-w-[44px] sm:min-w-0 h-11 w-11 sm:h-9 sm:w-auto sm:px-2.5 items-center justify-center gap-1 border border-purple-500/40 bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 transition-colors cursor-pointer text-xs font-mono font-bold"
+          >
+            <Palette className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
+            <span className="hidden sm:inline">RICE</span>
+          </button>
+
+          {/* Cyber Studio & AMOLED Black Crusher Trigger */}
+          <button
+            onClick={() => {
+              sound.playSwitch();
+              triggerHaptic("medium");
+              setStudioOpen(true);
+            }}
+            title="Cyber Studio & AMOLED Black Crusher [C]"
+            aria-label="Cyber Studio"
+            className="flex min-w-[44px] sm:min-w-0 h-11 w-11 sm:h-9 sm:w-auto sm:px-2.5 items-center justify-center gap-1 border border-emerald-500/40 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition-colors cursor-pointer text-xs font-mono font-bold"
+          >
+            <Sliders className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
+            <span className="hidden sm:inline">STUDIO</span>
           </button>
 
           <button
@@ -665,10 +709,27 @@ export function Lightbox({
         <kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 text-[9px] mr-2">→</kbd>navigate
         <kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 text-[9px] ml-3 mr-1">↵</kbd>download
         <kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 text-[9px] ml-3 mr-1">s</kbd>stash
+        <kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 text-[9px] ml-3 mr-1">p</kbd>palette
+        <kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 text-[9px] ml-3 mr-1">c</kbd>studio
         <kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 text-[9px] ml-3 mr-1">f</kbd>focus hud
         <kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 text-[9px] ml-3 mr-1">m</kbd>mockup
         <kbd className="border border-white/10 bg-white/[0.03] px-1 py-0.5 text-[9px] ml-3 mr-1">esc</kbd>close
       </div>
+
+      {paletteOpen && (
+        <PaletteModal
+          imageSrc={getFullUrl(wallpaper)}
+          title={wallpaper.title}
+          onClose={() => setPaletteOpen(false)}
+        />
+      )}
+      {studioOpen && (
+        <StudioModal
+          imageSrc={getFullUrl(wallpaper)}
+          title={wallpaper.title}
+          onClose={() => setStudioOpen(false)}
+        />
+      )}
     </div>
   );
 }

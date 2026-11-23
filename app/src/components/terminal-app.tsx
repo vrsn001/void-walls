@@ -10,10 +10,12 @@ import { CreditsPanel } from "./credits-panel";
 import { RadioPanel } from "./radio-panel";
 import { CrtOverlay } from "./crt-overlay";
 import { ColorwayModal } from "./colorway-modal";
+import { StashSyncModal } from "./stash-sync-modal";
 import { useFavorites, toggleFavoriteId } from "@/lib/favorites";
 import { applyTheme, type ThemeId } from "@/lib/theme";
 import { sound } from "@/lib/sound";
 import { radio } from "@/lib/radio";
+import { pomodoro, type PomodoroState } from "@/lib/pomodoro";
 import { triggerHaptic } from "@/lib/haptics";
 import {
   Search,
@@ -32,6 +34,8 @@ import {
   Radio,
   Tv,
   Palette,
+  Timer,
+  Download,
 } from "lucide-react";
 
 const MAIN_TABS = [
@@ -69,7 +73,9 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
   const [radioPanelOpen, setRadioPanelOpen] = useState(false);
   const [crtEnabled, setCrtEnabled] = useState(false);
   const [colorwayOpen, setColorwayOpen] = useState(false);
+  const [stashSyncOpen, setStashSyncOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [pomoState, setPomoState] = useState<PomodoroState>(pomodoro.getState());
 
   useEffect(() => {
     setSfxEnabled(sound.isEnabled());
@@ -81,7 +87,11 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
         setStatusMsg(`ON AIR: "${track}" [104.7 MHZ]`);
       }
     });
-    return () => unsub();
+    const unsubPomo = pomodoro.subscribe((s) => setPomoState(s));
+    return () => {
+      unsub();
+      unsubPomo();
+    };
   }, []);
 
   const toggleSfx = useCallback(() => {
@@ -648,7 +658,27 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
       </header>
 
       {/* ═══════ COLLECTION SUB-TABS ═══════ */}
-      {mainTab !== "saved" && (
+      {mainTab === "saved" ? (
+        <div className="shrink-0 border-b border-border bg-[#040407] px-3 sm:px-5 py-2 w-full max-w-full flex items-center justify-between gap-3 font-mono">
+          <div className="flex items-center gap-2 text-xs text-zinc-300 truncate">
+            <Heart className="h-3.5 w-3.5 text-rose-400 fill-rose-400 shrink-0" />
+            <span className="font-bold text-white">THE_STASH // LOCAL VAULT</span>
+            <span className="text-zinc-500 hidden sm:inline">({favorites.size} assets saved)</span>
+          </div>
+          <button
+            onClick={() => {
+              sound.playSwitch();
+              triggerHaptic("light");
+              setStashSyncOpen(true);
+            }}
+            title="Export / Import Stash Backup"
+            className="min-h-[44px] sm:min-h-0 px-3 py-1.5 border border-cyan/50 bg-cyan/10 hover:bg-cyan/20 text-cyan text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
+          >
+            <Download className="h-3.5 w-3.5" />
+            <span>SYNC / BACKUP</span>
+          </button>
+        </div>
+      ) : (
         <div className="shrink-0 border-b border-border bg-[#040407] overflow-x-auto scrollbar-none w-full max-w-full">
           <div className="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 min-w-max">
             <button
@@ -766,6 +796,22 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
             <Radio className={`h-3 w-3 ${radioLive ? "animate-pulse text-cyan" : "text-zinc-500"}`} />
             <span>{radioLive ? "RADIO: LIVE ∿" : "RADIO: OFF"}</span>
           </button>
+          {pomoState.isRunning && (
+            <button
+              onClick={() => {
+                sound.playCommand();
+                triggerHaptic("light");
+                setRadioPanelOpen(true);
+              }}
+              title="Focus Protocol Running (Click for Pomodoro HUD)"
+              className="flex items-center gap-1.5 px-2 py-0.5 border border-cyan/50 bg-cyan/15 text-cyan text-[10px] font-mono font-bold transition-colors cursor-pointer"
+            >
+              <Timer className="h-3 w-3 animate-pulse text-cyan" />
+              <span>
+                {Math.floor(pomoState.secondsLeft / 60)}:{(pomoState.secondsLeft % 60).toString().padStart(2, "0")}
+              </span>
+            </button>
+          )}
           <span className="hidden sm:inline">
             FILTER: <span className="text-cyan uppercase">{collection || mainTab}</span>
           </span>
@@ -790,6 +836,12 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
           open={colorwayOpen}
           onClose={() => setColorwayOpen(false)}
           onThemeChanged={(name) => setStatusMsg(`THEME: ${name} // COLORWAY ENGAGED`)}
+        />
+      )}
+      {stashSyncOpen && (
+        <StashSyncModal
+          onClose={() => setStashSyncOpen(false)}
+          onStatusChange={setStatusMsg}
         />
       )}
 
