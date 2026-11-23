@@ -75,17 +75,17 @@ Click any preview below to open that live collection on **VOID//WALLS**:
 
 | [**Misc Vault (4K)**](https://voidwalls.vercel.app/#collection/misc) | [**Cyberpunk Night City**](https://voidwalls.vercel.app/#collection/cyberpunk) | [**Hypercars & Speed**](https://voidwalls.vercel.app/#collection/cars) |
 | :---: | :---: | :---: |
-| [![Misc](https://cdn.jsdelivr.net/gh/vrsn001/void-walls@main/misc/0163.jpg)](https://voidwalls.vercel.app/#collection/misc) | [![Cyberpunk](https://cdn.jsdelivr.net/gh/vrsn001/void-walls@main/cyberpunk/0259.jpg)](https://voidwalls.vercel.app/#collection/cyberpunk) | [![Cars](https://cdn.jsdelivr.net/gh/vrsn001/void-walls@main/cars/0057.jpg)](https://voidwalls.vercel.app/#collection/cars) |
+| [![Misc](https://raw.githubusercontent.com/vrsn001/void-walls/main/thumbnails/misc/0163.webp)](https://voidwalls.vercel.app/#collection/misc) | [![Cyberpunk](https://raw.githubusercontent.com/vrsn001/void-walls/main/thumbnails/cyberpunk/0259.webp)](https://voidwalls.vercel.app/#collection/cyberpunk) | [![Cars](https://raw.githubusercontent.com/vrsn001/void-walls/main/thumbnails/cars/0057.webp)](https://voidwalls.vercel.app/#collection/cars) |
 | **`misc/` (4K UHD)** | **`cyberpunk/` (4K UHD)** | **`cars/` (4K UHD)** |
 
 | [**Japanese Aesthetic**](https://voidwalls.vercel.app/#collection/japanese) | [**Deep Cosmic Space**](https://voidwalls.vercel.app/#collection/space) | [**Anime & Vistas**](https://voidwalls.vercel.app/#collection/anime) |
 | :---: | :---: | :---: |
-| [![Japanese](https://cdn.jsdelivr.net/gh/vrsn001/void-walls@main/japanese/0132.jpg)](https://voidwalls.vercel.app/#collection/japanese) | [![Space](https://cdn.jsdelivr.net/gh/vrsn001/void-walls@main/space/0130.jpg)](https://voidwalls.vercel.app/#collection/space) | [![Anime](https://cdn.jsdelivr.net/gh/vrsn001/void-walls@main/anime/a_beach_with_a_bridge_and_mountains_in_the_background.jpg)](https://voidwalls.vercel.app/#collection/anime) |
+| [![Japanese](https://raw.githubusercontent.com/vrsn001/void-walls/main/thumbnails/japanese/0132.webp)](https://voidwalls.vercel.app/#collection/japanese) | [![Space](https://raw.githubusercontent.com/vrsn001/void-walls/main/thumbnails/space/0130.webp)](https://voidwalls.vercel.app/#collection/space) | [![Anime](https://raw.githubusercontent.com/vrsn001/void-walls/main/thumbnails/anime/aeb9uhrbr41a1.webp)](https://voidwalls.vercel.app/#collection/anime) |
 | **`japanese/` (4K UHD)** | **`space/` (4K UHD)** | **`anime/` (4K UHD)** |
 
 | [**Catppuccin Palette**](https://voidwalls.vercel.app/#collection/catppuccin) | [**Tokyo Night**](https://voidwalls.vercel.app/#collection/tokyo-night) | [**Linux Workstations**](https://voidwalls.vercel.app/#collection/linux-desktop) |
 | :---: | :---: | :---: |
-| [![Catppuccin](https://cdn.jsdelivr.net/gh/vrsn001/void-walls@main/catppuccin/0001.png)](https://voidwalls.vercel.app/#collection/catppuccin) | [![Tokyo Night](https://cdn.jsdelivr.net/gh/vrsn001/void-walls@main/tokyo-night/0001.png)](https://voidwalls.vercel.app/#collection/tokyo-night) | [![Linux Desktop](https://cdn.jsdelivr.net/gh/vrsn001/void-walls@main/linux-desktop/0001.jpg)](https://voidwalls.vercel.app/#collection/linux-desktop) |
+| [![Catppuccin](https://raw.githubusercontent.com/vrsn001/void-walls/main/thumbnails/catppuccin/wallhaven-zyp7jo_3840x2160_1.webp)](https://voidwalls.vercel.app/#collection/catppuccin) | [![Tokyo Night](https://raw.githubusercontent.com/vrsn001/void-walls/main/thumbnails/tokyo-night/0202.webp)](https://voidwalls.vercel.app/#collection/tokyo-night) | [![Linux Desktop](https://raw.githubusercontent.com/vrsn001/void-walls/main/thumbnails/linux-desktop/3d-tech.webp)](https://voidwalls.vercel.app/#collection/linux-desktop) |
 | **`catppuccin/` (Pastel Dark)** | **`tokyo-night/` (Midnight Blue)** | **`linux-desktop/` (Workstations)** |
 
 ---
