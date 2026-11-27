@@ -5,6 +5,7 @@ class SoundEngine {
   private ctx: AudioContext | null = null;
   private noiseBuffer: AudioBuffer | null = null;
   private enabled: boolean = true;
+  private listeners: Set<() => void> = new Set();
 
   constructor() {
     if (typeof window !== "undefined") {
@@ -17,11 +18,17 @@ class SoundEngine {
     return this.enabled;
   }
 
+  public subscribe(fn: () => void): () => void {
+    this.listeners.add(fn);
+    return () => this.listeners.delete(fn);
+  }
+
   public setEnabled(val: boolean) {
     this.enabled = val;
     if (typeof window !== "undefined") {
       localStorage.setItem("void_sfx_enabled", String(val));
     }
+    this.listeners.forEach((l) => l());
   }
 
   public toggle(): boolean {

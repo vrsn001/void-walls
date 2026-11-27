@@ -138,12 +138,12 @@ export function importStashJson(rawInput: string): {
       importedCount: newItemsCount,
       totalCount: mergedList.length,
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     return {
       success: false,
       importedCount: 0,
       totalCount: 0,
-      error: err?.message || "Failed to parse stash payload",
+      error: err instanceof Error ? err.message : "Failed to parse stash payload",
     };
   }
 }

@@ -18,6 +18,17 @@ export function getVideoPreviewUrl(wallpaper: Wallpaper): string {
   return thumbBase(wallpaper) + '.preview.mp4';
 }
 
+/** Direct GitHub raw URL derived from repo metadata (or explicit rawUrl). */
+export function getRawUrl(wallpaper: Wallpaper): string {
+  if (wallpaper.rawUrl) return wallpaper.rawUrl;
+  const repo = wallpaper.sourceRepo || 'vrsn001/void-walls';
+  const branch = repo === 'vyrx-dev/Wallpapers' ? 'master' : 'main';
+  return `https://raw.githubusercontent.com/${repo}/${branch}/${wallpaper.path}`;
+}
+
 export function getFullUrl(wallpaper: Wallpaper): string {
-  return wallpaper.cdnUrl || wallpaper.rawUrl;
+  if (wallpaper.cdnUrl && !wallpaper.cdnUrl.includes('cdn.jsdelivr.net/gh/vrsn001/void-walls')) {
+    return wallpaper.cdnUrl;
+  }
+  return getRawUrl(wallpaper);
 }

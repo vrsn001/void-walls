@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { X, Download, Upload, Copy, Check, Share2, Heart, Shield, RefreshCw, Trash2, ArrowRight } from "lucide-react";
+import { X, Download, Upload, Copy, Check, Share2, Heart, Shield, ArrowRight } from "lucide-react";
 import {
   exportStashJson,
   exportCompactSyncString,
   importStashJson,
-  clearAllFavorites,
   useFavorites,
 } from "@/lib/favorites";
 import { sound } from "@/lib/sound";

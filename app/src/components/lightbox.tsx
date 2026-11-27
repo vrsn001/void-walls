@@ -13,13 +13,12 @@ import {
   Smartphone,
   Monitor,
   Maximize2,
-  Sparkles,
   Radio,
   Palette,
   Sliders,
 } from "lucide-react";
 import type { Wallpaper } from "@/lib/types";
-import { getFullUrl, getThumbnailUrl } from "@/lib/cdn";
+import { getFullUrl, getRawUrl, getThumbnailUrl } from "@/lib/cdn";
 import { canConvert, sizeOptions, type OutputFormat, type SizeOption } from "@/lib/download";
 import { sound } from "@/lib/sound";
 import { radio } from "@/lib/radio";
@@ -132,6 +131,7 @@ export function Lightbox({
   hasNext,
 }: LightboxProps) {
   const [loadedId, setLoadedId] = useState<string | null>(null);
+  const [fallbackId, setFallbackId] = useState<string | null>(null);
   const [format, setFormat] = useState<OutputFormat>("original");
   const [sizeId, setSizeId] = useState("original");
   const [busy, setBusy] = useState(false);
@@ -169,6 +169,15 @@ export function Lightbox({
   const size = sizes.find((s) => s.id === sizeId) ?? sizes[0];
   const convertible = canConvert(wallpaper);
   const loaded = loadedId === wallpaper.id;
+  const rawUrl = getRawUrl(wallpaper);
+  const fullUrl = fallbackId === wallpaper.id ? rawUrl : getFullUrl(wallpaper);
+  const handleFullImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    if (e.currentTarget.src !== rawUrl) {
+      setFallbackId(wallpaper.id);
+    } else {
+      setLoadedId(wallpaper.id);
+    }
+  };
   const sourceLabel = wallpaper.format === "JPG" ? "JPEG" : wallpaper.format;
 
   const onTouchStart = (e: React.TouchEvent) => {
@@ -268,8 +277,9 @@ export function Lightbox({
         {/* Dynamic Background Wallpaper with Ambient Cyber Dimming */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
           <img
-            src={getFullUrl(wallpaper)}
+            src={fullUrl}
             alt=""
+            onError={handleFullImgError}
             className="w-full h-full object-cover opacity-60 filter brightness-90 contrast-105 scale-100"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/35 to-black/80" />
@@ -524,7 +534,7 @@ export function Lightbox({
             <div className="relative w-full h-full rounded-[28px] sm:rounded-[32px] overflow-hidden bg-black flex items-center justify-center">
               {wallpaper.isVideo ? (
                 <video
-                  src={wallpaper.rawUrl}
+                  src={rawUrl}
                   poster={getThumbnailUrl(wallpaper)}
                   autoPlay
                   loop
@@ -534,8 +544,9 @@ export function Lightbox({
                 />
               ) : (
                 <img
-                  src={getFullUrl(wallpaper)}
+                  src={fullUrl}
                   alt={wallpaper.title}
+                  onError={handleFullImgError}
                   className="w-full h-full object-cover"
                 />
               )}
@@ -557,7 +568,7 @@ export function Lightbox({
               <div className="relative w-full h-full bg-black flex items-center justify-center overflow-hidden">
                 {wallpaper.isVideo ? (
                   <video
-                    src={wallpaper.rawUrl}
+                    src={rawUrl}
                     poster={getThumbnailUrl(wallpaper)}
                     autoPlay
                     loop
@@ -567,8 +578,9 @@ export function Lightbox({
                   />
                 ) : (
                   <img
-                    src={getFullUrl(wallpaper)}
+                    src={fullUrl}
                     alt={wallpaper.title}
+                    onError={handleFullImgError}
                     className="w-full h-full object-cover"
                   />
                 )}
@@ -584,7 +596,7 @@ export function Lightbox({
           wallpaper.isVideo ? (
             <video
               key={wallpaper.id}
-              src={wallpaper.rawUrl}
+              src={rawUrl}
               poster={getThumbnailUrl(wallpaper)}
               autoPlay
               loop
@@ -610,13 +622,14 @@ export function Lightbox({
                 />
               )}
               <img
-                src={getFullUrl(wallpaper)}
+                src={fullUrl}
                 alt={wallpaper.title}
                 decoding="async"
                 className={`col-start-1 row-start-1 max-h-[42vh] sm:max-h-[calc(100vh-210px)] max-w-full object-contain transition-opacity duration-500 ${
                   loaded || wallpaper.type === "animated" ? "opacity-100" : "opacity-0"
                 }`}
                 onLoad={() => setLoadedId(wallpaper.id)}
+                onError={handleFullImgError}
               />
               {!loaded && wallpaper.type !== "animated" && (
                 <span className="absolute bottom-3 right-3 flex items-center gap-1.5 bg-black/70 border border-white/10 px-2 py-1 text-[9px] text-muted tracking-widest font-mono">

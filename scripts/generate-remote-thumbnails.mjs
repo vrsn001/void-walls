@@ -35,9 +35,13 @@ async function worker(queue) {
   for (let w = queue.shift(); w; w = queue.shift()) {
     const out = path.join(THUMBNAILS_DIR, w.path.replace(/\.[^.]+$/, '.webp'));
     try {
-      // jsDelivr rejects files over 20 MB; GitHub raw serves them.
-      let res = await fetch(w.cdnUrl || w.rawUrl);
-      if (!res.ok && w.rawUrl) res = await fetch(w.rawUrl);
+      // jsDelivr rejects files over 20 MB (and void-walls > 50 MB); GitHub raw serves them.
+      const repo = w.sourceRepo || 'vrsn001/void-walls';
+      const branch = repo === 'vyrx-dev/Wallpapers' ? 'master' : 'main';
+      const rawUrl = w.rawUrl || `https://raw.githubusercontent.com/${repo}/${branch}/${w.path}`;
+      const cdnUrl = w.cdnUrl && !w.cdnUrl.includes('cdn.jsdelivr.net/gh/vrsn001/void-walls') ? w.cdnUrl : null;
+      let res = await fetch(cdnUrl || rawUrl);
+      if (!res.ok && cdnUrl) res = await fetch(rawUrl);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const buf = Buffer.from(await res.arrayBuffer());
       fs.mkdirSync(path.dirname(out), { recursive: true });

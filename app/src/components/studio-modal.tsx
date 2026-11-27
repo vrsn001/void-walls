@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { X, Sliders, Download, Check, RefreshCw, Zap, Tv, Eye, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
+import { X, Sliders, Download, Check, RefreshCw, Zap, Tv } from "lucide-react";
 import { sound } from "@/lib/sound";
 import { triggerHaptic } from "@/lib/haptics";
 

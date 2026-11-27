@@ -1,4 +1,5 @@
 import type { Wallpaper } from './types';
+import { getRawUrl } from './cdn';
 
 export type OutputFormat = 'original' | 'jpeg' | 'webp' | 'png';
 
@@ -43,7 +44,10 @@ export function sizeOptions(w: Wallpaper): SizeOption[] {
 }
 
 async function fetchOriginal(w: Wallpaper): Promise<Blob> {
-  const urls = [w.cdnUrl, w.rawUrl].filter(Boolean);
+  const validCdn =
+    w.cdnUrl && !w.cdnUrl.includes('cdn.jsdelivr.net/gh/vrsn001/void-walls') ? w.cdnUrl : null;
+  const raw = getRawUrl(w);
+  const urls = [...new Set([validCdn, raw].filter((u): u is string => Boolean(u)))];
   let lastError: unknown;
   for (const url of urls) {
     try {

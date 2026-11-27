@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Play, Pause, RotateCcw, FastForward, CheckCircle2, ShieldAlert, Zap, Timer } from "lucide-react";
-import { pomodoro, type PomodoroMode, type PomodoroState } from "@/lib/pomodoro";
+import { Play, Pause, RotateCcw, FastForward, Zap } from "lucide-react";
+import { pomodoro, type PomodoroState } from "@/lib/pomodoro";
 import { sound } from "@/lib/sound";
 import { triggerHaptic } from "@/lib/haptics";
 

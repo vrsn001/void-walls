@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { X, Radio, Volume2, VolumeX, Power, Sparkles, Disc, Waves, Activity, Zap, Music2, CloudRain, Timer } from "lucide-react";
-import { radio, STATIONS, StationInfo } from "@/lib/radio";
+import { radio, STATIONS } from "@/lib/radio";
 import { sound } from "@/lib/sound";
 import { triggerHaptic } from "@/lib/haptics";
 import { AudioVisualizer } from "./audio-visualizer";

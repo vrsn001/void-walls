@@ -34,7 +34,10 @@ for (const w of videos) {
   fs.mkdirSync(path.dirname(base), { recursive: true });
   const src = path.join(tmpDir, path.basename(w.path));
   try {
-    const res = await fetch(w.rawUrl || w.cdnUrl);
+    const repo = w.sourceRepo || 'vrsn001/void-walls';
+    const branch = repo === 'vyrx-dev/Wallpapers' ? 'master' : 'main';
+    const rawUrl = w.rawUrl || `https://raw.githubusercontent.com/${repo}/${branch}/${w.path}`;
+    const res = await fetch(rawUrl || w.cdnUrl);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     fs.writeFileSync(src, Buffer.from(await res.arrayBuffer()));
 

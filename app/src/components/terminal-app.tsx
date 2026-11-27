@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect, useSyncExternalStore } from "react";
 import type { Wallpaper } from "@/lib/types";
 import { downloadWallpaper, type OutputFormat, type SizeOption } from "@/lib/download";
 import { WallpaperGrid } from "./wallpaper-grid";
@@ -68,8 +68,10 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false);
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [mobileCols, setMobileCols] = useState<1 | 2>(2);
-  const [sfxEnabled, setSfxEnabled] = useState(true);
-  const [radioLive, setRadioLive] = useState(false);
+  const subscribeSfx = useCallback((cb: () => void) => sound.subscribe(cb), []);
+  const sfxEnabled = useSyncExternalStore(subscribeSfx, () => sound.isEnabled(), () => true);
+  const subscribeRadio = useCallback((cb: () => void) => radio.subscribe(cb), []);
+  const radioLive = useSyncExternalStore(subscribeRadio, () => radio.isActive(), () => false);
   const [radioPanelOpen, setRadioPanelOpen] = useState(false);
   const [crtEnabled, setCrtEnabled] = useState(false);
   const [colorwayOpen, setColorwayOpen] = useState(false);
@@ -78,10 +80,7 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
   const [pomoState, setPomoState] = useState<PomodoroState>(pomodoro.getState());
 
   useEffect(() => {
-    setSfxEnabled(sound.isEnabled());
-    setRadioLive(radio.isActive());
     const unsub = radio.subscribe(() => {
-      setRadioLive(radio.isActive());
       const track = radio.getCurrentTrack();
       if (radio.isActive() && track) {
         setStatusMsg(`ON AIR: "${track}" [104.7 MHZ]`);
@@ -96,7 +95,6 @@ export function TerminalApp({ wallpapers }: { wallpapers: Wallpaper[] }) {
 
   const toggleSfx = useCallback(() => {
     const next = sound.toggle();
-    setSfxEnabled(next);
     triggerHaptic("medium");
     setStatusMsg(`SFX: ${next ? "ENABLED // TACTILE HARDWARE" : "MUTED // SILENT"}`);
   }, []);

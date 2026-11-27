@@ -13,13 +13,7 @@ interface ColorwayModalProps {
 }
 
 export function ColorwayModal({ open, onClose, onThemeChanged }: ColorwayModalProps) {
-  const [activeTheme, setActiveTheme] = useState<ThemeId>("cyan_2077");
-
-  useEffect(() => {
-    if (open) {
-      setActiveTheme(getStoredTheme());
-    }
-  }, [open]);
+  const [activeTheme, setActiveTheme] = useState<ThemeId>(() => getStoredTheme());
 
   useEffect(() => {
     if (!open) return;
@@ -54,7 +48,7 @@ export function ColorwayModal({ open, onClose, onThemeChanged }: ColorwayModalPr
           <div className="flex items-center gap-2">
             <Palette className="h-4 w-4 text-cyan" />
             <h2 className="text-xs sm:text-sm font-bold tracking-wider text-white">
-              COLORWAY MATRIX <span className="text-cyan">// HARDWARE PROFILE</span>
+              COLORWAY MATRIX <span className="text-cyan">{"// HARDWARE PROFILE"}</span>
             </h2>
           </div>
           <button

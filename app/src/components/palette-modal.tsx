@@ -34,27 +34,29 @@ export function PaletteModal({ imageSrc, title, onClose }: PaletteModalProps) {
   const [mainTab, setMainTab] = useState<MainTab>("ascii");
   
   // Palette state
-  const [paletteData, setPaletteData] = useState<ExtractedPalette | null>(null);
-  const [paletteLoading, setPaletteLoading] = useState(true);
+  const [paletteResult, setPaletteResult] = useState<{ key: string; data: ExtractedPalette } | null>(null);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [format, setFormat] = useState<DotfileFormat>("hyprland");
   const [copiedDotfile, setCopiedDotfile] = useState(false);
 
   // ASCII state
-  const [asciiData, setAsciiData] = useState<AsciiResult | null>(null);
-  const [asciiLoading, setAsciiLoading] = useState(true);
   const [asciiCols, setAsciiCols] = useState<40 | 60 | 80>(60);
+  const asciiKey = `${imageSrc}:${asciiCols}`;
+  const [asciiResult, setAsciiResult] = useState<{ key: string; data: AsciiResult } | null>(null);
   const [phosphor, setPhosphor] = useState<PhosphorColor>("rgb");
   const [copiedAscii, setCopiedAscii] = useState<"plain" | "ansi" | null>(null);
+
+  const paletteData = paletteResult?.key === imageSrc ? paletteResult.data : null;
+  const paletteLoading = !paletteData;
+  const asciiData = asciiResult?.key === asciiKey ? asciiResult.data : null;
+  const asciiLoading = !asciiData;
 
   // Load palette data
   useEffect(() => {
     let active = true;
-    setPaletteLoading(true);
-    extractPaletteFromImage(imageSrc).then((res) => {
+    extractPaletteFromImage(imageSrc).then((data) => {
       if (active) {
-        setPaletteData(res);
-        setPaletteLoading(false);
+        setPaletteResult({ key: imageSrc, data });
       }
     });
     return () => {
@@ -65,17 +67,15 @@ export function PaletteModal({ imageSrc, title, onClose }: PaletteModalProps) {
   // Load ASCII art on column changes
   useEffect(() => {
     let active = true;
-    setAsciiLoading(true);
-    generateAsciiArt(imageSrc, asciiCols, false).then((res) => {
+    generateAsciiArt(imageSrc, asciiCols, false).then((data) => {
       if (active) {
-        setAsciiData(res);
-        setAsciiLoading(false);
+        setAsciiResult({ key: asciiKey, data });
       }
     });
     return () => {
       active = false;
     };
-  }, [imageSrc, asciiCols]);
+  }, [imageSrc, asciiCols, asciiKey]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
